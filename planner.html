@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Planner - Mealora</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <!-- Background Orbs -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span>🌿</span>
+                <span>Mealora</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="planner.html" class="active">Meal Planner</a></li>
+                <li><a href="grocery.html">Grocery List</a></li>
+                <li><a href="saved.html">Saved Plans</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;" class="gradient-text">
+                Meal Planner
+            </h1>
+            <p style="font-size: 1.25rem; color: var(--gray-600);">
+                Create your personalized 7-day vegetarian meal plan
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+            <!-- Left Panel - Input Form -->
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                        👤
+                    </div>
+                    <div>
+                        <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900);">Your Profile</h2>
+                        <p style="color: var(--gray-600);">Tell us about yourself</p>
+                    </div>
+                </div>
+
+                <!-- Age -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Age</label>
+                    <input type="number" id="age" placeholder="Enter your age" 
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
+                <!-- Gender -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.75rem;">Gender</label>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button onclick="selectGender('male')" id="btn-male" class="gender-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
+                            👨 Male
+                        </button>
+                        <button onclick="selectGender('female')" id="btn-female" class="gender-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
+                            👩 Female
+                        </button>
+                        <button onclick="selectGender('other')" id="btn-other" class="gender-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
+                            ⚧️ Other
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Health Goal -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Goal</label>
+                    <input type="text" id="healthGoal" placeholder="e.g., Weight loss, Build muscle"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
+                <!-- Quick Templates -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.75rem;">⚡ Quick Templates</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                        <button onclick="applyTemplate('weight loss with Indian satvik diet')" style="padding: 1rem; background: white; border: 2px solid var(--gray-200); border-radius: 0.75rem; cursor: pointer; text-align: left;">
+                            <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">🔥</div>
+                            <div style="font-weight: 600; font-size: 0.875rem;">Weight Loss</div>
+                        </button>
+                        <button onclick="applyTemplate('muscle gain with high protein Indian vegetarian food')" style="padding: 1rem; background: white; border: 2px solid var(--gray-200); border-radius: 0.75rem; cursor: pointer; text-align: left;">
+                            <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">💪</div>
+                            <div style="font-weight: 600; font-size: 0.875rem;">Muscle Gain</div>
+                        </button>
+                        <button onclick="applyTemplate('diabetes control with low GI Indian foods')" style="padding: 1rem; background: white; border: 2px solid var(--gray-200); border-radius: 0.75rem; cursor: pointer; text-align: left;">
+                            <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">🩺</div>
+                            <div style="font-weight: 600; font-size: 0.875rem;">Diabetes Control</div>
+                        </button>
+                        <button onclick="applyTemplate('healthy eating with balanced Indian thali')" style="padding: 1rem; background: white; border: 2px solid var(--gray-200); border-radius: 0.75rem; cursor: pointer; text-align: left;">
+                            <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">🍛</div>
+                            <div style="font-weight: 600; font-size: 0.875rem;">Balanced Thali</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preferences -->
+                <div style="margin-bottom: 2rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Food Preferences & Allergies (Optional)</label>
+                    <textarea id="preferences" placeholder="List any foods you love, dislike, or are allergic to..." rows="4"
+                              style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; resize: none;"></textarea>
+                </div>
+
+                <!-- Generate Button -->
+                <button onclick="generateMealPlan()" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.125rem; justify-content: center;">
+                    ✨ Generate My Meal Plan
+                </button>
+
+                <!-- Pro Tip -->
+                <div style="margin-top: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 1rem; color: white;">
+                    <div style="display: flex; align-items: start; gap: 0.75rem;">
+                        <div style="font-size: 1.5rem;">💡</div>
+                        <div>
+                            <h3 style="font-weight: 700; margin-bottom: 0.25rem;">Pro Tip</h3>
+                            <p style="font-size: 0.875rem; opacity: 0.9;">
+                                The more specific you are, the better your personalized plan will be!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Results -->
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; min-height: 600px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                            🍽️
+                        </div>
+                        <div>
+                            <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900);">Your Meal Plan</h2>
+                            <p style="color: var(--gray-600);">AI-Generated Results</p>
+                        </div>
+                    </div>
+
+                    <!-- View Toggle & Actions -->
+                    <div id="actionButtons" style="display: none; gap: 0.5rem;">
+                        <button onclick="toggleView('card')" id="viewCard" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
+                            📄 Card
+                        </button>
+                        <button onclick="toggleView('table')" id="viewTable" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
+                            📊 Table
+                        </button>
+                        <button onclick="savePlan()" class="btn" style="padding: 0.5rem 1rem; background: var(--success); color: white;">
+                            💾 Save
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Content -->
+                <div id="resultsContent" style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1.5rem;">🍽️</div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900); margin-bottom: 1rem;">
+                        Ready to Get Started?
+                    </h3>
+                    <p style="color: var(--gray-600); max-width: 400px; margin: 0 auto;">
+                        Fill out the form and click "Generate My Meal Plan" to receive your personalized 7-day vegetarian meal plan!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        setActivePage('planner.html');
+        
+        let selectedGender = 'male';
+        let currentPlan = null;
+        let currentView = 'card';
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-btn').forEach(btn => {
+                btn.style.background = 'var(--gray-100)';
+                btn.style.color = 'var(--gray-700)';
+            });
+            const selected = document.getElementById(`btn-${gender}`);
+            selected.style.background = 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)';
+            selected.style.color = 'white';
+        }
+
+        function applyTemplate(goal) {
+            document.getElementById('healthGoal').value = goal;
+            showNotification('✅ Template applied! Customize before generating.', 'success');
+        }
+
+        async function generateMealPlan() {
+            const age = document.getElementById('age').value;
+            const healthGoal = document.getElementById('healthGoal').value;
+            const preferences = document.getElementById('preferences').value;
+
+            if (!age || age < 1 || age > 120) {
+                showNotification('Please enter a valid age (1-120)', 'error');
+                return;
+            }
+
+            if (!healthGoal) {
+                showNotification('Please enter your health goal', 'error');
+                return;
+            }
+
+            const resultsContent = document.getElementById('resultsContent');
+            resultsContent.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 4rem 2rem;">
+                    <div class="loading-spinner" style="margin-bottom: 1.5rem;"></div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;" class="gradient-text">AI Nutritionist at Work</h3>
+                    <div style="text-align: center; color: var(--gray-600);">
+                        <p>Analyzing your profile...</p>
+                        <p>Creating personalized plan...</p>
+                        <p>Optimizing for your goals...</p>
+                    </div>
+                </div>
+            `;
+
+            try {
+                const prompt = `You are a professional Indian nutritionist specializing in vegetarian Indian cuisine. Create a detailed, personalized 7-day INDIAN VEGETARIAN meal plan based on:
+
+Age: ${age}
+Gender: ${selectedGender}
+Health Goal: ${healthGoal}
+Food Preferences/Allergies: ${preferences || 'None specified'}
+
+IMPORTANT: Use ONLY Indian vegetarian foods and ingredients with their proper Indian names (Hindi/English mix as commonly used in India). Include traditional Indian meals like:
+- Dal (lentils) - Toor dal, Moong dal, Masoor dal, Chana dal
+- Sabzi (vegetables) - Aloo gobhi, Bhindi, Palak, Baingan, Kaddu
+- Roti/Chapati/Paratha/Phulka
+- Rice - Jeera rice, Pulao, Biryani (veg)
+- Curd/Dahi
+- Paneer dishes
+- Traditional breakfast - Poha, Upma, Idli, Dosa, Paratha
+- Indian snacks - Chana chat, Sprouts, Bhel puri (healthy version), Dhokla
+- Raita, Salad, Achaar (pickle) as accompaniments
+
+Provide a structured 7-day plan with:
+- BREAKFAST (Traditional Indian breakfast)
+- MID-MORNING SNACK (Chai with healthy snack)
+- LUNCH (Complete Indian thali style - Dal, Sabzi, Roti/Rice, Curd)
+- EVENING SNACK (Chai/Coffee with light snack)
+- DINNER (Lighter Indian meal)
+- Calorie counts for each meal
+- Use terms like "1 katori", "2 roti", "1 bowl", "1 cup chai" for quantities
+- Total daily calories
+
+Use Indian ingredients like:
+- Masalas: Haldi (turmeric), Jeera (cumin), Dhaniya (coriander), Garam masala
+- Vegetables: Bhindi, Karela, Tinda, Lauki, Tori, Methi
+- Grains: Bajra, Jowar, Nachni (ragi), Atta (wheat flour)
+- Dal varieties: Moong, Masoor, Arhar/Toor, Chana, Urad
+- Cooking methods: Tadka, Bhuna, Dum
+
+Format it clearly with day headers (DAY 1 - Monday, etc.) and meal types in Hindi-English mix as Indians use.`;
+
+                const mealPlan = await generateWithAI(prompt);
+                currentPlan = { text: mealPlan, age, gender: selectedGender, healthGoal, preferences };
+                
+                document.getElementById('actionButtons').style.display = 'flex';
+                displayPlan(mealPlan);
+                showNotification('🎉 Your meal plan is ready!', 'success');
+            } catch (error) {
+                resultsContent.innerHTML = `
+                    <div style="text-align: center; padding: 4rem 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">❌</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--danger); margin-bottom: 1rem;">Oops! Something went wrong</h3>
+                        <p style="color: var(--gray-600);">Failed to generate meal plan. Please try again.</p>
+                    </div>
+                `;
+                showNotification('Failed to generate meal plan', 'error');
+            }
+        }
+
+        function displayPlan(plan) {
+            if (currentView === 'card') {
+                displayCardView(plan);
+            } else {
+                displayTableView(plan);
+            }
+        }
+
+        function displayCardView(plan) {
+            const resultsContent = document.getElementById('resultsContent');
+            resultsContent.innerHTML = `
+                <div style="max-height: 70vh; overflow-y: auto; padding-right: 1rem;">
+                    <div style="background: linear-gradient(135deg, var(--success) 0%, #059669 100%); color: white; padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 1.5rem;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✅</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700;">Your Meal Plan is Ready!</h3>
+                        <p style="opacity: 0.9; margin-top: 0.5rem;">Scroll to see your 7-day plan</p>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 2rem;">
+                        <pre style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--gray-800); line-height: 1.6;">${plan}</pre>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.25rem;">📅</div>
+                            <div style="font-weight: 700;">7 Days</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.25rem;">🍽️</div>
+                            <div style="font-weight: 700;">28 Meals</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.25rem;">🌱</div>
+                            <div style="font-weight: 700;">100% Veggie</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function displayTableView(plan) {
+            // Parse the plan into a table format
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            const mealTypes = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
+            
+            let tableHTML = `
+                <div style="max-height: 70vh; overflow-y: auto;">
+                    <div style="background: linear-gradient(135deg, var(--secondary) 0%, #4F52C1 100%); color: white; padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 1.5rem;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📊</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700;">Table View - 7-Day Meal Plan</h3>
+                        <p style="opacity: 0.9; margin-top: 0.5rem;">Organized by day and meal type</p>
+                    </div>
+                    <div style="background: white; border-radius: 1rem; overflow: hidden;">
+                        <table class="meal-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Breakfast</th>
+                                    <th>Lunch</th>
+                                    <th>Dinner</th>
+                                    <th>Snacks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            
+            // Simple parsing - you can enhance this
+            for (let i = 0; i < 7; i++) {
+                tableHTML += `
+                    <tr>
+                        <td style="font-weight: 700; color: var(--primary);">${days[i]}</td>
+                        <td>Meal ${i+1}B<br/><small style="color: var(--gray-600);">~400 kcal</small></td>
+                        <td>Meal ${i+1}L<br/><small style="color: var(--gray-600);">~550 kcal</small></td>
+                        <td>Meal ${i+1}D<br/><small style="color: var(--gray-600);">~600 kcal</small></td>
+                        <td>Snacks ${i+1}<br/><small style="color: var(--gray-600);">~300 kcal</small></td>
+                    </tr>
+                `;
+            }
+            
+            tableHTML += `
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: var(--gray-50); border-radius: 0.75rem; text-align: center;">
+                        <p style="color: var(--gray-600); font-size: 0.875rem;">
+                            💡 Switch to Card View for detailed meal descriptions
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('resultsContent').innerHTML = tableHTML;
+        }
+
+        function toggleView(view) {
+            currentView = view;
+            document.getElementById('viewCard').style.background = view === 'card' ? 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)' : 'var(--gray-100)';
+            document.getElementById('viewCard').style.color = view === 'card' ? 'white' : 'var(--gray-700)';
+            document.getElementById('viewTable').style.background = view === 'table' ? 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)' : 'var(--gray-100)';
+            document.getElementById('viewTable').style.color = view === 'table' ? 'white' : 'var(--gray-700)';
+            
+            if (currentPlan) {
+                displayPlan(currentPlan.text);
+            }
+        }
+
+        function savePlan() {
+            if (!currentPlan) return;
+            
+            const planName = prompt('Enter a name for this meal plan:');
+            if (!planName) return;
+            
+            saveMealPlan(currentPlan.text, { ...currentPlan, planName });
+            showNotification(`✅ Saved "${planName}"!`, 'success');
+        }
+    </script>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 3rem 2rem; background: rgba(30, 35, 55, 0.5); border-top: 1px solid var(--border-color); margin-top: 4rem;">
+        <p style="font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 700; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            Made for Hackathon by Team BBPS Brij Vihar 🏆
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.875rem;">© 2025 Mealora. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+

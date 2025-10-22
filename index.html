@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mealora - AI Meal Planning</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <!-- Background Orbs -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span>🌿</span>
+                <span>Mealora</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="grocery.html">Grocery List</a></li>
+                <li><a href="saved.html">Saved Plans</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container" style="padding-top: 4rem;">
+        <div style="text-align: center; max-width: 1000px; margin: 0 auto;">
+            <div class="glass" style="display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 9999px; margin-bottom: 2rem; box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);">
+                <span style="font-size: 3rem;">🌿</span>
+                <h1 style="font-size: 4rem; font-weight: 900;" class="gradient-text">Mealora</h1>
+            </div>
+            
+            <h2 style="font-size: 3rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--gray-900);">
+                Your AI Nutritionist for <span class="gradient-text">Indian Vegetarian Meal Plans</span>
+            </h2>
+            
+            <p style="font-size: 1.5rem; color: var(--gray-600); margin-bottom: 3rem;">
+                Transform your health with personalized Indian vegetarian meal plans - From Dal-Roti to Idli-Dosa, powered by AI 🇮🇳
+            </p>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 4rem;">
+                <a href="planner.html" class="btn btn-primary" style="font-size: 1.25rem; padding: 1.25rem 2.5rem; text-decoration: none;">
+                    ✨ Start Planning Now
+                </a>
+                <a href="#features" class="btn btn-secondary" style="font-size: 1.25rem; padding: 1.25rem 2.5rem; text-decoration: none;">
+                    Learn More
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 6rem;">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">❤️</div>
+                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">100%</div>
+                <div style="color: var(--gray-600); font-weight: 600;">Vegetarian</div>
+            </div>
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👥</div>
+                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">10K+</div>
+                <div style="color: var(--gray-600); font-weight: 600;">Happy Users</div>
+            </div>
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🍽️</div>
+                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">50K+</div>
+                <div style="color: var(--gray-600); font-weight: 600;">Meals Planned</div>
+            </div>
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⭐</div>
+                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">4.9★</div>
+                <div style="color: var(--gray-600); font-weight: 600;">User Rating</div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div id="features" style="margin-bottom: 6rem;">
+            <h2 style="font-size: 3rem; font-weight: 900; text-align: center; margin-bottom: 3rem;" class="gradient-text">
+                Powerful Features
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="glass" style="padding: 2rem; border-radius: 1.5rem; transition: all 0.3s;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #A78BFA 0%, #EC4899 100%); border-radius: 1rem; display: flex; align-items: center; justify-center; font-size: 2rem; margin-bottom: 1.5rem;">
+                        ✨
+                    </div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--gray-900);">
+                        AI-Powered Indian Plans
+                    </h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">
+                        Google Gemini AI creates personalized Indian vegetarian meal plans with Dal, Sabzi, Roti, Rice, and traditional dishes tailored to your health goals.
+                    </p>
+                </div>
+
+                <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 1rem; display: flex; align-items: center; justify-center; font-size: 2rem; margin-bottom: 1.5rem;">
+                        📊
+                    </div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--gray-900);">
+                        Table & Card Views
+                    </h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">
+                        View your meal plans in beautiful card format or organized tables. Switch between views instantly!
+                    </p>
+                </div>
+
+                <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); border-radius: 1rem; display: flex; align-items: center; justify-center; font-size: 2rem; margin-bottom: 1.5rem;">
+                        🛒
+                    </div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--gray-900);">
+                        Indian Grocery Lists
+                    </h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">
+                        Get organized shopping lists in Indian terms - Sabzi, Dal, Masale, Atta, and all essentials with proper Hindi-English names you know!
+                    </p>
+                </div>
+
+                <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 1rem; display: flex; align-items: center; justify-center; font-size: 2rem; margin-bottom: 1.5rem;">
+                        💾
+                    </div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--gray-900);">
+                        Save & Manage Plans
+                    </h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">
+                        Save your favorite meal plans locally. Access them anytime, edit, or create new variations easily.
+                    </p>
+                </div>
+
+                <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); border-radius: 1rem; display: flex; align-items: center; justify-center; font-size: 2rem; margin-bottom: 1.5rem;">
+                        📈
+                    </div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--gray-900);">
+                        Progress Tracking
+                    </h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">
+                        Track your weight, measurements, and health goals. See your progress over time with beautiful charts.
+                    </p>
+                </div>
+
+                <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%); border-radius: 1rem; display: flex; align-items: center; justify-center; font-size: 2rem; margin-bottom: 1.5rem;">
+                        📖
+                    </div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--gray-900);">
+                        Indian Recipe Details
+                    </h3>
+                    <p style="color: var(--gray-600); line-height: 1.6;">
+                        Get authentic Indian recipes with Tadka, Bhuno, Dum methods. Learn to make Chole, Palak Paneer, Dal Tadka, and more with proper cooking instructions!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="glass" style="padding: 4rem; border-radius: 2rem; text-align: center; background: linear-gradient(135deg, rgba(0, 230, 160, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%); margin-bottom: 4rem;">
+            <h2 style="font-size: 3rem; font-weight: 900; margin-bottom: 1.5rem; color: var(--gray-900);">
+                Ready for Your Healthy Indian Thali?
+            </h2>
+            <p style="font-size: 1.25rem; color: var(--gray-600); margin-bottom: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Join thousands of Indians who have transformed their health with personalized meal plans featuring Dal, Sabzi, Roti, and traditional favorites!
+            </p>
+            <a href="planner.html" class="btn btn-primary" style="font-size: 1.25rem; padding: 1.25rem 3rem; text-decoration: none;">
+                Get Your Free Indian Meal Plan
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 3rem 2rem; background: rgba(30, 35, 55, 0.5); border-top: 1px solid var(--border-color); margin-top: 4rem;">
+        <p style="font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 700; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            Made for Hackathon by Team BBPS Brij Vihar 🏆
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.875rem;">© 2025 Mealora. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        setActivePage('index.html');
+    </script>
+</body>
+</html>

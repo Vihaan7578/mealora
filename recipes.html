@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes - Mealora</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <!-- Background Orbs -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span>🌿</span>
+                <span>Mealora</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="grocery.html">Grocery List</a></li>
+                <li><a href="saved.html">Saved Plans</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="recipes.html" class="active">Recipes</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;" class="gradient-text">
+                📖 Recipe Generator
+            </h1>
+            <p style="font-size: 1.25rem; color: var(--gray-600);">
+                Get detailed recipes for any vegetarian dish
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <!-- Left Panel - Recipe Request -->
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--gray-900);">
+                    What do you want to cook?
+                </h2>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Recipe Name</label>
+                    <input type="text" id="recipeName" placeholder="e.g., Vegetable Curry, Quinoa Bowl"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.75rem;">Servings</label>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <button onclick="selectServings(2)" id="serv-2" class="serving-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
+                            2 servings
+                        </button>
+                        <button onclick="selectServings(4)" id="serv-4" class="serving-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
+                            4 servings
+                        </button>
+                        <button onclick="selectServings(6)" id="serv-6" class="serving-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
+                            6 servings
+                        </button>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 2rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Dietary Preferences (Optional)</label>
+                    <textarea id="dietary" placeholder="e.g., gluten-free, low-carb, high-protein..." rows="3"
+                              style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; resize: none;"></textarea>
+                </div>
+
+                <button onclick="generateRecipe()" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem;">
+                    👨‍🍳 Generate Recipe
+                </button>
+
+                <!-- Quick Recipe Ideas -->
+                <div style="margin-top: 2rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.75rem;">🔥 Popular Indian Recipes</label>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <button onclick="quickRecipe('Chole Masala')" style="padding: 0.5rem 1rem; background: white; border: 2px solid var(--gray-200); border-radius: 9999px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">
+                            Chole Masala
+                        </button>
+                        <button onclick="quickRecipe('Palak Paneer')" style="padding: 0.5rem 1rem; background: white; border: 2px solid var(--gray-200); border-radius: 9999px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">
+                            Palak Paneer
+                        </button>
+                        <button onclick="quickRecipe('Dal Tadka')" style="padding: 0.5rem 1rem; background: white; border: 2px solid var(--gray-200); border-radius: 9999px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">
+                            Dal Tadka
+                        </button>
+                        <button onclick="quickRecipe('Aloo Paratha')" style="padding: 0.5rem 1rem; background: white; border: 2px solid var(--gray-200); border-radius: 9999px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">
+                            Aloo Paratha
+                        </button>
+                        <button onclick="quickRecipe('Poha')" style="padding: 0.5rem 1rem; background: white; border: 2px solid var(--gray-200); border-radius: 9999px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">
+                            Poha
+                        </button>
+                        <button onclick="quickRecipe('Rajma Masala')" style="padding: 0.5rem 1rem; background: white; border: 2px solid var(--gray-200); border-radius: 9999px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">
+                            Rajma
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Recipe Display -->
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; min-height: 600px;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--gray-900);">
+                    Recipe Details
+                </h2>
+                
+                <div id="recipeContent" style="text-align: center; padding: 4rem 2rem;">
+                    <div style="font-size: 5rem; margin-bottom: 1.5rem;">🍳</div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900); margin-bottom: 1rem;">
+                        Ready to Cook?
+                    </h3>
+                    <p style="color: var(--gray-600);">
+                        Enter a recipe name or choose a popular recipe to get started!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        setActivePage('recipes.html');
+        let selectedServings = 4;
+
+        function selectServings(num) {
+            selectedServings = num;
+            document.querySelectorAll('.serving-btn').forEach(btn => {
+                btn.style.background = 'var(--gray-100)';
+                btn.style.color = 'var(--gray-700)';
+            });
+            const selected = document.getElementById(`serv-${num}`);
+            selected.style.background = 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)';
+            selected.style.color = 'white';
+        }
+
+        function quickRecipe(name) {
+            document.getElementById('recipeName').value = name;
+            generateRecipe();
+        }
+
+        async function generateRecipe() {
+            const recipeName = document.getElementById('recipeName').value;
+            const dietary = document.getElementById('dietary').value;
+
+            if (!recipeName) {
+                showNotification('Please enter a recipe name', 'error');
+                return;
+            }
+
+            const content = document.getElementById('recipeContent');
+            content.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem;">
+                    <div class="loading-spinner" style="margin-bottom: 1.5rem;"></div>
+                    <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;" class="gradient-text">
+                        Cooking Up Your Recipe
+                    </h3>
+                    <p style="color: var(--gray-600);">AI chef is preparing the details...</p>
+                </div>
+            `;
+
+            try {
+                const prompt = `Create a detailed INDIAN VEGETARIAN recipe for: ${recipeName}
+
+Servings: ${selectedServings}
+${dietary ? `Dietary Requirements: ${dietary}` : ''}
+
+IMPORTANT: Use traditional Indian cooking methods, ingredients, and terminology.
+
+Please provide in Hindi-English mix as commonly used in India:
+
+1. RECIPE NAME (in Hindi-English)
+
+2. PREP TIME & COOK TIME
+
+3. INGREDIENTS (Samagri):
+   - Use Indian measurements: katori, cup, spoon, pinch (chutki), small/medium/large size
+   - Use Indian ingredient names: Haldi, Jeera, Dhaniya, Laal mirch, Hing, Atta, Besan, etc.
+   - Specify vegetables in Hindi: Aloo, Pyaaz, Tamatar, Palak, Paneer, etc.
+
+4. COOKING INSTRUCTIONS (Banane ki Vidhi):
+   - Use Indian cooking terms: Tadka/Chhonk, Bhuno, Dum, Pakana, etc.
+   - Mention traditional methods: "kadhai mein", "pressure cooker mein", "tawa par"
+   - Use Indian flame terms: "medium aag par", "dhimi aag par", "tez aag par"
+
+5. NUTRITIONAL INFO (per serving)
+   - Calories, Protein, Carbs, Fat
+
+6. SERVING SUGGESTION (Peshkash):
+   - What to serve with: Roti/Paratha, Rice, Raita, Salad, Pickle
+   - Traditional accompaniments
+
+7. CHEF'S TIPS (Suzhav):
+   - Indian cooking tips
+   - Variations (like Punjabi style, South Indian style, etc.)
+   - Storage tips
+
+Make it authentic, detailed, and easy to follow for Indian home cooking!`;
+
+                const recipe = await generateWithAI(prompt);
+                displayRecipe(recipe, recipeName);
+                showNotification('👨‍🍳 Recipe is ready!', 'success');
+            } catch (error) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 4rem 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">❌</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--danger); margin-bottom: 1rem;">
+                            Failed to Generate Recipe
+                        </h3>
+                        <p style="color: var(--gray-600);">Please try again</p>
+                    </div>
+                `;
+                showNotification('Failed to generate recipe', 'error');
+            }
+        }
+
+        function displayRecipe(recipe, name) {
+            const content = document.getElementById('recipeContent');
+            content.innerHTML = `
+                <div style="max-height: 70vh; overflow-y: auto; text-align: left;">
+                    <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 1.5rem;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">👨‍🍳</div>
+                        <h3 style="font-size: 1.75rem; font-weight: 700;">${name}</h3>
+                        <p style="opacity: 0.9; margin-top: 0.5rem;">Serves ${selectedServings} people</p>
+                    </div>
+                    
+                    <div style="background: white; border-radius: 1rem; padding: 2rem; margin-bottom: 1.5rem;">
+                        <pre style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: var(--gray-800); line-height: 1.8;">${recipe}</pre>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button onclick="copyRecipe(\`${recipe.replace(/`/g, '\\`')}\`)" class="btn btn-primary" style="flex: 1; justify-content: center;">
+                            📋 Copy Recipe
+                        </button>
+                        <button onclick="printRecipe(\`${name}\`, \`${recipe.replace(/`/g, '\\`')}\`)" class="btn btn-secondary" style="flex: 1; justify-content: center;">
+                            🖨️ Print
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function copyRecipe(recipe) {
+            navigator.clipboard.writeText(recipe);
+            showNotification('📋 Recipe copied to clipboard!', 'success');
+        }
+
+        function printRecipe(name, recipe) {
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>' + name + '</title>');
+            printWindow.document.write('<style>body{font-family:Arial,sans-serif;padding:20px;line-height:1.6;}pre{white-space:pre-wrap;}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h1>👨‍🍳 ' + name + '</h1>');
+            printWindow.document.write('<pre>' + recipe + '</pre>');
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Initialize with 4 servings selected
+        selectServings(4);
+    </script>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 3rem 2rem; background: rgba(30, 35, 55, 0.5); border-top: 1px solid var(--border-color); margin-top: 4rem;">
+        <p style="font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 700; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            Made for Hackathon by Team BBPS Brij Vihar 🏆
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.875rem;">© 2025 Mealora. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
