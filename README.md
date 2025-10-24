@@ -1,5 +1,7 @@
 # 🌿 Mealora - Complete AI Meal Planning Platform (Indian Cuisine Edition 🇮🇳)
 
+ https://mealora-mauve.vercel.app/
+ 
 A stunning, feature-rich multi-page web application for personalized **INDIAN VEGETARIAN** meal planning powered by Google Gemini AI.
 
 ## 🇮🇳 **Indian Cuisine Customization**
