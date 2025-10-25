@@ -72,24 +72,35 @@ async function generateWithAI(prompt, retryCount = 0, modelIndex = 0) {
             },
             body: JSON.stringify({
                 model: model,
-                messages: [{ role: 'user', content: prompt }],
+                messages: [
+                    {
+                        role: 'user',
+                        content: prompt
+                    }
+                ],
                 temperature: 0.7,
-                max_tokens: 2048
+                max_tokens: 4096,
+                top_p: 1,
+                stream: false
             })
         });
         
         if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error('API Error:', errorData);
+            
             if (modelIndex < AI_MODELS.length - 1) {
                 return await generateWithAI(prompt, 0, modelIndex + 1);
             }
-            throw new Error('Failed to generate');
+            throw new Error(errorData.error?.message || 'Failed to generate');
         }
         
         const data = await response.json();
         return data.choices[0].message.content;
         
     } catch (error) {
-        if (retryCount < 2) {
+        console.error('Error:', error);
+        if (retryCount < 1) {
             await new Promise(resolve => setTimeout(resolve, 1000));
             return await generateWithAI(prompt, retryCount + 1, modelIndex);
         }
