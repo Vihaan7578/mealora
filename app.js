@@ -1,11 +1,12 @@
 // Global state
-const API_KEY = 'AIzaSyBPKf66by_yOIqIO3f8qvZdFpyFe3TmXh4';
+const API_KEY = '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';
+const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
-// Multiple model fallbacks for reliability
+// Groq models - blazing fast!
 const AI_MODELS = [
-    'gemini-1.5-flash',           // Most stable
-    'gemini-1.5-pro',             // Backup
-    'gemini-2.0-flash-exp'        // Experimental (may be unstable)
+    'llama-3.1-70b-versatile',
+    'mixtral-8x7b-32768',
+    'gemma2-9b-it'
 ];
 
 // Utility functions
@@ -58,107 +59,40 @@ function getProgress() {
     return JSON.parse(localStorage.getItem('progress') || '[]');
 }
 
-// AI Generation with retry logic and model fallback
+// AI Generation with Groq API
 async function generateWithAI(prompt, retryCount = 0, modelIndex = 0) {
     const model = AI_MODELS[modelIndex];
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-    
-    console.log(`🔍 Attempting API call with model: ${model}`);
-    console.log(`📍 URL: ${API_URL}`);
     
     try {
-        const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+        const response = await fetch(API_URL, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${API_KEY}`
             },
             body: JSON.stringify({
-                contents: [{
-                    parts: [{ text: prompt }]
-                }],
-                generationConfig: {
-                    temperature: 0.7,
-                    topK: 40,
-                    topP: 0.95,
-                    maxOutputTokens: 2048,
-                }
+                model: model,
+                messages: [{ role: 'user', content: prompt }],
+                temperature: 0.7,
+                max_tokens: 2048
             })
         });
         
-        console.log(`📡 Response status: ${response.status}`);
-        
-        // Handle 404 - Model not found
-        if (response.status === 404) {
-            console.error(`❌ Model ${model} not found (404). Trying next model...`);
-            
-            // Try next model
-            if (modelIndex < AI_MODELS.length - 1) {
-                return await generateWithAI(prompt, 0, modelIndex + 1);
-            }
-            
-            throw new Error('❌ API Error: Model not found. Please check your API key or try again later.');
-        }
-        
-        // Handle 503 Service Unavailable
-        if (response.status === 503) {
-            console.warn(`⚠️ Model ${model} is unavailable (503). Trying next model...`);
-            
-            // Try next model
-            if (modelIndex < AI_MODELS.length - 1) {
-                return await generateWithAI(prompt, 0, modelIndex + 1);
-            }
-            
-            // All models failed, retry with first model after delay
-            if (retryCount < 3) {
-                const delay = Math.pow(2, retryCount) * 1000;
-                console.log(`⏳ All models unavailable. Retrying in ${delay}ms...`);
-                await new Promise(resolve => setTimeout(resolve, delay));
-                return await generateWithAI(prompt, retryCount + 1, 0);
-            }
-            
-            throw new Error('🔴 Gemini AI is currently overloaded. Please try again in a few moments.');
-        }
-        
-        // Handle other errors
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`❌ API Error Response:`, errorText);
-            
-            let errorData;
-            try {
-                errorData = JSON.parse(errorText);
-            } catch (e) {
-                errorData = { error: { message: errorText } };
+            if (modelIndex < AI_MODELS.length - 1) {
+                return await generateWithAI(prompt, 0, modelIndex + 1);
             }
-            
-            throw new Error(errorData.error?.message || `API Error: ${response.status} - ${errorText}`);
+            throw new Error('Failed to generate');
         }
         
         const data = await response.json();
-        console.log(`✅ Successfully received response from ${model}`);
-        
-        // Validate response
-        if (!data.candidates || !data.candidates[0]?.content?.parts?.[0]?.text) {
-            console.error('❌ Invalid response structure:', data);
-            throw new Error('Invalid response from AI');
-        }
-        
-        return data.candidates[0].content.parts[0].text;
+        return data.choices[0].message.content;
         
     } catch (error) {
-        console.error(`❌ Error in generateWithAI:`, error);
-        
-        // Network errors
-        if (error.message.includes('fetch') || error.name === 'TypeError') {
-            if (retryCount < 2) {
-                const delay = Math.pow(2, retryCount) * 1000;
-                console.log(`⏳ Network error. Retrying in ${delay}ms...`);
-                await new Promise(resolve => setTimeout(resolve, delay));
-                return await generateWithAI(prompt, retryCount + 1, modelIndex);
-            }
-            throw new Error('🌐 Network error. Please check your connection.');
+        if (retryCount < 2) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return await generateWithAI(prompt, retryCount + 1, modelIndex);
         }
-        
         throw error;
     }
 }
