@@ -63,20 +63,45 @@ async function generateWithAI(prompt, retryCount = 0, modelIndex = 0) {
     const model = AI_MODELS[modelIndex];
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
     
+    console.log(`🔍 Attempting API call with model: ${model}`);
+    console.log(`📍 URL: ${API_URL}`);
+    
     try {
         const response = await fetch(`${API_URL}?key=${API_KEY}`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
                 contents: [{
                     parts: [{ text: prompt }]
-                }]
+                }],
+                generationConfig: {
+                    temperature: 0.7,
+                    topK: 40,
+                    topP: 0.95,
+                    maxOutputTokens: 2048,
+                }
             })
         });
         
+        console.log(`📡 Response status: ${response.status}`);
+        
+        // Handle 404 - Model not found
+        if (response.status === 404) {
+            console.error(`❌ Model ${model} not found (404). Trying next model...`);
+            
+            // Try next model
+            if (modelIndex < AI_MODELS.length - 1) {
+                return await generateWithAI(prompt, 0, modelIndex + 1);
+            }
+            
+            throw new Error('❌ API Error: Model not found. Please check your API key or try again later.');
+        }
+        
         // Handle 503 Service Unavailable
         if (response.status === 503) {
-            console.warn(`Model ${model} is unavailable (503). Trying next model...`);
+            console.warn(`⚠️ Model ${model} is unavailable (503). Trying next model...`);
             
             // Try next model
             if (modelIndex < AI_MODELS.length - 1) {
@@ -85,8 +110,8 @@ async function generateWithAI(prompt, retryCount = 0, modelIndex = 0) {
             
             // All models failed, retry with first model after delay
             if (retryCount < 3) {
-                const delay = Math.pow(2, retryCount) * 1000; // Exponential backoff
-                console.log(`All models unavailable. Retrying in ${delay}ms...`);
+                const delay = Math.pow(2, retryCount) * 1000;
+                console.log(`⏳ All models unavailable. Retrying in ${delay}ms...`);
                 await new Promise(resolve => setTimeout(resolve, delay));
                 return await generateWithAI(prompt, retryCount + 1, 0);
             }
@@ -96,25 +121,38 @@ async function generateWithAI(prompt, retryCount = 0, modelIndex = 0) {
         
         // Handle other errors
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.error?.message || `API Error: ${response.status}`);
+            const errorText = await response.text();
+            console.error(`❌ API Error Response:`, errorText);
+            
+            let errorData;
+            try {
+                errorData = JSON.parse(errorText);
+            } catch (e) {
+                errorData = { error: { message: errorText } };
+            }
+            
+            throw new Error(errorData.error?.message || `API Error: ${response.status} - ${errorText}`);
         }
         
         const data = await response.json();
+        console.log(`✅ Successfully received response from ${model}`);
         
         // Validate response
         if (!data.candidates || !data.candidates[0]?.content?.parts?.[0]?.text) {
+            console.error('❌ Invalid response structure:', data);
             throw new Error('Invalid response from AI');
         }
         
         return data.candidates[0].content.parts[0].text;
         
     } catch (error) {
+        console.error(`❌ Error in generateWithAI:`, error);
+        
         // Network errors
-        if (error.message.includes('fetch')) {
+        if (error.message.includes('fetch') || error.name === 'TypeError') {
             if (retryCount < 2) {
                 const delay = Math.pow(2, retryCount) * 1000;
-                console.log(`Network error. Retrying in ${delay}ms...`);
+                console.log(`⏳ Network error. Retrying in ${delay}ms...`);
                 await new Promise(resolve => setTimeout(resolve, delay));
                 return await generateWithAI(prompt, retryCount + 1, modelIndex);
             }
