@@ -376,3 +376,33 @@ p {
     transform: translateY(-5px);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 255, 163, 0.2);
 }
+
+/* Override any white backgrounds globally */
+button {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+pre {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+}
+
+/* Fix modal and content areas */
+div[style*="background: white"],
+div[style*="background:white"],
+button[style*="background: white"],
+button[style*="background:white"] {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* Fix any remaining light text on light backgrounds */
+small {
+    color: var(--text-muted) !important;
+}
