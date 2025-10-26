@@ -6,6 +6,7 @@
     <title>Meal Planner - Mealora</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="device-detection.js"></script>
 </head>
 <body>
     <!-- Background Orbs -->
@@ -595,10 +596,151 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
         }
 
         function displayPlan(plan, bmi, bmiInfo, season) {
-            if (currentView === 'card') {
+            // Check if device is mobile
+            const isMobile = window.innerWidth <= 768 || (window.deviceDetector && window.deviceDetector.deviceInfo.isMobile);
+            
+            // Hide view toggle buttons on mobile
+            const actionButtons = document.getElementById('actionButtons');
+            if (actionButtons) {
+                actionButtons.style.display = isMobile ? 'none' : 'flex';
+            }
+            
+            if (isMobile) {
+                displayMobileView(plan, bmi, bmiInfo, season);
+            } else if (currentView === 'card') {
                 displayCardView(plan, bmi, bmiInfo, season);
             } else {
                 displayTableView(plan);
+            }
+        }
+
+        function displayMobileView(plan, bmi, bmiInfo, season) {
+            const resultsContent = document.getElementById('resultsContent');
+            
+            try {
+                // Determine BMI color
+                let bmiColor = '#10B981'; // Normal - Green
+                if (bmi < 18.5) bmiColor = '#3B82F6'; // Underweight - Blue
+                else if (bmi < 25) bmiColor = '#10B981'; // Normal - Green
+                else if (bmi < 30) bmiColor = '#F59E0B'; // Overweight - Orange
+                else bmiColor = '#EF4444'; // Obese - Red
+
+                // Season emoji
+                const seasonEmojis = { 'Spring': '🌸', 'Summer': '☀️', 'Monsoon': '🌧️', 'Winter': '❄️' };
+                
+                // Escape the plan text to prevent HTML injection
+                const escapedPlan = plan.replace(/`/g, '\\`').replace(/\${/g, '\\${');
+                
+                resultsContent.innerHTML = `
+                    <div style="width: 100%; max-width: 100vw; overflow-x: hidden; padding: 0 1rem; box-sizing: border-box;">
+                        <!-- Success Header -->
+                        <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1.5rem; border-radius: 1rem; text-align: center; margin-bottom: 1rem;">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">✅</div>
+                            <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0;">Your Meal Plan is Ready!</h3>
+                            <p style="opacity: 0.9; margin-top: 0.5rem; font-size: 0.875rem;">Scroll down to explore your plan</p>
+                        </div>
+
+                        <!-- Meal Plan Overview -->
+                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem;">
+                            <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                📋 Meal Plan Overview
+                            </h4>
+                            <div style="background: white; border-radius: 0.75rem; padding: 1rem; word-wrap: break-word; overflow-wrap: break-word;">
+                                <pre style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--gray-800); line-height: 1.5; margin: 0;">${escapedPlan}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Nutrition Summary -->
+                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem;">
+                            <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                📊 Nutrition Summary
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+                                <div style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); color: white; padding: 0.75rem; border-radius: 0.5rem; text-align: center;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">📅</div>
+                                    <div style="font-weight: 700; font-size: 0.875rem;">7 Days</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 0.75rem; border-radius: 0.5rem; text-align: center;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">🍽️</div>
+                                    <div style="font-weight: 700; font-size: 0.875rem;">28 Meals</div>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 0.75rem; border-radius: 0.5rem; text-align: center;">
+                                    <div style="font-size: 1.5rem; margin-bottom: 0.25rem;">🌱</div>
+                                    <div style="font-weight: 700; font-size: 0.875rem;">100% Veggie</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- BMI and Season Info -->
+                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem;">
+                            <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                📈 Health Info
+                            </h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                <div style="background: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                                    <div style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--gray-600);">📊 BMI Status</div>
+                                    <div style="font-size: 1.5rem; font-weight: 900; color: ${bmiColor};">${bmi.toFixed(1)}</div>
+                                    <div style="color: var(--gray-600); font-size: 0.75rem; margin-top: 0.25rem;">${bmiInfo.category}</div>
+                                </div>
+                                <div style="background: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                                    <div style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--gray-600);">${seasonEmojis[season]} Season</div>
+                                    <div style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">${season}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Exercise Recommendations -->
+                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 1rem; margin-bottom: 1rem;">
+                            <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                💪 Exercise Recommendations
+                            </h4>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <div style="background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%); padding: 0.75rem; border-radius: 0.5rem;">
+                                    <h5 style="font-weight: 600; color: var(--gray-900); margin-bottom: 0.25rem; font-size: 0.875rem;">Morning Routine</h5>
+                                    <p style="color: var(--gray-700); font-size: 0.75rem; margin: 0;">15-20 minutes of light stretching or yoga</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%); padding: 0.75rem; border-radius: 0.5rem;">
+                                    <h5 style="font-weight: 600; color: var(--gray-900); margin-bottom: 0.25rem; font-size: 0.875rem;">Cardio</h5>
+                                    <p style="color: var(--gray-700); font-size: 0.75rem; margin: 0;">30 minutes of walking, cycling, or dancing</p>
+                                </div>
+                                <div style="background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%); padding: 0.75rem; border-radius: 0.5rem;">
+                                    <h5 style="font-weight: 600; color: var(--gray-900); margin-bottom: 0.25rem; font-size: 0.875rem;">Strength Training</h5>
+                                    <p style="color: var(--gray-700); font-size: 0.75rem; margin: 0;">2-3 times per week with bodyweight exercises</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 1rem;">
+                            <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                🎯 Actions
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                                <button onclick="saveMealPlan()" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #10B981; color: white; border: none; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer;">
+                                    💾 Save Plan
+                                </button>
+                                <button onclick="generateGroceryList()" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #3B82F6; color: white; border: none; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer;">
+                                    🛒 Grocery List
+                                </button>
+                                <button onclick="showNutritionStats()" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #8B5CF6; color: white; border: none; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer;">
+                                    📊 Nutrition Stats
+                                </button>
+                                <button onclick="exportToPDF()" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #F59E0B; color: white; border: none; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer;">
+                                    📄 Export PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error displaying mobile meal plan:', error);
+                resultsContent.innerHTML = `
+                    <div style="text-align: center; padding: 2rem 1rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+                        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--danger); margin-bottom: 1rem;">Display Error</h3>
+                        <p style="color: var(--gray-600); font-size: 0.875rem;">There was an error displaying the meal plan.</p>
+                    </div>
+                `;
             }
         }
 
@@ -1028,6 +1170,25 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
             saveMealPlan(currentPlan.text, { ...currentPlan, planName });
             showNotification(`✅ Saved "${planName}"!`, 'success');
         }
+
+        // Handle window resize for mobile detection
+        window.addEventListener('resize', function() {
+            // Re-display meal plan if it exists and we're switching between mobile/desktop
+            if (currentPlan && currentPlan.text) {
+                const isMobile = window.innerWidth <= 768 || (window.deviceDetector && window.deviceDetector.deviceInfo.isMobile);
+                const actionButtons = document.getElementById('actionButtons');
+                if (actionButtons) {
+                    actionButtons.style.display = isMobile ? 'none' : 'flex';
+                }
+                
+                // Re-display with appropriate layout
+                if (isMobile) {
+                    displayMobileView(currentPlan.text, currentPlan.bmi, { category: currentPlan.bmiCategory, calorieAdjustment: 'Custom' }, 'Spring');
+                } else {
+                    displayPlan(currentPlan.text, currentPlan.bmi, { category: currentPlan.bmiCategory, calorieAdjustment: 'Custom' }, 'Spring');
+                }
+            }
+        });
     </script>
 
     <!-- Footer -->
