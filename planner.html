@@ -101,27 +101,6 @@
                            style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
-                <!-- Seasonal Health Issues -->
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Seasonal Health Issues (Temporary)</label>
-                    <input type="text" id="seasonalHealth" placeholder="e.g., Fever, Weakness, Cold, Flu"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
-                </div>
-
-                <!-- Budget -->
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Weekly Budget (₹)</label>
-                    <input type="number" id="budget" placeholder="e.g., 500, 1000, 1500"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
-                </div>
-
-                <!-- Region -->
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Region/State</label>
-                    <input type="text" id="region" placeholder="e.g., North India, Maharashtra, Tamil Nadu"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
-                </div>
-
                 <!-- Quick Templates -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.75rem;">⚡ Quick Templates</label>
@@ -145,10 +124,38 @@
                     </div>
                 </div>
 
-                <!-- Preferences -->
+                <!-- Seasonal Health Issues -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Seasonal Health Issues (Temporary)</label>
+                    <input type="text" id="seasonalHealth" placeholder="e.g., Fever, Weakness, Cold, Flu"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
+                <!-- Budget -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Weekly Budget (₹)</label>
+                    <input type="number" id="budget" placeholder="e.g., 500, 1000, 1500"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
+                <!-- Region -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Region/State</label>
+                    <input type="text" id="region" placeholder="e.g., North India, Maharashtra, Tamil Nadu"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
+                <!-- Food Preferences -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Food Preferences (Optional)</label>
+                    <textarea id="preferences" placeholder="List any foods you love, dislike, or prefer..." rows="3"
+                              style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; resize: none;"></textarea>
+                </div>
+
+                <!-- Allergies -->
                 <div style="margin-bottom: 2rem;">
-                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Food Preferences & Allergies (Optional)</label>
-                    <textarea id="preferences" placeholder="List any foods you love, dislike, or are allergic to..." rows="4"
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Allergies (Optional)</label>
+                    <textarea id="allergies" placeholder="List any foods you are allergic to..." rows="2"
                               style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; resize: none;"></textarea>
                 </div>
 
@@ -245,6 +252,7 @@
             const budget = document.getElementById('budget').value;
             const region = document.getElementById('region').value;
             const preferences = document.getElementById('preferences').value;
+            const allergies = document.getElementById('allergies').value;
 
             // Validate age
             if (!age || age < 1 || age > 120) {
@@ -276,12 +284,17 @@
 
             // Validate and sanitize preferences with STRICT checking
             const sanitizedPrefs = validateAndSanitizeInput(preferences);
+            const sanitizedAllergies = validateAndSanitizeInput(allergies);
             const sanitizedHealthGoal = validateAndSanitizeInput(healthGoal);
             const sanitizedSeasonalHealth = validateAndSanitizeInput(seasonalHealth);
             
             // Check if any validation returned null (explicit rejection)
             if (preferences && sanitizedPrefs === null) {
-                showNotification('🚫 Invalid input detected. Please only enter food preferences, allergies, or meal-related information.', 'error');
+                showNotification('🚫 Invalid input detected. Please only enter food preferences or meal-related information.', 'error');
+                return;
+            }
+            if (allergies && sanitizedAllergies === null) {
+                showNotification('🚫 Invalid input detected. Please only enter food allergies or allergy-related information.', 'error');
                 return;
             }
             if (healthGoal && sanitizedHealthGoal === null) {
@@ -332,7 +345,8 @@ Budget: ₹${budget || 'Flexible'} per week
 Region: ${region || 'General Indian'}
 Current Season: ${currentSeason}
 Seasonal Foods Available: ${seasonalFoodList}
-Food Preferences/Allergies: ${sanitizedPrefs || 'None specified'}
+Food Preferences: ${sanitizedPrefs || 'None specified'}
+Allergies: ${sanitizedAllergies || 'None specified'}
 
 IMPORTANT INSTRUCTIONS:
 1. Calculate daily calorie target based on BMI category: ${bmiInfo.calorieAdjustment}
@@ -387,7 +401,8 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
                     budget,
                     region,
                     season: currentSeason,
-                    preferences: sanitizedPrefs 
+                    preferences: sanitizedPrefs,
+                    allergies: sanitizedAllergies
                 };
                 
                 document.getElementById('actionButtons').style.display = 'flex';
