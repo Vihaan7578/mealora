@@ -51,6 +51,184 @@ const seasonalFoods = {
     'Winter': ['Palak', 'Sarson', 'Bathua', 'Carrots', 'Beetroot', 'Peas', 'Cauliflower']
 };
 
+// State-wise Seasonal Crops Database
+const stateCrops = {
+    'Andhra Pradesh': {
+        'Spring': ['Tomato', 'Cucumber', 'Beans', 'Carrots', 'Onion', 'Green Chilies', 'Bottle Gourd'],
+        'Summer': ['Watermelon', 'Musk Melon', 'Cucumber', 'Bitter Gourd', 'Bottle Gourd', 'Ridge Gourd', 'Tomato'],
+        'Monsoon': ['Rice', 'Green Gram', 'Turmeric', 'Chilli', 'Cotton', 'Corn', 'Sugarcane'],
+        'Winter': ['Tomato', 'Cabbage', 'Cauliflower', 'Carrots', 'Peas', 'Potato', 'Onion']
+    },
+    'Arunachal Pradesh': {
+        'Spring': ['Rice', 'Potato', 'Ginger', 'Turmeric', 'Bamboo Shoots', 'Cabbage', 'Spinach'],
+        'Summer': ['Corn', 'Rice', 'Potato', 'Ginger', 'Turmeric', 'Cabbage', 'Cauliflower'],
+        'Monsoon': ['Rice', 'Maize', 'Millet', 'Potato', 'Ginger', 'Turmeric', 'Chillies'],
+        'Winter': ['Potato', 'Cabbage', 'Cauliflower', 'Carrots', 'Radish', 'Peas', 'Onion']
+    },
+    'Assam': {
+        'Spring': ['Rice', 'Potato', 'Tomato', 'Cucumber', 'Brinjal', 'Okra', 'Green Chilies'],
+        'Summer': ['Rice', 'Green Gram', 'Black Gram', 'Bottle Gourd', 'Ridge Gourd', 'Okra', 'Brinjal'],
+        'Monsoon': ['Rice', 'Jute', 'Mustard', 'Sesame', 'Green Gram', 'Black Gram', 'Maize'],
+        'Winter': ['Potato', 'Cabbage', 'Cauliflower', 'Tomato', 'Carrots', 'Peas', 'Peppers']
+    },
+    'Bihar': {
+        'Spring': ['Wheat', 'Mustard', 'Gram', 'Peas', 'Potato', 'Onion', 'Tomato'],
+        'Summer': ['Rice', 'Maize', 'Black Gram', 'Green Gram', 'Cucumber', 'Okra', 'Bottle Gourd'],
+        'Monsoon': ['Rice', 'Maize', 'Sugarcane', 'Jute', 'Arhar', 'Moong', 'Urad'],
+        'Winter': ['Wheat', 'Mustard', 'Potato', 'Onion', 'Tomato', 'Cauliflower', 'Peas']
+    },
+    'Chhattisgarh': {
+        'Spring': ['Rice', 'Corn', 'Wheat', 'Gram', 'Peas', 'Potato', 'Tomato'],
+        'Summer': ['Rice', 'Maize', 'Green Gram', 'Black Gram', 'Cucumber', 'Bottle Gourd', 'Okra'],
+        'Monsoon': ['Rice', 'Maize', 'Tur', 'Urad', 'Moong', 'Groundnut', 'Sesame'],
+        'Winter': ['Wheat', 'Gram', 'Peas', 'Mustard', 'Potato', 'Onion', 'Tomato']
+    },
+    'Delhi': {
+        'Spring': ['Potato', 'Onion', 'Tomato', 'Cucumber', 'Radish', 'Spinach', 'Coriander'],
+        'Summer': ['Cucumber', 'Bottle Gourd', 'Ridge Gourd', 'Bitter Gourd', 'Okra', 'Watermelon', 'Musk Melon'],
+        'Monsoon': ['Rice', 'Maize', 'Bajra', 'Jowar', 'Pulses', 'Cotton', 'Sugarcane'],
+        'Winter': ['Wheat', 'Mustard', 'Potato', 'Onion', 'Tomato', 'Cauliflower', 'Peas']
+    },
+    'Gujarat': {
+        'Spring': ['Cotton', 'Groundnut', 'Wheat', 'Cumin', 'Fennel', 'Potato', 'Onion'],
+        'Summer': ['Cotton', 'Groundnut', 'Rice', 'Maize', 'Bottle Gourd', 'Okra', 'Cucumber'],
+        'Monsoon': ['Cotton', 'Groundnut', 'Rice', 'Maize', 'Bajra', 'Jowar', 'Tur'],
+        'Winter': ['Wheat', 'Cotton', 'Groundnut', 'Cumin', 'Potato', 'Onion', 'Tomato']
+    },
+    'Haryana': {
+        'Spring': ['Wheat', 'Mustard', 'Gram', 'Potato', 'Onion', 'Tomato', 'Peas'],
+        'Summer': ['Rice', 'Bajra', 'Maize', 'Cucumber', 'Bottle Gourd', 'Okra', 'Watermelon'],
+        'Monsoon': ['Rice', 'Bajra', 'Maize', 'Cotton', 'Sugarcane', 'Guar', 'Moong'],
+        'Winter': ['Wheat', 'Mustard', 'Gram', 'Potato', 'Onion', 'Tomato', 'Peas']
+    },
+    'Himachal Pradesh': {
+        'Spring': ['Wheat', 'Barley', 'Maize', 'Potato', 'Peas', 'Cabbage', 'Spinach'],
+        'Summer': ['Maize', 'Rice', 'Black Gram', 'Green Gram', 'Cucumber', 'Tomato', 'Potato'],
+        'Monsoon': ['Maize', 'Rice', 'Black Gram', 'Green Gram', 'Rajma', 'Bajra', 'Finger Millet'],
+        'Winter': ['Wheat', 'Barley', 'Potato', 'Peas', 'Cabbage', 'Cauliflower', 'Carrots']
+    },
+    'Jammu and Kashmir': {
+        'Spring': ['Wheat', 'Barley', 'Potato', 'Peas', 'Cabbage', 'Spinach', 'Radish'],
+        'Summer': ['Rice', 'Maize', 'Potato', 'Tomato', 'Cucumber', 'Cabbage', 'Cauliflower'],
+        'Monsoon': ['Rice', 'Maize', 'Rajma', 'Black Gram', 'Green Gram', 'Bajra', 'Barley'],
+        'Winter': ['Wheat', 'Barley', 'Mustard', 'Potato', 'Cabbage', 'Cauliflower', 'Turnips']
+    },
+    'Jharkhand': {
+        'Spring': ['Rice', 'Wheat', 'Gram', 'Peas', 'Potato', 'Onion', 'Tomato'],
+        'Summer': ['Rice', 'Maize', 'Green Gram', 'Black Gram', 'Bottle Gourd', 'Okra', 'Cucumber'],
+        'Monsoon': ['Rice', 'Maize', 'Tur', 'Urad', 'Moong', 'Groundnut', 'Arhar'],
+        'Winter': ['Wheat', 'Mustard', 'Gram', 'Potato', 'Onion', 'Tomato', 'Peas']
+    },
+    'Karnataka': {
+        'Spring': ['Ragi', 'Jowar', 'Bajra', 'Rice', 'Tomato', 'Onion', 'Chillies'],
+        'Summer': ['Rice', 'Ragi', 'Bajra', 'Jowar', 'Cucumber', 'Bottle Gourd', 'Okra'],
+        'Monsoon': ['Rice', 'Ragi', 'Bajra', 'Jowar', 'Tur', 'Groundnut', 'Cotton'],
+        'Winter': ['Wheat', 'Gram', 'Mustard', 'Peas', 'Potato', 'Onion', 'Tomato']
+    },
+    'Kerala': {
+        'Spring': ['Rice', 'Coconut', 'Rubber', 'Spices', 'Banana', 'Tapioca', 'Pepper'],
+        'Summer': ['Rice', 'Coconut', 'Arecanut', 'Banana', 'Tapioca', 'Pepper', 'Cardamom'],
+        'Monsoon': ['Rice', 'Coconut', 'Rubber', 'Spices', 'Tapioca', 'Pepper', 'Cardamom'],
+        'Winter': ['Rice', 'Coconut', 'Vegetables', 'Spices', 'Banana', 'Tapioca', 'Pepper']
+    },
+    'Madhya Pradesh': {
+        'Spring': ['Wheat', 'Gram', 'Mustard', 'Potato', 'Onion', 'Tomato', 'Peas'],
+        'Summer': ['Rice', 'Maize', 'Soybean', 'Black Gram', 'Cucumber', 'Okra', 'Bottle Gourd'],
+        'Monsoon': ['Soybean', 'Maize', 'Rice', 'Tur', 'Urad', 'Moong', 'Groundnut'],
+        'Winter': ['Wheat', 'Gram', 'Mustard', 'Potato', 'Onion', 'Tomato', 'Peas']
+    },
+    'Maharashtra': {
+        'Spring': ['Jowar', 'Bajra', 'Wheat', 'Potato', 'Onion', 'Tomato', 'Chillies'],
+        'Summer': ['Rice', 'Jowar', 'Bajra', 'Cucumber', 'Bottle Gourd', 'Okra', 'Watermelon'],
+        'Monsoon': ['Rice', 'Jowar', 'Bajra', 'Tur', 'Soybean', 'Groundnut', 'Cotton'],
+        'Winter': ['Wheat', 'Gram', 'Potato', 'Onion', 'Tomato', 'Chillies', 'Peas']
+    },
+    'Manipur': {
+        'Spring': ['Rice', 'Potato', 'Tomato', 'Cabbage', 'Carrots', 'Radish', 'Onion'],
+        'Summer': ['Rice', 'Corn', 'Green Gram', 'Black Gram', 'Cucumber', 'Bottle Gourd', 'Okra'],
+        'Monsoon': ['Rice', 'Maize', 'Jute', 'Green Gram', 'Black Gram', 'Potato', 'Ginger'],
+        'Winter': ['Wheat', 'Potato', 'Cabbage', 'Cauliflower', 'Carrots', 'Peas', 'Radish']
+    },
+    'Meghalaya': {
+        'Spring': ['Rice', 'Potato', 'Tomato', 'Cabbage', 'Onion', 'Ginger', 'Turmeric'],
+        'Summer': ['Rice', 'Maize', 'Green Gram', 'Black Gram', 'Cucumber', 'Okra', 'Bottle Gourd'],
+        'Monsoon': ['Rice', 'Maize', 'Potato', 'Ginger', 'Turmeric', 'Chillies', 'Corn'],
+        'Winter': ['Potato', 'Cabbage', 'Cauliflower', 'Carrots', 'Peas', 'Onion', 'Tomato']
+    },
+    'Mizoram': {
+        'Spring': ['Rice', 'Maize', 'Potato', 'Tomato', 'Cabbage', 'Ginger', 'Turmeric'],
+        'Summer': ['Rice', 'Maize', 'Green Gram', 'Cucumber', 'Bottle Gourd', 'Okra', 'Tomato'],
+        'Monsoon': ['Rice', 'Maize', 'Potato', 'Ginger', 'Turmeric', 'Chillies', 'Corn'],
+        'Winter': ['Rice', 'Potato', 'Cabbage', 'Cauliflower', 'Carrots', 'Peas', 'Radish']
+    },
+    'Nagaland': {
+        'Spring': ['Rice', 'Maize', 'Potato', 'Tomato', 'Cabbage', 'Ginger', 'Turmeric'],
+        'Summer': ['Rice', 'Maize', 'Green Gram', 'Black Gram', 'Cucumber', 'Okra', 'Tomato'],
+        'Monsoon': ['Rice', 'Maize', 'Potato', 'Ginger', 'Turmeric', 'Chillies', 'Corn'],
+        'Winter': ['Rice', 'Potato', 'Cabbage', 'Cauliflower', 'Carrots', 'Peas', 'Radish']
+    },
+    'Odisha': {
+        'Spring': ['Rice', 'Pulses', 'Potato', 'Onion', 'Tomato', 'Groundnut', 'Mustard'],
+        'Summer': ['Rice', 'Green Gram', 'Black Gram', 'Cucumber', 'Bottle Gourd', 'Okra', 'Watermelon'],
+        'Monsoon': ['Rice', 'Jute', 'Cotton', 'Tur', 'Moong', 'Urad', 'Groundnut'],
+        'Winter': ['Wheat', 'Gram', 'Mustard', 'Potato', 'Onion', 'Tomato', 'Peas']
+    },
+    'Punjab': {
+        'Spring': ['Wheat', 'Mustard', 'Potato', 'Onion', 'Tomato', 'Peas', 'Cauliflower'],
+        'Summer': ['Rice', 'Maize', 'Cotton', 'Bajra', 'Cucumber', 'Bottle Gourd', 'Okra'],
+        'Monsoon': ['Rice', 'Cotton', 'Sugarcane', 'Maize', 'Bajra', 'Moong', 'Urad'],
+        'Winter': ['Wheat', 'Mustard', 'Potato', 'Onion', 'Tomato', 'Cauliflower', 'Peas']
+    },
+    'Rajasthan': {
+        'Spring': ['Mustard', 'Wheat', 'Gram', 'Cumin', 'Potato', 'Onion', 'Tomato'],
+        'Summer': ['Cotton', 'Groundnut', 'Bajra', 'Jowar', 'Cucumber', 'Bottle Gourd', 'Watermelon'],
+        'Monsoon': ['Bajra', 'Jowar', 'Cotton', 'Groundnut', 'Guar', 'Moong', 'Urad'],
+        'Winter': ['Mustard', 'Wheat', 'Gram', 'Cumin', 'Potato', 'Onion', 'Peas']
+    },
+    'Sikkim': {
+        'Spring': ['Rice', 'Maize', 'Potato', 'Ginger', 'Turmeric', 'Cardamom', 'Oranges'],
+        'Summer': ['Rice', 'Maize', 'Green Gram', 'Potato', 'Ginger', 'Tomato', 'Cabbage'],
+        'Monsoon': ['Rice', 'Maize', 'Potato', 'Ginger', 'Turmeric', 'Cardamom', 'Corn'],
+        'Winter': ['Potato', 'Cabbage', 'Cauliflower', 'Carrots', 'Peas', 'Radish', 'Turnips']
+    },
+    'Tamil Nadu': {
+        'Spring': ['Rice', 'Sugarcane', 'Cotton', 'Groundnut', 'Tomato', 'Onion', 'Chillies'],
+        'Summer': ['Rice', 'Millets', 'Groundnut', 'Cucumber', 'Bottle Gourd', 'Okra', 'Watermelon'],
+        'Monsoon': ['Rice', 'Cotton', 'Sugarcane', 'Groundnut', 'Tur', 'Urad', 'Moong'],
+        'Winter': ['Rice', 'Groundnut', 'Potato', 'Onion', 'Tomato', 'Chillies', 'Peas']
+    },
+    'Telangana': {
+        'Spring': ['Rice', 'Cotton', 'Sugarcane', 'Groundnut', 'Onion', 'Tomato', 'Chillies'],
+        'Summer': ['Rice', 'Cotton', 'Groundnut', 'Cucumber', 'Bottle Gourd', 'Okra', 'Watermelon'],
+        'Monsoon': ['Rice', 'Cotton', 'Sugarcane', 'Groundnut', 'Tur', 'Maize', 'Bajra'],
+        'Winter': ['Wheat', 'Mustard', 'Groundnut', 'Potato', 'Onion', 'Tomato', 'Chillies']
+    },
+    'Tripura': {
+        'Spring': ['Rice', 'Potato', 'Tomato', 'Cabbage', 'Peas', 'Radish', 'Onion'],
+        'Summer': ['Rice', 'Maize', 'Green Gram', 'Cucumber', 'Bottle Gourd', 'Okra', 'Brinjal'],
+        'Monsoon': ['Rice', 'Jute', 'Maize', 'Green Gram', 'Black Gram', 'Potato', 'Ginger'],
+        'Winter': ['Rice', 'Wheat', 'Mustard', 'Potato', 'Cabbage', 'Cauliflower', 'Carrots']
+    },
+    'Uttar Pradesh': {
+        'Spring': ['Wheat', 'Mustard', 'Gram', 'Potato', 'Onion', 'Tomato', 'Peas'],
+        'Summer': ['Rice', 'Maize', 'Bajra', 'Cucumber', 'Bottle Gourd', 'Okra', 'Watermelon'],
+        'Monsoon': ['Rice', 'Sugarcane', 'Maize', 'Bajra', 'Tur', 'Urad', 'Moong'],
+        'Winter': ['Wheat', 'Mustard', 'Gram', 'Potato', 'Onion', 'Tomato', 'Peas']
+    },
+    'Uttarakhand': {
+        'Spring': ['Wheat', 'Rice', 'Potato', 'Peas', 'Cabbage', 'Tomato', 'Onion'],
+        'Summer': ['Rice', 'Maize', 'Black Gram', 'Green Gram', 'Cucumber', 'Tomato', 'Potato'],
+        'Monsoon': ['Rice', 'Maize', 'Black Gram', 'Green Gram', 'Rajma', 'Millets', 'Rice'],
+        'Winter': ['Wheat', 'Barley', 'Potato', 'Peas', 'Cabbage', 'Cauliflower', 'Carrots']
+    },
+    'West Bengal': {
+        'Spring': ['Rice', 'Jute', 'Potato', 'Onion', 'Tomato', 'Chillies', 'Cauliflower'],
+        'Summer': ['Rice', 'Jute', 'Maize', 'Bottle Gourd', 'Okra', 'Cucumber', 'Brinjal'],
+        'Monsoon': ['Rice', 'Jute', 'Mustard', 'Potato', 'Tur', 'Moong', 'Black Gram'],
+        'Winter': ['Wheat', 'Mustard', 'Potato', 'Onion', 'Tomato', 'Cauliflower', 'Peas']
+    }
+};
+
 // STRICT Input Validation - Multi-layer Filtering
 function validateAndSanitizeInput(text) {
     if (!text) return '';

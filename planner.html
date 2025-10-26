@@ -165,8 +165,38 @@
                 <!-- Region -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Region/State</label>
-                    <input type="text" id="region" placeholder="e.g., North India, Maharashtra, Tamil Nadu"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                    <select id="region" style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; background: white;">
+                        <option value="">Select your state</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                    </select>
                 </div>
 
                 <!-- Food Preferences -->
@@ -305,8 +335,9 @@
             // Select moderate budget range
             selectBudgetRange('moderate');
             
-            // Set region
-            document.getElementById('region').value = 'North India';
+            // Set region (using select dropdown now)
+            const regionSelect = document.getElementById('region');
+            regionSelect.value = 'Uttar Pradesh'; // Set to UP as default
             
             // Set preferences
             document.getElementById('preferences').value = 'Prefer Indian vegetarian foods, like paneer and vegetables';
@@ -333,6 +364,14 @@
             const region = document.getElementById('region').value;
             const preferences = document.getElementById('preferences').value;
             const allergies = document.getElementById('allergies').value;
+            
+            // Get state-specific seasonal crops if state is selected
+            let stateSpecificCrops = '';
+            if (region && stateCrops[region]) {
+                const season = getCurrentSeason();
+                const crops = stateCrops[region][season] || [];
+                stateSpecificCrops = crops.join(', ');
+            }
 
             // Validate age (numbers only)
             if (!age || age < 1 || age > 120 || isNaN(age)) {
@@ -432,12 +471,14 @@ Budget Range: ${selectedBudgetRange}
 Region: ${region || 'General Indian'}
 Current Season: ${currentSeason}
 Seasonal Foods Available: ${seasonalFoodList}
+${stateSpecificCrops ? `State-Specific ${currentSeason} Crops (${region}): ${stateSpecificCrops}` : ''}
 Food Preferences: ${sanitizedPrefs || 'None specified'}
 Allergies: ${sanitizedAllergies || 'None specified'}
 
 IMPORTANT INSTRUCTIONS:
 1. Calculate daily calorie target based on BMI category: ${bmiInfo.calorieAdjustment}
 2. Season Guidance: ${currentSeason} seasonal foods are: ${seasonalFoodList}
+   ${stateSpecificCrops ? `- State-specific crops (${region}): ${stateSpecificCrops} - PREFER these as they are locally available and cheaper` : ''}
    - PREFER seasonal foods as they are cheaper and fresher
    - BUT you can use other affordable ingredients if they fit the budget better
    - Focus on budget-friendly combinations
@@ -551,57 +592,72 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
         function displayCardView(plan, bmi, bmiInfo, season) {
             const resultsContent = document.getElementById('resultsContent');
             
-            // Determine BMI color
-            let bmiColor = '#10B981'; // Normal - Green
-            if (bmi < 18.5) bmiColor = '#3B82F6'; // Underweight - Blue
-            else if (bmi < 25) bmiColor = '#10B981'; // Normal - Green
-            else if (bmi < 30) bmiColor = '#F59E0B'; // Overweight - Orange
-            else bmiColor = '#EF4444'; // Obese - Red
+            try {
+                // Determine BMI color
+                let bmiColor = '#10B981'; // Normal - Green
+                if (bmi < 18.5) bmiColor = '#3B82F6'; // Underweight - Blue
+                else if (bmi < 25) bmiColor = '#10B981'; // Normal - Green
+                else if (bmi < 30) bmiColor = '#F59E0B'; // Overweight - Orange
+                else bmiColor = '#EF4444'; // Obese - Red
 
-            // Season emoji
-            const seasonEmojis = { 'Spring': '🌸', 'Summer': '☀️', 'Monsoon': '🌧️', 'Winter': '❄️' };
-            
-            resultsContent.innerHTML = `
-                <div style="max-height: 70vh; overflow-y: auto; padding-right: 1rem;">
-                    <div style="background: linear-gradient(135deg, var(--success) 0%, #059669 100%); color: white; padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 1.5rem;">
-                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✅</div>
-                        <h3 style="font-size: 1.5rem; font-weight: 700;">Your Meal Plan is Ready!</h3>
-                        <p style="opacity: 0.9; margin-top: 0.5rem;">Scroll to see your 7-day plan</p>
+                // Season emoji
+                const seasonEmojis = { 'Spring': '🌸', 'Summer': '☀️', 'Monsoon': '🌧️', 'Winter': '❄️' };
+                
+                // Escape the plan text to prevent HTML injection
+                const escapedPlan = plan.replace(/`/g, '\\`').replace(/\${/g, '\\${');
+                
+                resultsContent.innerHTML = `
+                    <div style="max-height: 70vh; overflow-y: auto; padding-right: 1rem;">
+                        <div style="background: linear-gradient(135deg, var(--success) 0%, #059669 100%); color: white; padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 1.5rem;">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✅</div>
+                            <h3 style="font-size: 1.5rem; font-weight: 700;">Your Meal Plan is Ready!</h3>
+                            <p style="opacity: 0.9; margin-top: 0.5rem;">Scroll to see your 7-day plan</p>
+                        </div>
+                        
+                        <!-- BMI and Season Info -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                            <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 1rem; text-align: center;">
+                                <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">📊 BMI Status</div>
+                                <div style="font-size: 2rem; font-weight: 900; color: ${bmiColor};">${bmi.toFixed(1)}</div>
+                                <div style="color: var(--gray-600); font-size: 0.875rem; margin-top: 0.25rem;">${bmiInfo.category}</div>
+                                <div style="color: var(--gray-600); font-size: 0.75rem; margin-top: 0.5rem;">${bmiInfo.calorieAdjustment} calories</div>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 1rem; text-align: center;">
+                                <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">${seasonEmojis[season]} Season</div>
+                                <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">${season}</div>
+                                <div style="color: var(--gray-600); font-size: 0.75rem;">Using seasonal foods</div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 2rem;">
+                            <pre style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--gray-800); line-height: 1.6;">${escapedPlan}</pre>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
+                            <div style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 0.25rem;">📅</div>
+                                <div style="font-weight: 700;">7 Days</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 0.25rem;">🍽️</div>
+                                <div style="font-weight: 700;">28 Meals</div>
+                            </div>
+                            <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 0.25rem;">🌱</div>
+                                <div style="font-weight: 700;">100% Veggie</div>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <!-- BMI and Season Info -->
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
-                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 1rem; text-align: center;">
-                            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">📊 BMI Status</div>
-                            <div style="font-size: 2rem; font-weight: 900; color: ${bmiColor};">${bmi.toFixed(1)}</div>
-                            <div style="color: var(--gray-600); font-size: 0.875rem; margin-top: 0.25rem;">${bmiInfo.category}</div>
-                            <div style="color: var(--gray-600); font-size: 0.75rem; margin-top: 0.5rem;">${bmiInfo.calorieAdjustment} calories</div>
-                        </div>
-                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 1rem; text-align: center;">
-                            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">${seasonEmojis[season]} Season</div>
-                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">${season}</div>
-                            <div style="color: var(--gray-600); font-size: 0.75rem;">Using seasonal foods</div>
-                        </div>
+                `;
+            } catch (error) {
+                console.error('Error displaying meal plan:', error);
+                resultsContent.innerHTML = `
+                    <div style="text-align: center; padding: 4rem 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">⚠️</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--danger); margin-bottom: 1rem;">Display Error</h3>
+                        <p style="color: var(--gray-600);">There was an error displaying the meal plan.</p>
+                        <button onclick="toggleView('table')" class="btn btn-primary" style="margin-top: 1rem;">Try Table View</button>
                     </div>
-                    <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 2rem;">
-                        <pre style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--gray-800); line-height: 1.6;">${plan}</pre>
-                    </div>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
-                        <div style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
-                            <div style="font-size: 2rem; margin-bottom: 0.25rem;">📅</div>
-                            <div style="font-weight: 700;">7 Days</div>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
-                            <div style="font-size: 2rem; margin-bottom: 0.25rem;">🍽️</div>
-                            <div style="font-weight: 700;">28 Meals</div>
-                        </div>
-                        <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
-                            <div style="font-size: 2rem; margin-bottom: 0.25rem;">🌱</div>
-                            <div style="font-weight: 700;">100% Veggie</div>
-                        </div>
-                    </div>
-                </div>
-            `;
+                `;
+            }
         }
 
         function displayTableView(plan) {
