@@ -99,10 +99,17 @@
                     </div>
                 </div>
 
+                <!-- Health Goal -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Goal (Optional)</label>
+                    <input type="text" id="healthGoal" placeholder="e.g., Weight Loss, Weight Gain, Fitness, Muscle Gain"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
                 <!-- Health Issues -->
                 <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Issues (Chronic)</label>
-                    <input type="text" id="healthGoal" placeholder="e.g., Diabetes, High BP, PCOS, Thyroid"
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Issues (Chronic) (Optional)</label>
+                    <input type="text" id="healthIssues" placeholder="e.g., Diabetes, High BP, PCOS, Thyroid, or type 'none'"
                            style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
@@ -131,8 +138,8 @@
 
                 <!-- Seasonal Health Issues -->
                 <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Seasonal Health Issues (Temporary)</label>
-                    <input type="text" id="seasonalHealth" placeholder="e.g., Fever, Weakness, Cold, Flu"
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Seasonal Health Issues (Temporary) (Optional)</label>
+                    <input type="text" id="seasonalHealth" placeholder="e.g., Fever, Weakness, Cold, Flu, or type 'none'"
                            style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
@@ -286,8 +293,11 @@
             // Select female
             selectGender('female');
             
-            // Set health condition
+            // Set health goal
             document.getElementById('healthGoal').value = 'weight loss and improved fitness';
+            
+            // Set health issues to none
+            document.getElementById('healthIssues').value = 'none';
             
             // Set seasonal health
             document.getElementById('seasonalHealth').value = '';
@@ -318,6 +328,7 @@
             const height = document.getElementById('height').value;
             const weight = document.getElementById('weight').value;
             const healthGoal = document.getElementById('healthGoal').value;
+            const healthIssues = document.getElementById('healthIssues').value;
             const seasonalHealth = document.getElementById('seasonalHealth').value;
             const region = document.getElementById('region').value;
             const preferences = document.getElementById('preferences').value;
@@ -341,11 +352,6 @@
                 return;
             }
 
-            if (!healthGoal) {
-                showNotification('Please enter your health goal', 'error');
-                return;
-            }
-
             // Validate budget range selection
             if (!selectedBudgetRange) {
                 showNotification('Please select a budget range', 'error');
@@ -359,15 +365,16 @@
             const seasonalFoodList = seasonalFoods[currentSeason].join(', ');
 
             // Validate health conditions (chronic and temporary)
-            const sanitizedHealthGoal = validateHealthCondition(healthGoal, 'chronic');
-            const sanitizedSeasonalHealth = validateHealthCondition(seasonalHealth, 'temporary');
+            // Allow empty values or "none" for optional fields
+            const sanitizedHealthIssues = healthIssues ? validateHealthCondition(healthIssues, 'chronic') : '';
+            const sanitizedSeasonalHealth = seasonalHealth ? validateHealthCondition(seasonalHealth, 'temporary') : '';
             
-            if (sanitizedHealthGoal === null) {
-                showNotification('🚫 Invalid health condition. Please enter valid chronic health issues (e.g., Diabetes, High BP, PCOS, Thyroid)', 'error');
+            if (healthIssues && sanitizedHealthIssues === null) {
+                showNotification('🚫 Invalid health condition. Please enter valid chronic health issues (e.g., Diabetes, High BP, PCOS, Thyroid) or type "none"', 'error');
                 return;
             }
-            if (sanitizedSeasonalHealth === null && seasonalHealth) {
-                showNotification('🚫 Invalid health condition. Please enter valid temporary health issues (e.g., Fever, Weakness, Cold, Flu)', 'error');
+            if (seasonalHealth && sanitizedSeasonalHealth === null) {
+                showNotification('🚫 Invalid health condition. Please enter valid temporary health issues (e.g., Fever, Weakness, Cold, Flu) or type "none"', 'error');
                 return;
             }
 
@@ -418,7 +425,8 @@ Height: ${height} cm
 Weight: ${weight} kg
 BMI: ${bmi.toFixed(1)} (${bmiInfo.category})
 Calorie Adjustment: ${bmiInfo.calorieAdjustment}
-Health Issues (Chronic): ${sanitizedHealthGoal}
+Health Goal: ${healthGoal || 'General Fitness'}
+Health Issues (Chronic): ${sanitizedHealthIssues || 'None'}
 Seasonal Health Issues: ${sanitizedSeasonalHealth || 'None'}
 Budget Range: ${selectedBudgetRange}
 Region: ${region || 'General Indian'}
@@ -462,7 +470,8 @@ IMPORTANT INSTRUCTIONS:
    - Note: Actual prices vary by region; estimate based on common market rates
 4. Consider regional preferences for ${region || 'Indian'} cuisine
 5. Address seasonal health issues: ${sanitizedSeasonalHealth || 'None'} with appropriate foods (e.g., warm soups for cold, light meals for fever, protein-rich for weakness)
-6. For chronic health issues: ${sanitizedHealthGoal}
+6. For chronic health issues: ${sanitizedHealthIssues || 'None'}
+7. Focus on achieving health goal: ${healthGoal || 'General Fitness'}
 - Use ONLY Indian vegetarian foods and ingredients with their proper Indian names (Hindi/English mix as commonly used in India). Include traditional Indian meals like:
 - Dal (lentils) - Toor dal, Moong dal, Masoor dal, Chana dal
 - Sabzi (vegetables) - Aloo gobhi, Bhindi, Palak, Baingan, Kaddu
@@ -503,8 +512,9 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
                     weight, 
                     bmi: bmi.toFixed(1),
                     bmiCategory: bmiInfo.category,
-                    gender: selectedGender, 
-                    healthGoal: sanitizedHealthGoal, 
+                    gender: selectedGender,
+                    healthGoal: healthGoal,
+                    healthIssues: sanitizedHealthIssues,
                     seasonalHealth: sanitizedSeasonalHealth,
                     budget,
                     region,

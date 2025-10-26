@@ -304,6 +304,14 @@ function validateAndSanitizeInput(text) {
 function validateHealthCondition(text, type) {
     if (!text) return ''; // Empty is allowed
     
+    const textLower = text.toLowerCase().trim();
+    
+    // Allow "none" and its synonyms in optional fields
+    const noneKeywords = ['none', 'nil', 'nothing', 'na', 'n/a', 'not applicable', 'no', "don't have", "don't"];
+    if (noneKeywords.includes(textLower)) {
+        return ''; // Return empty string to indicate "none"
+    }
+    
     // Layer 1: Prohibited patterns (immediate rejection)
     const prohibitedPatterns = [
         /<table[^>]*>/gi,
