@@ -68,31 +68,31 @@ export default function NutritionDashboard({ mealPlan, onClose }) {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+        className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-xs sm:max-w-2xl lg:max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden mx-2 sm:mx-0"
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white p-6">
+        <div className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white p-4 sm:p-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="text-4xl">📊</div>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="text-2xl sm:text-3xl lg:text-4xl">📊</div>
               <div>
-                <h2 className="text-2xl font-bold">Nutrition Dashboard</h2>
-                <p className="text-white/90 text-sm">Visual insights into your meal plan</p>
+                <h2 className="text-lg sm:text-xl lg:text-2xl font-bold">Nutrition Dashboard</h2>
+                <p className="text-white/90 text-xs sm:text-sm">Visual insights into your meal plan</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+              className="p-2 hover:bg-white/20 rounded-lg transition-colors touch-friendly"
             >
-              <FiX className="w-6 h-6" />
+              <FiX className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
             </button>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+        <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(95vh-120px)] sm:max-h-[calc(90vh-120px)]">
           {/* Stats Cards */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-4 sm:mb-6">
             {[
               { label: 'Avg Calories', value: '1,880', icon: '🔥', color: 'from-orange-500 to-red-500' },
               { label: 'Protein', value: '30%', icon: '💪', color: 'from-green-500 to-emerald-500' },
@@ -104,26 +104,26 @@ export default function NutritionDashboard({ mealPlan, onClose }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className={`bg-gradient-to-r ${stat.color} text-white p-4 rounded-xl`}
+                className={`bg-gradient-to-r ${stat.color} text-white p-3 sm:p-4 rounded-lg sm:rounded-xl`}
               >
-                <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <div className="text-sm opacity-90">{stat.label}</div>
+                <div className="text-xl sm:text-2xl lg:text-3xl mb-1 sm:mb-2">{stat.icon}</div>
+                <div className="text-lg sm:text-xl lg:text-2xl font-bold">{stat.value}</div>
+                <div className="text-xs sm:text-sm opacity-90">{stat.label}</div>
               </motion.div>
             ))}
           </div>
 
           {/* Charts */}
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Macro Distribution */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="bg-gray-50 rounded-2xl p-6"
+              className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6"
             >
-              <h3 className="text-lg font-bold mb-4 text-gray-900">Macro Distribution</h3>
-              <div className="h-64">
+              <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-gray-900">Macro Distribution</h3>
+              <div className="h-48 sm:h-56 lg:h-64">
                 <Pie data={macroData} options={chartOptions} />
               </div>
             </motion.div>
@@ -133,10 +133,10 @@ export default function NutritionDashboard({ mealPlan, onClose }) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 }}
-              className="bg-gray-50 rounded-2xl p-6"
+              className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6"
             >
-              <h3 className="text-lg font-bold mb-4 text-gray-900">Daily Calorie Intake</h3>
-              <div className="h-64">
+              <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-gray-900">Daily Calorie Intake</h3>
+              <div className="h-48 sm:h-56 lg:h-64">
                 <Bar data={dailyCaloriesData} options={chartOptions} />
               </div>
             </motion.div>
@@ -146,10 +146,10 @@ export default function NutritionDashboard({ mealPlan, onClose }) {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4 }}
-              className="bg-gray-50 rounded-2xl p-6 md:col-span-2"
+              className="bg-gray-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:col-span-2"
             >
-              <h3 className="text-lg font-bold mb-4 text-gray-900">Weekly Calorie Trend</h3>
-              <div className="h-64">
+              <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-gray-900">Weekly Calorie Trend</h3>
+              <div className="h-48 sm:h-56 lg:h-64">
                 <Line data={weeklyTrendData} options={chartOptions} />
               </div>
             </motion.div>
@@ -160,17 +160,17 @@ export default function NutritionDashboard({ mealPlan, onClose }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="mt-6 bg-gradient-to-r from-primary-50 to-secondary-50 rounded-2xl p-6"
+            className="mt-4 sm:mt-6 bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl sm:rounded-2xl p-4 sm:p-6"
           >
-            <h3 className="text-lg font-bold mb-4 text-gray-900">✨ Nutritional Highlights</h3>
-            <div className="grid md:grid-cols-2 gap-4">
+            <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-gray-900">✨ Nutritional Highlights</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
               {[
                 '✓ Balanced macro distribution for optimal health',
                 '✓ Adequate protein for muscle maintenance',
                 '✓ Complex carbs for sustained energy',
                 '✓ Healthy fats for nutrient absorption',
               ].map((highlight, index) => (
-                <div key={index} className="flex items-center gap-2 text-gray-700">
+                <div key={index} className="flex items-center gap-2 text-gray-700 text-sm sm:text-base">
                   <span className="text-green-500 font-bold">✓</span>
                   {highlight}
                 </div>

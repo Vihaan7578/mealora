@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Demo - Dynamic Device Detection</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dynamic-responsive.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .demo-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            border: 2px dashed #00E6A0;
+            border-radius: 12px;
+            background: rgba(0, 230, 160, 0.05);
+        }
+        
+        .device-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            z-index: 1000;
+            max-width: 200px;
+        }
+        
+        .demo-grid {
+            display: grid;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .demo-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Device Info Display -->
+    <div class="device-info" id="deviceInfo">
+        <div>Width: <span id="width">-</span>px</div>
+        <div>Height: <span id="height">-</span>px</div>
+        <div>Type: <span id="type">-</span></div>
+        <div>Touch: <span id="touch">-</span></div>
+        <div>Orientation: <span id="orientation">-</span></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="logo.PNG" alt="Mealora" class="img-responsive" style="height: 45px; width: auto;">
+                <span>Mealora</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="grocery.html">Grocery List</a></li>
+                <li><a href="responsive-demo.html" class="active">Responsive Demo</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                ☰
+            </button>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="grocery.html">Grocery List</a></li>
+                <li><a href="responsive-demo.html" class="active">Responsive Demo</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dynamic-container">
+        <h1 class="dynamic-heading gradient-text text-center">🎯 Dynamic Responsive Demo</h1>
+        <p class="dynamic-text text-center" style="margin: 2rem 0;">
+            This page demonstrates dynamic device detection and responsive adjustments that adapt in real-time to your device dimensions.
+        </p>
+
+        <!-- Typography Demo -->
+        <div class="demo-section">
+            <h2 class="dynamic-subheading">📝 Dynamic Typography</h2>
+            <p class="dynamic-text">This text automatically scales based on your device size and type.</p>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <div class="dynamic-text-xs">Extra Small Text</div>
+                </div>
+                <div class="demo-item">
+                    <div class="dynamic-text-sm">Small Text</div>
+                </div>
+                <div class="demo-item">
+                    <div class="dynamic-text-base">Base Text</div>
+                </div>
+                <div class="demo-item">
+                    <div class="dynamic-text-lg">Large Text</div>
+                </div>
+                <div class="demo-item">
+                    <div class="dynamic-text-xl">Extra Large Text</div>
+                </div>
+                <div class="demo-item">
+                    <div class="dynamic-text-2xl">2X Large Text</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Button Demo -->
+        <div class="demo-section">
+            <h2 class="dynamic-subheading">🔘 Dynamic Buttons</h2>
+            <p class="dynamic-text">Buttons automatically adjust size and touch targets based on device type.</p>
+            <div class="demo-grid">
+                <button class="dynamic-button dynamic-hover" style="background: linear-gradient(135deg, #00E6A0 0%, #6366F1 100%); color: white; border: none;">
+                    Primary Button
+                </button>
+                <button class="dynamic-button dynamic-hover" style="background: transparent; color: #00E6A0; border: 2px solid #00E6A0;">
+                    Outline Button
+                </button>
+                <button class="dynamic-btn-sm dynamic-hover" style="background: #6B7280; color: white; border: none;">
+                    Small Button
+                </button>
+                <button class="dynamic-btn-lg dynamic-hover" style="background: #EF4444; color: white; border: none;">
+                    Large Button
+                </button>
+            </div>
+        </div>
+
+        <!-- Grid Demo -->
+        <div class="demo-section">
+            <h2 class="dynamic-subheading">📐 Dynamic Grid Layout</h2>
+            <p class="dynamic-text">Grid automatically adjusts columns based on device width.</p>
+            <div class="dynamic-grid">
+                <div class="demo-item">
+                    <div class="dynamic-icon-xl">📱</div>
+                    <h3 class="dynamic-text-lg">Mobile First</h3>
+                    <p class="dynamic-text-sm">Optimized for touch devices</p>
+                </div>
+                <div class="demo-item">
+                    <div class="dynamic-icon-xl">📊</div>
+                    <h3 class="dynamic-text-lg">Responsive</h3>
+                    <p class="dynamic-text-sm">Adapts to any screen size</p>
+                </div>
+                <div class="demo-item">
+                    <div class="dynamic-icon-xl">⚡</div>
+                    <h3 class="dynamic-text-lg">Fast</h3>
+                    <p class="dynamic-text-sm">Real-time adjustments</p>
+                </div>
+                <div class="demo-item">
+                    <div class="dynamic-icon-xl">🎯</div>
+                    <h3 class="dynamic-text-lg">Precise</h3>
+                    <p class="dynamic-text-sm">Device-specific optimization</p>
+                </div>
+                <div class="demo-item">
+                    <div class="dynamic-icon-xl">🔧</div>
+                    <h3 class="dynamic-text-lg">Flexible</h3>
+                    <p class="dynamic-text-sm">Easy to customize</p>
+                </div>
+                <div class="demo-item">
+                    <div class="dynamic-icon-xl">🚀</div>
+                    <h3 class="dynamic-text-lg">Modern</h3>
+                    <p class="dynamic-text-sm">Latest web standards</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Demo -->
+        <div class="demo-section">
+            <h2 class="dynamic-subheading">📝 Dynamic Form Elements</h2>
+            <p class="dynamic-text">Form elements automatically adjust for optimal usability.</p>
+            <div class="demo-grid">
+                <input type="text" class="dynamic-input" placeholder="Dynamic Input Field" style="border: 2px solid #E5E7EB;">
+                <textarea class="dynamic-textarea" placeholder="Dynamic Textarea" style="border: 2px solid #E5E7EB;"></textarea>
+                <select class="dynamic-input" style="border: 2px solid #E5E7EB;">
+                    <option>Dynamic Select</option>
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Modal Demo -->
+        <div class="demo-section">
+            <h2 class="dynamic-subheading">🪟 Dynamic Modal</h2>
+            <p class="dynamic-text">Modals automatically size based on device dimensions.</p>
+            <button class="dynamic-button dynamic-hover" onclick="showModal()" style="background: #8B5CF6; color: white; border: none;">
+                Show Dynamic Modal
+            </button>
+        </div>
+
+        <!-- Device Detection Info -->
+        <div class="demo-section">
+            <h2 class="dynamic-subheading">🔍 Device Detection Info</h2>
+            <div class="demo-grid">
+                <div class="demo-item">
+                    <h3 class="dynamic-text-lg">Screen Dimensions</h3>
+                    <p class="dynamic-text-sm">Width: <span id="screenWidth">-</span>px</p>
+                    <p class="dynamic-text-sm">Height: <span id="screenHeight">-</span>px</p>
+                </div>
+                <div class="demo-item">
+                    <h3 class="dynamic-text-lg">Device Type</h3>
+                    <p class="dynamic-text-sm">Type: <span id="deviceType">-</span></p>
+                    <p class="dynamic-text-sm">Screen Size: <span id="screenSize">-</span></p>
+                </div>
+                <div class="demo-item">
+                    <h3 class="dynamic-text-lg">Capabilities</h3>
+                    <p class="dynamic-text-sm">Touch: <span id="touchCapable">-</span></p>
+                    <p class="dynamic-text-sm">Orientation: <span id="deviceOrientation">-</span></p>
+                </div>
+                <div class="demo-item">
+                    <h3 class="dynamic-text-lg">CSS Variables</h3>
+                    <p class="dynamic-text-sm">Font Scale: <span id="fontScale">-</span></p>
+                    <p class="dynamic-text-sm">Padding: <span id="devicePadding">-</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dynamic Modal -->
+    <div id="dynamicModal" class="dynamic-modal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; box-shadow: 0 20px 60px rgba(0,0,0,0.3); z-index: 1000;">
+        <div style="padding: var(--device-padding);">
+            <h2 class="dynamic-subheading">Dynamic Modal</h2>
+            <p class="dynamic-text">This modal automatically adjusts its size based on your device dimensions.</p>
+            <div style="margin-top: var(--device-spacing); text-align: right;">
+                <button class="dynamic-button" onclick="hideModal()" style="background: #6B7280; color: white; border: none;">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+
+    <script src="device-detection.js"></script>
+    <script>
+        // Mobile menu toggle function
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('active');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!mobileNav.contains(event.target) && !mobileToggle.contains(event.target)) {
+                mobileNav.classList.remove('active');
+            }
+        });
+        
+        // Close mobile menu when window is resized to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('mobileNav').classList.remove('active');
+            }
+        });
+
+        // Modal functions
+        function showModal() {
+            document.getElementById('modalOverlay').style.display = 'block';
+            document.getElementById('dynamicModal').style.display = 'block';
+        }
+
+        function hideModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.getElementById('dynamicModal').style.display = 'none';
+        }
+
+        // Close modal when clicking overlay
+        document.getElementById('modalOverlay').addEventListener('click', hideModal);
+
+        // Update device info display
+        function updateDeviceInfo() {
+            if (window.deviceDetector) {
+                const info = window.deviceDetector.deviceInfo;
+                
+                document.getElementById('width').textContent = info.width;
+                document.getElementById('height').textContent = info.height;
+                document.getElementById('type').textContent = info.deviceType;
+                document.getElementById('touch').textContent = info.isTouch ? 'Yes' : 'No';
+                document.getElementById('orientation').textContent = info.orientation;
+                
+                document.getElementById('screenWidth').textContent = info.width;
+                document.getElementById('screenHeight').textContent = info.height;
+                document.getElementById('deviceType').textContent = info.deviceType;
+                document.getElementById('screenSize').textContent = info.screenSize;
+                document.getElementById('touchCapable').textContent = info.isTouch ? 'Yes' : 'No';
+                document.getElementById('deviceOrientation').textContent = info.orientation;
+                
+                // Get CSS custom properties
+                const root = getComputedStyle(document.documentElement);
+                document.getElementById('fontScale').textContent = root.getPropertyValue('--device-font-scale').trim();
+                document.getElementById('devicePadding').textContent = root.getPropertyValue('--device-padding').trim();
+            }
+        }
+
+        // Update device info when device detection changes
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                updateDeviceInfo();
+                setInterval(updateDeviceInfo, 1000);
+            }, 100);
+        });
+    </script>
+</body>
+</html>

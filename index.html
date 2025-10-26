@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mealora - AI Meal Planning</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dynamic-responsive.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
@@ -19,10 +20,23 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="logo.PNG" alt="Mealora" style="height: 45px; width: auto;">
+                <img src="logo.PNG" alt="Mealora" class="img-responsive" style="height: 45px; width: auto;">
                 <span>Mealora</span>
             </a>
             <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="grocery.html">Grocery List</a></li>
+                <li><a href="saved.html">Saved Plans</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                ☰
+            </button>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <ul>
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="planner.html">Meal Planner</a></li>
                 <li><a href="grocery.html">Grocery List</a></li>
@@ -34,62 +48,62 @@
     </nav>
 
     <!-- Hero Section -->
-    <div class="container" style="padding-top: 4rem;">
-        <div style="text-align: center; max-width: 1000px; margin: 0 auto;">
-            <div class="glass" style="display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 9999px; margin-bottom: 2rem; box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);">
-                <img src="logo.PNG" alt="Mealora" style="height: 80px; width: auto;">
-                <h1 style="font-size: 4rem; font-weight: 900;" class="gradient-text">Mealora</h1>
+    <div class="dynamic-container">
+        <div class="text-center">
+            <div class="dynamic-card" style="display: inline-flex; align-items: center; gap: 1rem; margin-bottom: 2rem; box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);">
+                <img src="logo.PNG" alt="Mealora" class="dynamic-img" style="height: 80px; width: auto;">
+                <h1 class="dynamic-heading gradient-text">Mealora</h1>
             </div>
             
-            <h2 style="font-size: 3rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--gray-900);">
+            <h2 class="dynamic-subheading" style="margin-bottom: 1.5rem; color: var(--gray-900);">
                 Your AI Nutritionist for <span class="gradient-text">Indian Vegetarian Meal Plans</span>
             </h2>
             
-            <p style="font-size: 1.5rem; color: var(--gray-600); margin-bottom: 3rem;">
+            <p class="dynamic-text-lg" style="color: var(--gray-600); margin-bottom: 3rem;">
                 Transform your health with personalized Indian vegetarian meal plans - From Dal-Roti to Idli-Dosa, powered by AI 🇮🇳
             </p>
             
-            <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 4rem;">
-                <a href="planner.html" class="btn btn-primary" style="font-size: 1.25rem; padding: 1.25rem 2.5rem; text-decoration: none;">
+            <div class="btn-group-responsive" style="justify-content: center; margin-bottom: 4rem;">
+                <a href="planner.html" class="dynamic-button dynamic-hover" style="background: linear-gradient(135deg, #00E6A0 0%, #6366F1 100%); color: white; text-decoration: none; display: inline-block; margin: 0.5rem;">
                     ✨ Start Planning Now
                 </a>
-                <a href="#features" class="btn btn-secondary" style="font-size: 1.25rem; padding: 1.25rem 2.5rem; text-decoration: none;">
+                <a href="#features" class="dynamic-button dynamic-hover" style="background: transparent; color: #00E6A0; border: 2px solid #00E6A0; text-decoration: none; display: inline-block; margin: 0.5rem;">
                     Learn More
                 </a>
             </div>
         </div>
 
         <!-- Stats Section -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 6rem;">
-            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
-                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">❤️</div>
-                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">100%</div>
-                <div style="color: var(--gray-600); font-weight: 600;">Vegetarian</div>
+        <div class="dynamic-grid" style="margin-top: 2rem;">
+            <div class="dynamic-card text-center">
+                <div class="dynamic-icon-xl" style="margin-bottom: 0.5rem;">❤️</div>
+                <div class="dynamic-text-2xl" style="font-weight: 900; color: #00E6A0;">100%</div>
+                <div class="dynamic-text-sm" style="color: var(--gray-600); font-weight: 600;">Vegetarian</div>
             </div>
-            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
-                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👥</div>
-                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">10K+</div>
-                <div style="color: var(--gray-600); font-weight: 600;">Happy Users</div>
+            <div class="dynamic-card text-center">
+                <div class="dynamic-icon-xl" style="margin-bottom: 0.5rem;">👥</div>
+                <div class="dynamic-text-2xl" style="font-weight: 900; color: #00E6A0;">10K+</div>
+                <div class="dynamic-text-sm" style="color: var(--gray-600); font-weight: 600;">Happy Users</div>
             </div>
-            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
-                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🍽️</div>
-                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">50K+</div>
-                <div style="color: var(--gray-600); font-weight: 600;">Meals Planned</div>
+            <div class="dynamic-card text-center">
+                <div class="dynamic-icon-xl" style="margin-bottom: 0.5rem;">🍽️</div>
+                <div class="dynamic-text-2xl" style="font-weight: 900; color: #00E6A0;">50K+</div>
+                <div class="dynamic-text-sm" style="color: var(--gray-600); font-weight: 600;">Meals Planned</div>
             </div>
-            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
-                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⭐</div>
-                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">4.9★</div>
-                <div style="color: var(--gray-600); font-weight: 600;">User Rating</div>
+            <div class="dynamic-card text-center">
+                <div class="dynamic-icon-xl" style="margin-bottom: 0.5rem;">⭐</div>
+                <div class="dynamic-text-2xl" style="font-weight: 900; color: #00E6A0;">4.9★</div>
+                <div class="dynamic-text-sm" style="color: var(--gray-600); font-weight: 600;">User Rating</div>
             </div>
         </div>
 
         <!-- Features Section -->
-        <div id="features" style="margin-bottom: 6rem;">
-            <h2 style="font-size: 3rem; font-weight: 900; text-align: center; margin-bottom: 3rem;" class="gradient-text">
+        <div id="features" class="spacing-responsive">
+            <h2 class="text-responsive-2xl font-weight: 900; text-center; margin-bottom: 3rem; gradient-text">
                 Powerful Features
             </h2>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            <div class="features-responsive">
                 <div class="glass" style="padding: 2rem; border-radius: 1.5rem; transition: all 0.3s;">
                     <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #A78BFA 0%, #EC4899 100%); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1.5rem;">
                         ✨
@@ -186,9 +200,80 @@
         <p style="color: var(--text-muted); font-size: 0.875rem;">© 2025 Mealora. All rights reserved.</p>
     </footer>
 
+    <script src="device-detection.js"></script>
     <script src="app.js"></script>
     <script>
         setActivePage('index.html');
+        
+        // Mobile menu toggle function
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('active');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!mobileNav.contains(event.target) && !mobileToggle.contains(event.target)) {
+                mobileNav.classList.remove('active');
+            }
+        });
+        
+        // Close mobile menu when window is resized to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('mobileNav').classList.remove('active');
+            }
+        });
+
+        // Apply dynamic responsive adjustments after device detection loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for device detection to initialize
+            setTimeout(() => {
+                if (window.deviceDetector) {
+                    // Apply device-specific adjustments
+                    const deviceInfo = window.deviceDetector.deviceInfo;
+                    
+                    // Update hero section based on device
+                    const heroSection = document.querySelector('.hero-responsive');
+                    if (heroSection) {
+                        if (deviceInfo.isMobile) {
+                            heroSection.style.padding = '60px 12px 80px 12px';
+                        } else if (deviceInfo.isTablet) {
+                            heroSection.style.padding = '80px 20px 100px 20px';
+                        } else {
+                            heroSection.style.padding = '100px 24px 120px 24px';
+                        }
+                    }
+
+                    // Update stats grid based on device width
+                    const statsGrid = document.querySelector('.stats-responsive');
+                    if (statsGrid) {
+                        if (deviceInfo.width < 400) {
+                            statsGrid.style.gridTemplateColumns = '1fr';
+                        } else if (deviceInfo.width < 768) {
+                            statsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+                        } else {
+                            statsGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                        }
+                    }
+
+                    // Update features grid
+                    const featuresGrid = document.querySelector('.features-responsive');
+                    if (featuresGrid) {
+                        if (deviceInfo.isMobile) {
+                            featuresGrid.style.gridTemplateColumns = '1fr';
+                        } else if (deviceInfo.isTablet) {
+                            featuresGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
+                        } else {
+                            featuresGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                        }
+                    }
+                }
+            }, 100);
+        });
     </script>
 </body>
 </html>

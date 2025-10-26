@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import responsive utilities */
+@import './responsive-utils.css';
+
 @layer base {
   :root {
     --background: 0 0% 100%;

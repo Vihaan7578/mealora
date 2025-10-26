@@ -95,18 +95,18 @@ export default function PlannerPage() {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-4 sm:py-6 lg:py-8 px-4 sm:px-6 lg:px-8">
       {/* Floating Background Elements */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <motion.div
           animate={{ y: [0, 30, 0], rotate: [0, 5, 0] }}
           transition={{ duration: 8, repeat: Infinity }}
-          className="absolute top-20 right-20 w-64 h-64 bg-primary-200/30 rounded-full blur-3xl"
+          className="absolute top-20 right-4 sm:right-20 w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64 bg-primary-200/30 rounded-full blur-3xl"
         />
         <motion.div
           animate={{ y: [0, -30, 0], rotate: [0, -5, 0] }}
           transition={{ duration: 10, repeat: Infinity }}
-          className="absolute bottom-20 left-20 w-80 h-80 bg-secondary-200/30 rounded-full blur-3xl"
+          className="absolute bottom-20 left-4 sm:left-20 w-40 sm:w-60 lg:w-80 h-40 sm:h-60 lg:h-80 bg-secondary-200/30 rounded-full blur-3xl"
         />
       </div>
 
@@ -115,36 +115,36 @@ export default function PlannerPage() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-10 lg:mb-12"
         >
-          <div className="inline-flex items-center gap-3 mb-4">
-            <span className="text-5xl">🌿</span>
-            <h1 className="text-5xl font-black gradient-text">Mealora</h1>
+          <div className="inline-flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+            <span className="text-3xl sm:text-4xl lg:text-5xl">🌿</span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black gradient-text">Mealora</h1>
           </div>
-          <p className="text-xl text-gray-600">Create Your Personalized Meal Plan</p>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600">Create Your Personalized Meal Plan</p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Left Column - Input Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="glass p-8 rounded-3xl shadow-xl">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl text-white">
-                  <FiUser className="w-6 h-6" />
+            <div className="glass p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl shadow-xl">
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <div className="p-2 sm:p-3 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-lg sm:rounded-xl text-white">
+                  <FiUser className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900">Your Profile</h2>
-                  <p className="text-gray-600">Tell us about yourself</p>
+                  <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Your Profile</h2>
+                  <p className="text-sm sm:text-base text-gray-600">Tell us about yourself</p>
                 </div>
               </div>
 
               {/* Age Input */}
-              <div className="mb-6">
-                <label className="block text-sm font-bold text-gray-700 mb-2">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">
                   Age
                 </label>
                 <motion.input
@@ -154,7 +154,7 @@ export default function PlannerPage() {
                   value={formData.age}
                   onChange={handleInputChange}
                   placeholder="Enter your age"
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl border-2 border-gray-200 focus:border-primary-500 focus:ring-2 sm:focus:ring-4 focus:ring-primary-100 outline-none transition-all text-sm sm:text-base"
                 />
               </div>
 

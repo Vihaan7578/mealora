@@ -4,9 +4,15 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { FiZap, FiHeart, FiTrendingUp, FiUsers, FiCheckCircle } from 'react-icons/fi'
 import { GiMeal, GiShoppingCart, GiHealthNormal } from 'react-icons/gi'
+import { useDeviceDetection } from '@/hooks/useDeviceDetection'
+import ResponsiveContainer from '@/components/ResponsiveContainer'
+import ResponsiveText from '@/components/ResponsiveText'
+import ResponsiveGrid from '@/components/ResponsiveGrid'
+import ResponsiveButton from '@/components/ResponsiveButton'
 
 export default function Home() {
   const router = useRouter()
+  const deviceInfo = useDeviceDetection()
 
   const features = [
     {
@@ -85,8 +91,11 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-32 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative" style={{ 
+        paddingTop: deviceInfo.isMobile ? '60px' : '80px',
+        paddingBottom: deviceInfo.isMobile ? '80px' : '120px'
+      }}>
+        <ResponsiveContainer>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -98,68 +107,77 @@ export default function Home() {
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="inline-block mb-6"
+              className="inline-block"
+              style={{ marginBottom: deviceInfo.isMobile ? '24px' : '32px' }}
             >
-              <div className="flex items-center justify-center gap-3 px-8 py-3 glass rounded-full shadow-glow">
-                <span className="text-5xl">🌿</span>
-                <h1 className="text-6xl font-black gradient-text">
+              <div 
+                className="flex items-center justify-center glass rounded-full shadow-glow"
+                style={{
+                  gap: deviceInfo.isMobile ? '8px' : '12px',
+                  padding: deviceInfo.isMobile ? '12px 24px' : '16px 32px'
+                }}
+              >
+                <span style={{ fontSize: deviceInfo.isMobile ? '24px' : '32px' }}>🌿</span>
+                <ResponsiveText size="4xl" weight="black" className="gradient-text">
                   Mealora
-                </h1>
+                </ResponsiveText>
               </div>
             </motion.div>
 
-            <motion.h2
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 max-w-4xl mx-auto"
+              style={{ marginBottom: deviceInfo.isMobile ? '24px' : '32px' }}
             >
-              Your AI Nutritionist for{' '}
-              <span className="gradient-text">Beautiful Meal Plans</span>
-            </motion.h2>
+              <ResponsiveText size="3xl" weight="bold" color="gray-900" className="gradient-text">
+                Your AI Nutritionist for{' '}
+                <span className="gradient-text">Beautiful Meal Plans</span>
+              </ResponsiveText>
+            </motion.div>
 
-            <motion.p
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto"
+              style={{ marginBottom: deviceInfo.isMobile ? '32px' : '48px' }}
             >
-              Transform your health with personalized vegetarian meal plans 
-              powered by cutting-edge AI technology
-            </motion.p>
+              <ResponsiveText size="lg" color="gray-600">
+                Transform your health with personalized vegetarian meal plans 
+                powered by cutting-edge AI technology
+              </ResponsiveText>
+            </motion.div>
 
             {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+              className="flex justify-center items-center"
+              style={{
+                flexDirection: deviceInfo.isMobile ? 'column' : 'row',
+                gap: deviceInfo.isMobile ? '12px' : '16px'
+              }}
             >
-              <motion.button
-                whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(99, 102, 241, 0.6)' }}
-                whileTap={{ scale: 0.95 }}
+              <ResponsiveButton
+                variant="primary"
                 onClick={() => router.push('/planner')}
-                className="group relative px-10 py-5 bg-gradient-to-r from-primary-500 to-secondary-500 text-white text-lg font-bold rounded-2xl shadow-glow overflow-hidden"
+                fullWidth={deviceInfo.isMobile}
+                className="group relative overflow-hidden"
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  <FiZap className="w-6 h-6" />
-                  Start Planning Now
-                </span>
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-secondary-500 to-primary-500"
-                  initial={{ x: '100%' }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.button>
+                <FiZap style={{ 
+                  width: deviceInfo.isMobile ? '16px' : '20px', 
+                  height: deviceInfo.isMobile ? '16px' : '20px' 
+                }} />
+                Start Planning Now
+              </ResponsiveButton>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-10 py-5 glass text-gray-900 text-lg font-bold rounded-2xl hover:shadow-lg transition-all"
+              <ResponsiveButton
+                variant="secondary"
+                fullWidth={deviceInfo.isMobile}
               >
                 Watch Demo
-              </motion.button>
+              </ResponsiveButton>
             </motion.div>
           </motion.div>
 
@@ -168,28 +186,48 @@ export default function Home() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.8 }}
-            className="mt-24 grid grid-cols-2 lg:grid-cols-4 gap-6"
+            style={{ marginTop: deviceInfo.isMobile ? '48px' : '64px' }}
           >
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 + index * 0.1 }}
-                whileHover={{ y: -5, scale: 1.05 }}
-                className="glass p-6 rounded-2xl text-center group hover:shadow-glow transition-all"
-              >
-                <div className="flex justify-center mb-3 text-primary-500 text-3xl">
-                  {stat.icon}
-                </div>
-                <div className="text-4xl font-black gradient-text mb-2">
-                  {stat.number}
-                </div>
-                <div className="text-gray-600 font-medium">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
+            <ResponsiveGrid 
+              columns={deviceInfo.isMobile ? 2 : 4}
+              gap={deviceInfo.isMobile ? 12 : 20}
+            >
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2 + index * 0.1 }}
+                  whileHover={{ y: -5, scale: 1.05 }}
+                  className="glass text-center group hover:shadow-glow transition-all"
+                  style={{
+                    padding: deviceInfo.isMobile ? '16px' : '24px',
+                    borderRadius: deviceInfo.isMobile ? '12px' : '16px'
+                  }}
+                >
+                  <div 
+                    className="flex justify-center text-primary-500"
+                    style={{
+                      marginBottom: deviceInfo.isMobile ? '8px' : '12px',
+                      fontSize: deviceInfo.isMobile ? '20px' : '24px'
+                    }}
+                  >
+                    {stat.icon}
+                  </div>
+                  <ResponsiveText 
+                    size="2xl" 
+                    weight="black" 
+                    className="gradient-text"
+                    style={{ marginBottom: deviceInfo.isMobile ? '4px' : '8px' }}
+                  >
+                    {stat.number}
+                  </ResponsiveText>
+                  <ResponsiveText size="sm" color="gray-600" weight="medium">
+                    {stat.label}
+                  </ResponsiveText>
+                </motion.div>
+              ))}
+            </ResponsiveGrid>
           </motion.div>
         </div>
       </section>
