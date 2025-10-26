@@ -131,11 +131,23 @@
                            style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
-                <!-- Budget -->
+                <!-- Budget Range -->
                 <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Weekly Budget (₹)</label>
-                    <input type="number" id="budget" placeholder="e.g., 500, 1000, 1500"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.75rem;">Budget Range</label>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button onclick="selectBudgetRange('budget-friendly')" id="btn-budget-friendly" class="budget-btn" style="flex: 1; min-width: 120px; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: 2px solid var(--gray-200); cursor: pointer; background: white; color: var(--gray-700);">
+                            💰 Budget Friendly
+                        </button>
+                        <button onclick="selectBudgetRange('pocket-saver')" id="btn-pocket-saver" class="budget-btn" style="flex: 1; min-width: 120px; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: 2px solid var(--gray-200); cursor: pointer; background: white; color: var(--gray-700);">
+                            💵 Pocket Saver
+                        </button>
+                        <button onclick="selectBudgetRange('moderate')" id="btn-moderate" class="budget-btn" style="flex: 1; min-width: 120px; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: 2px solid var(--gray-200); cursor: pointer; background: white; color: var(--gray-700);">
+                            💳 Moderate
+                        </button>
+                        <button onclick="selectBudgetRange('expensive')" id="btn-expensive" class="budget-btn" style="flex: 1; min-width: 120px; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: 2px solid var(--gray-200); cursor: pointer; background: white; color: var(--gray-700);">
+                            💎 Premium
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Region -->
@@ -224,6 +236,7 @@
         setActivePage('planner.html');
         
         let selectedGender = 'male';
+        let selectedBudgetRange = null;
         let currentPlan = null;
         let currentView = 'card';
 
@@ -238,6 +251,19 @@
             selected.style.color = 'white';
         }
 
+        function selectBudgetRange(range) {
+            selectedBudgetRange = range;
+            document.querySelectorAll('.budget-btn').forEach(btn => {
+                btn.style.background = 'white';
+                btn.style.borderColor = 'var(--gray-200)';
+                btn.style.color = 'var(--gray-700)';
+            });
+            const selected = document.getElementById(`btn-${range}`);
+            selected.style.background = 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)';
+            selected.style.borderColor = 'transparent';
+            selected.style.color = 'white';
+        }
+
         function applyTemplate(goal) {
             document.getElementById('healthGoal').value = goal;
             showNotification('✅ Template applied! Customize before generating.', 'success');
@@ -249,7 +275,6 @@
             const weight = document.getElementById('weight').value;
             const healthGoal = document.getElementById('healthGoal').value;
             const seasonalHealth = document.getElementById('seasonalHealth').value;
-            const budget = document.getElementById('budget').value;
             const region = document.getElementById('region').value;
             const preferences = document.getElementById('preferences').value;
             const allergies = document.getElementById('allergies').value;
@@ -274,6 +299,12 @@
 
             if (!healthGoal) {
                 showNotification('Please enter your health goal', 'error');
+                return;
+            }
+
+            // Validate budget range selection
+            if (!selectedBudgetRange) {
+                showNotification('Please select a budget range', 'error');
                 return;
             }
 
@@ -345,7 +376,7 @@ BMI: ${bmi.toFixed(1)} (${bmiInfo.category})
 Calorie Adjustment: ${bmiInfo.calorieAdjustment}
 Health Issues (Chronic): ${sanitizedHealthGoal}
 Seasonal Health Issues: ${sanitizedSeasonalHealth || 'None'}
-Budget: ₹${budget || 'Flexible'} per week
+Budget Range: ${selectedBudgetRange}
 Region: ${region || 'General Indian'}
 Current Season: ${currentSeason}
 Seasonal Foods Available: ${seasonalFoodList}
@@ -358,11 +389,32 @@ IMPORTANT INSTRUCTIONS:
    - PREFER seasonal foods as they are cheaper and fresher
    - BUT you can use other affordable ingredients if they fit the budget better
    - Focus on budget-friendly combinations
-3. Budget Planning (₹${budget || 'Flexible'} per week):
-   - ${budget ? 'Plan for approximately ₹' + Math.round(budget/7) + ' per day' : 'No strict budget limit'}
-   - Use cost-effective staples: Rice, Atta (wheat), Dal (lentils), basic vegetables
-   - Include affordable proteins: Dal, Paneer, Sprouts, Curd
-   - Balance nutrition while respecting budget constraints
+3. Budget Range Planning (${selectedBudgetRange.toUpperCase()}):
+   ${selectedBudgetRange === 'budget-friendly' ? `
+   - Use the CHEAPEST available options (₹150-250 per day)
+   - Focus on basic staples: Rice, Atta, basic Dal (Toor, Moong)
+   - Simple vegetables: Aloo, Onion, Tomato, seasonal greens
+   - Minimize expensive items like Paneer, Nuts, Premium fruits
+   - Budget-friendly proteins: Dal, Sprouts, Basic curd
+   - Avoid: Exotic vegetables, processed foods, branded items` : ''}
+   ${selectedBudgetRange === 'pocket-saver' ? `
+   - Use affordable but nutritious options (₹250-350 per day)
+   - Mix of staples and mid-range items
+   - Include: Basic Dal, Rice, Seasonal vegetables, Moderate amounts of Paneer
+   - Occasional use of: Curd, Basic fruits, Homemade snacks
+   - Balance between cost and nutrition` : ''}
+   ${selectedBudgetRange === 'moderate' ? `
+   - Use moderate cost options (₹350-500 per day)
+   - Good variety of vegetables and proteins
+   - Regular inclusion of: Paneer, Good quality Dal, Fresh vegetables
+   - Include: Curd, Seasonal fruits, Healthy snacks
+   - Mix of traditional and variety dishes` : ''}
+   ${selectedBudgetRange === 'expensive' ? `
+   - Use premium quality ingredients (₹500+ per day)
+   - Best quality vegetables and proteins
+   - Regular inclusion of: Premium Paneer, Variety of Dal, Fresh seasonal vegetables
+   - Premium items: Organic options, Exotic vegetables, Quality fruits
+   - Focus on taste, quality, and nutrition with no budget constraints` : ''}
    - Note: Actual prices vary by region; estimate based on common market rates
 4. Consider regional preferences for ${region || 'Indian'} cuisine
 5. Address seasonal health issues: ${sanitizedSeasonalHealth || 'None'} with appropriate foods (e.g., warm soups for cold, light meals for fever, protein-rich for weakness)
