@@ -24,8 +24,6 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    /* Fallback for browsers that don't support backdrop-filter */
-    background-color: rgba(255, 255, 255, 0.8);
   }
   
   .glass-dark {
@@ -33,174 +31,23 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    /* Fallback for browsers that don't support backdrop-filter */
-    background-color: rgba(0, 0, 0, 0.8);
   }
   
   .gradient-text {
     @apply bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent;
-    /* Fallback for browsers that don't support background-clip */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Responsive Typography System */
-  .text-responsive-xs { @apply text-xs sm:text-sm; }
-  .text-responsive-sm { @apply text-sm sm:text-base; }
-  .text-responsive-base { @apply text-base sm:text-lg; }
-  .text-responsive-lg { @apply text-lg sm:text-xl md:text-2xl; }
-  .text-responsive-xl { @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl; }
-  .text-responsive-2xl { @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl; }
-  .text-responsive-3xl { @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl; }
-  .text-responsive-4xl { @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl; }
-  .text-responsive-5xl { @apply text-5xl sm:text-6xl md:text-7xl lg:text-8xl; }
-  .text-responsive-6xl { @apply text-6xl sm:text-7xl md:text-8xl lg:text-9xl; }
-
-  /* Responsive Spacing System */
-  .space-responsive-xs { @apply space-y-2 sm:space-y-3; }
-  .space-responsive-sm { @apply space-y-3 sm:space-y-4; }
-  .space-responsive-md { @apply space-y-4 sm:space-y-6; }
-  .space-responsive-lg { @apply space-y-6 sm:space-y-8; }
-  .space-responsive-xl { @apply space-y-8 sm:space-y-12; }
-
-  /* Responsive Containers */
-  .container-responsive {
-    @apply max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl xl:max-w-6xl 2xl:max-w-7xl;
-    @apply mx-auto px-4 sm:px-6 md:px-8;
-  }
-
-  .section-padding {
-    @apply py-8 sm:py-12 md:py-16 lg:py-20 xl:py-24;
-  }
-
-  /* Touch-friendly Elements */
-  .touch-target {
-    @apply min-h-[44px] min-w-[44px];
-  }
-
-  .button-responsive {
-    @apply px-4 py-3 sm:px-6 sm:py-4 md:px-8 md:py-5;
-    @apply text-sm sm:text-base md:text-lg;
-    @apply min-h-[44px];
-  }
-
-  .input-responsive {
-    @apply px-3 py-3 sm:px-4 sm:py-4;
-    @apply text-sm sm:text-base;
-    @apply min-h-[44px];
-  }
-
-  /* Responsive Grid Systems */
-  .grid-responsive-1 { @apply grid grid-cols-1; }
-  .grid-responsive-2 { @apply grid grid-cols-1 sm:grid-cols-2; }
-  .grid-responsive-3 { @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3; }
-  .grid-responsive-4 { @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4; }
-
-  /* Mobile Performance Optimizations */
-  @media (max-width: 768px) {
-    .reduce-motion {
-      animation: none !important;
-      transition: none !important;
-    }
-    
-    .background-animations {
-      display: none;
-    }
-    
-    /* Reduce complex animations on mobile */
-    .glass {
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-    }
-    
-    /* Optimize transforms for mobile */
-    .transform-gpu {
-      transform: translateZ(0);
-      will-change: transform;
-    }
-  }
-
-  /* Performance optimizations for all devices */
-  .will-change-transform {
-    will-change: transform;
-  }
-  
-  .will-change-opacity {
-    will-change: opacity;
-  }
-  
-  .gpu-accelerated {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
-
-  /* Focus States for Accessibility */
-  .focus-visible {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
-  }
-
-  /* Screen Reader Support */
-  .sr-only {
-    @apply sr-only;
-  }
-
-  .visually-hidden {
-    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
-  }
-
-  /* High contrast mode support */
-  @media (prefers-contrast: high) {
-    .glass {
-      background: rgba(255, 255, 255, 0.9);
-      border: 2px solid rgba(0, 0, 0, 0.3);
-    }
-    
-    .gradient-text {
-      background: linear-gradient(45deg, #000000, #333333);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-  }
-
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-    
-    .background-animations {
-      display: none !important;
-    }
-  }
-
-  /* Dark mode support */
-  @media (prefers-color-scheme: dark) {
-    .glass {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
   }
 }
 
 body {
   @apply bg-gradient-to-br from-slate-50 via-emerald-50 to-blue-50 min-h-screen;
   background-attachment: fixed;
-  /* Fallback for browsers that don't support background-attachment: fixed */
-  background-image: linear-gradient(135deg, #f8fafc 0%, #ecfdf5 50%, #dbeafe 100%);
 }
 
 html {
   scroll-behavior: smooth;
-  /* Fallback for browsers that don't support scroll-behavior */
-  -webkit-overflow-scrolling: touch;
 }
 
-/* Custom scrollbar - Webkit browsers */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -215,40 +62,6 @@ html {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #00B37D 0%, #4F52C1 100%);
-}
-
-/* Firefox scrollbar */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: #00E6A0 #f1f1f1;
-}
-
-/* Responsive Image System */
-.responsive-image {
-  @apply w-full h-auto max-w-full;
-}
-
-.icon-responsive {
-  @apply w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6;
-}
-
-/* Custom Scrollbar for Components */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00E6A0 0%, #6366F1 100%);
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #00B37D 0%, #4F52C1 100%);
 }
 

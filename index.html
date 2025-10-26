@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mealora - AI Meal Planning</title>
-    <link rel="stylesheet" href="dist/style.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <!-- Background Orbs -->
@@ -21,9 +22,7 @@
                 <img src="logo.PNG" alt="Mealora" style="height: 45px; width: auto;">
                 <span>Mealora</span>
             </a>
-            
-            <!-- Desktop Navigation -->
-            <ul class="nav-links desktop-nav">
+            <ul class="nav-links">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="planner.html">Meal Planner</a></li>
                 <li><a href="grocery.html">Grocery List</a></li>
@@ -31,76 +30,56 @@
                 <li><a href="progress.html">Progress</a></li>
                 <li><a href="recipes.html">Recipes</a></li>
             </ul>
-            
-            <!-- Mobile Menu Button -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-            
-            <!-- Mobile Dropdown Menu -->
-            <div class="mobile-menu" id="mobileMenu">
-                <ul class="mobile-nav-links">
-                    <li><a href="index.html" class="active">Home</a></li>
-                    <li><a href="planner.html">Meal Planner</a></li>
-                    <li><a href="grocery.html">Grocery List</a></li>
-                    <li><a href="saved.html">Saved Plans</a></li>
-                    <li><a href="progress.html">Progress</a></li>
-                    <li><a href="recipes.html">Recipes</a></li>
-                </ul>
-            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="hero" class="section">
-        <div class="container">
-            <div class="content-constrained" style="text-align: center;">
-                <div style="display: flex; align-items: center; gap: clamp(1rem, 3vw, 1.5rem); margin-bottom: 2rem; justify-content: center;">
-                    <img src="logo.PNG" alt="Mealora" style="height: clamp(60px, 12vw, 80px); width: auto;">
-                    <h1 style="font-size: clamp(3rem, 12vw, 5rem); font-weight: 900;" class="gradient-text">Mealora</h1>
-                </div>
-                
-                <h2 style="font-size: clamp(1.75rem, 6vw, 3rem); font-weight: 700; margin-bottom: 1.5rem; color: var(--gray-900);">
-                    Your AI Nutritionist for <span class="gradient-text">Indian Vegetarian Meal Plans</span>
-                </h2>
-                
-                <p style="font-size: clamp(1rem, 3vw, 1.5rem); color: var(--gray-600); margin-bottom: 3rem;">
-                    Transform your health with personalized Indian vegetarian meal plans - From Dal-Roti to Idli-Dosa, powered by AI 🇮🇳
-                </p>
-                
-                <div style="display: flex; gap: clamp(0.75rem, 2vw, 1rem); justify-content: center; margin-bottom: 4rem; flex-wrap: wrap; align-items: center;">
-                    <a href="planner.html" class="btn btn-primary" style="font-size: clamp(0.875rem, 2.5vw, 1.125rem); padding: clamp(0.875rem, 2.5vw, 1rem) clamp(1.5rem, 4vw, 2rem); text-decoration: none; flex: 1; min-width: 140px; text-align: center;">
-                        ✨ Start Planning Now
-                    </a>
-                    <a href="#features" class="btn btn-secondary" style="font-size: clamp(0.875rem, 2.5vw, 1.125rem); padding: clamp(0.875rem, 2.5vw, 1rem) clamp(1.5rem, 4vw, 2rem); text-decoration: none; flex: 1; min-width: 140px; text-align: center;">
-                        Learn More
-                    </a>
-                </div>
+    <div class="container" style="padding-top: 4rem;">
+        <div style="text-align: center; max-width: 1000px; margin: 0 auto;">
+            <div class="glass" style="display: inline-flex; align-items: center; gap: 1rem; padding: 1rem 2rem; border-radius: 9999px; margin-bottom: 2rem; box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);">
+                <img src="logo.PNG" alt="Mealora" style="height: 80px; width: auto;">
+                <h1 style="font-size: 4rem; font-weight: 900;" class="gradient-text">Mealora</h1>
+            </div>
+            
+            <h2 style="font-size: 3rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--gray-900);">
+                Your AI Nutritionist for <span class="gradient-text">Indian Vegetarian Meal Plans</span>
+            </h2>
+            
+            <p style="font-size: 1.5rem; color: var(--gray-600); margin-bottom: 3rem;">
+                Transform your health with personalized Indian vegetarian meal plans - From Dal-Roti to Idli-Dosa, powered by AI 🇮🇳
+            </p>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 4rem;">
+                <a href="planner.html" class="btn btn-primary" style="font-size: 1.25rem; padding: 1.25rem 2.5rem; text-decoration: none;">
+                    ✨ Start Planning Now
+                </a>
+                <a href="#features" class="btn btn-secondary" style="font-size: 1.25rem; padding: 1.25rem 2.5rem; text-decoration: none;">
+                    Learn More
+                </a>
+            </div>
         </div>
 
         <!-- Stats Section -->
-        <div class="card-grid">
-            <div class="card card-2-col glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
-                <div style="font-size: clamp(2rem, 6vw, 2.5rem); margin-bottom: 0.5rem;">❤️</div>
-                <div style="font-size: clamp(2rem, 6vw, 2.5rem); font-weight: 900;" class="gradient-text">100%</div>
-                <div style="color: var(--gray-600); font-weight: 600; font-size: clamp(0.875rem, 2.5vw, 1rem);">Vegetarian</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 6rem;">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">❤️</div>
+                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">100%</div>
+                <div style="color: var(--gray-600); font-weight: 600;">Vegetarian</div>
             </div>
-            <div class="card card-2-col glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
-                <div style="font-size: clamp(2rem, 6vw, 2.5rem); margin-bottom: 0.5rem;">👥</div>
-                <div style="font-size: clamp(2rem, 6vw, 2.5rem); font-weight: 900;" class="gradient-text">10K+</div>
-                <div style="color: var(--gray-600); font-weight: 600; font-size: clamp(0.875rem, 2.5vw, 1rem);">Happy Users</div>
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">👥</div>
+                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">10K+</div>
+                <div style="color: var(--gray-600); font-weight: 600;">Happy Users</div>
             </div>
-            <div class="card card-2-col glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
-                <div style="font-size: clamp(2rem, 6vw, 2.5rem); margin-bottom: 0.5rem;">🍽️</div>
-                <div style="font-size: clamp(2rem, 6vw, 2.5rem); font-weight: 900;" class="gradient-text">50K+</div>
-                <div style="color: var(--gray-600); font-weight: 600; font-size: clamp(0.875rem, 2.5vw, 1rem);">Meals Planned</div>
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🍽️</div>
+                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">50K+</div>
+                <div style="color: var(--gray-600); font-weight: 600;">Meals Planned</div>
             </div>
-            <div class="card card-2-col glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
-                <div style="font-size: clamp(2rem, 6vw, 2.5rem); margin-bottom: 0.5rem;">⭐</div>
-                <div style="font-size: clamp(2rem, 6vw, 2.5rem); font-weight: 900;" class="gradient-text">4.9★</div>
-                <div style="color: var(--gray-600); font-weight: 600; font-size: clamp(0.875rem, 2.5vw, 1rem);">User Rating</div>
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⭐</div>
+                <div style="font-size: 2.5rem; font-weight: 900;" class="gradient-text">4.9★</div>
+                <div style="color: var(--gray-600); font-weight: 600;">User Rating</div>
             </div>
         </div>
 
@@ -210,133 +189,6 @@
     <script src="app.js"></script>
     <script>
         setActivePage('index.html');
-        
-        // Responsive Navigation System
-        class ResponsiveNavigation {
-            constructor() {
-                this.mobileMenuBtn = document.getElementById('mobileMenuBtn');
-                this.mobileMenu = document.getElementById('mobileMenu');
-                this.desktopNav = document.querySelector('.desktop-nav');
-                this.isMenuOpen = false;
-                
-                this.init();
-            }
-            
-            init() {
-                // Device detection and initial setup
-                this.detectDevice();
-                this.setupEventListeners();
-                this.setupResizeListener();
-            }
-            
-            detectDevice() {
-                const userAgent = navigator.userAgent.toLowerCase();
-                const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-                const isTablet = /ipad|android(?!.*mobile)/i.test(userAgent);
-                const screenWidth = window.innerWidth;
-                
-                // Determine if we should show mobile menu
-                const shouldShowMobileMenu = isMobile || isTablet || screenWidth < 1024;
-                
-                if (shouldShowMobileMenu) {
-                    this.showMobileMenu();
-                } else {
-                    this.showDesktopMenu();
-                }
-            }
-            
-            showMobileMenu() {
-                if (this.desktopNav) this.desktopNav.style.display = 'none';
-                if (this.mobileMenuBtn) this.mobileMenuBtn.style.display = 'block';
-                if (this.mobileMenu) this.mobileMenu.style.display = 'none';
-            }
-            
-            showDesktopMenu() {
-                if (this.desktopNav) this.desktopNav.style.display = 'flex';
-                if (this.mobileMenuBtn) this.mobileMenuBtn.style.display = 'none';
-                if (this.mobileMenu) this.mobileMenu.style.display = 'none';
-                this.isMenuOpen = false;
-            }
-            
-            setupEventListeners() {
-                if (this.mobileMenuBtn) {
-                    this.mobileMenuBtn.addEventListener('click', () => this.toggleMobileMenu());
-                }
-                
-                // Close mobile menu when clicking on links
-                const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
-                mobileLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        this.closeMobileMenu();
-                    });
-                });
-                
-                // Close mobile menu when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (this.isMenuOpen && 
-                        !this.mobileMenu.contains(e.target) && 
-                        !this.mobileMenuBtn.contains(e.target)) {
-                        this.closeMobileMenu();
-                    }
-                });
-            }
-            
-            setupResizeListener() {
-                let resizeTimeout;
-                window.addEventListener('resize', () => {
-                    clearTimeout(resizeTimeout);
-                    resizeTimeout = setTimeout(() => {
-                        this.detectDevice();
-                    }, 250);
-                });
-            }
-            
-            toggleMobileMenu() {
-                if (this.isMenuOpen) {
-                    this.closeMobileMenu();
-                } else {
-                    this.openMobileMenu();
-                }
-            }
-            
-            openMobileMenu() {
-                if (this.mobileMenu) {
-                    this.mobileMenu.style.display = 'block';
-                    this.mobileMenu.style.opacity = '0';
-                    this.mobileMenu.style.transform = 'translateY(-10px)';
-                    
-                    // Animate in
-                    requestAnimationFrame(() => {
-                        this.mobileMenu.style.transition = 'all 0.3s ease';
-                        this.mobileMenu.style.opacity = '1';
-                        this.mobileMenu.style.transform = 'translateY(0)';
-                    });
-                    
-                    this.isMenuOpen = true;
-                    this.mobileMenuBtn.classList.add('active');
-                }
-            }
-            
-            closeMobileMenu() {
-                if (this.mobileMenu) {
-                    this.mobileMenu.style.transition = 'all 0.3s ease';
-                    this.mobileMenu.style.opacity = '0';
-                    this.mobileMenu.style.transform = 'translateY(-10px)';
-                    
-                    setTimeout(() => {
-                        this.mobileMenu.style.display = 'none';
-                    }, 300);
-                    
-                    this.isMenuOpen = false;
-                    this.mobileMenuBtn.classList.remove('active');
-                }
-            }
-        }
-        
-        // Initialize responsive navigation when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new ResponsiveNavigation();
-        });
     </script>
 </body>
 </html>

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saved Plans - Mealora</title>
-    <link rel="stylesheet" href="dist/style.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <!-- Background Orbs -->
@@ -21,8 +22,7 @@
                 <img src="logo.PNG" alt="Mealora" style="height: 45px; width: auto;">
                 <span>Mealora</span>
             </a>
-            <!-- Desktop Navigation -->
-            <ul class="nav-links desktop-nav">
+            <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="planner.html">Meal Planner</a></li>
                 <li><a href="grocery.html">Grocery List</a></li>
@@ -30,25 +30,6 @@
                 <li><a href="progress.html">Progress</a></li>
                 <li><a href="recipes.html">Recipes</a></li>
             </ul>
-            
-            <!-- Mobile Menu Button -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-            
-            <!-- Mobile Dropdown Menu -->
-            <div class="mobile-menu" id="mobileMenu">
-                <ul class="mobile-nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="planner.html">Meal Planner</a></li>
-                    <li><a href="grocery.html">Grocery List</a></li>
-                    <li><a href="saved.html" class="active">Saved Plans</a></li>
-                    <li><a href="progress.html">Progress</a></li>
-                    <li><a href="recipes.html">Recipes</a></li>
-                </ul>
-            </div>
         </div>
     </nav>
 
@@ -300,132 +281,6 @@
         </p>
         <p style="color: var(--text-muted); font-size: 0.875rem;">© 2025 Mealora. All rights reserved.</p>
     </footer>
-
-    <script src="app.js"></script>
-    <script>
-        setActivePage('saved.html');
-        
-        // Responsive Navigation System
-        class ResponsiveNavigation {
-            constructor() {
-                this.mobileMenuBtn = document.getElementById('mobileMenuBtn');
-                this.mobileMenu = document.getElementById('mobileMenu');
-                this.desktopNav = document.querySelector('.desktop-nav');
-                this.isMenuOpen = false;
-                
-                this.init();
-            }
-            
-            init() {
-                this.detectDevice();
-                this.setupEventListeners();
-                this.setupResizeListener();
-            }
-            
-            detectDevice() {
-                const userAgent = navigator.userAgent.toLowerCase();
-                const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-                const isTablet = /ipad|android(?!.*mobile)/i.test(userAgent);
-                const screenWidth = window.innerWidth;
-                
-                const shouldShowMobileMenu = isMobile || isTablet || screenWidth < 1024;
-                
-                if (shouldShowMobileMenu) {
-                    this.showMobileMenu();
-                } else {
-                    this.showDesktopMenu();
-                }
-            }
-            
-            showMobileMenu() {
-                if (this.desktopNav) this.desktopNav.style.display = 'none';
-                if (this.mobileMenuBtn) this.mobileMenuBtn.style.display = 'block';
-                if (this.mobileMenu) this.mobileMenu.style.display = 'none';
-            }
-            
-            showDesktopMenu() {
-                if (this.desktopNav) this.desktopNav.style.display = 'flex';
-                if (this.mobileMenuBtn) this.mobileMenuBtn.style.display = 'none';
-                if (this.mobileMenu) this.mobileMenu.style.display = 'none';
-                this.isMenuOpen = false;
-            }
-            
-            setupEventListeners() {
-                if (this.mobileMenuBtn) {
-                    this.mobileMenuBtn.addEventListener('click', () => this.toggleMobileMenu());
-                }
-                
-                const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
-                mobileLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        this.closeMobileMenu();
-                    });
-                });
-                
-                document.addEventListener('click', (e) => {
-                    if (this.isMenuOpen && 
-                        !this.mobileMenu.contains(e.target) && 
-                        !this.mobileMenuBtn.contains(e.target)) {
-                        this.closeMobileMenu();
-                    }
-                });
-            }
-            
-            setupResizeListener() {
-                let resizeTimeout;
-                window.addEventListener('resize', () => {
-                    clearTimeout(resizeTimeout);
-                    resizeTimeout = setTimeout(() => {
-                        this.detectDevice();
-                    }, 250);
-                });
-            }
-            
-            toggleMobileMenu() {
-                if (this.isMenuOpen) {
-                    this.closeMobileMenu();
-                } else {
-                    this.openMobileMenu();
-                }
-            }
-            
-            openMobileMenu() {
-                if (this.mobileMenu) {
-                    this.mobileMenu.style.display = 'block';
-                    this.mobileMenu.style.opacity = '0';
-                    this.mobileMenu.style.transform = 'translateY(-10px)';
-                    
-                    requestAnimationFrame(() => {
-                        this.mobileMenu.style.transition = 'all 0.3s ease';
-                        this.mobileMenu.style.opacity = '1';
-                        this.mobileMenu.style.transform = 'translateY(0)';
-                    });
-                    
-                    this.isMenuOpen = true;
-                    this.mobileMenuBtn.classList.add('active');
-                }
-            }
-            
-            closeMobileMenu() {
-                if (this.mobileMenu) {
-                    this.mobileMenu.style.transition = 'all 0.3s ease';
-                    this.mobileMenu.style.opacity = '0';
-                    this.mobileMenu.style.transform = 'translateY(-10px)';
-                    
-                    setTimeout(() => {
-                        this.mobileMenu.style.display = 'none';
-                    }, 300);
-                    
-                    this.isMenuOpen = false;
-                    this.mobileMenuBtn.classList.remove('active');
-                }
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            new ResponsiveNavigation();
-        });
-    </script>
 </body>
 </html>
 

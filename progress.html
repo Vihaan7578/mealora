@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Progress Tracker - Mealora</title>
-    <link rel="stylesheet" href="dist/style.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -22,8 +23,7 @@
                 <img src="logo.PNG" alt="Mealora" style="height: 45px; width: auto;">
                 <span>Mealora</span>
             </a>
-            <!-- Desktop Navigation -->
-            <ul class="nav-links desktop-nav">
+            <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="planner.html">Meal Planner</a></li>
                 <li><a href="grocery.html">Grocery List</a></li>
@@ -31,25 +31,6 @@
                 <li><a href="progress.html" class="active">Progress</a></li>
                 <li><a href="recipes.html">Recipes</a></li>
             </ul>
-            
-            <!-- Mobile Menu Button -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-            
-            <!-- Mobile Dropdown Menu -->
-            <div class="mobile-menu" id="mobileMenu">
-                <ul class="mobile-nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="planner.html">Meal Planner</a></li>
-                    <li><a href="grocery.html">Grocery List</a></li>
-                    <li><a href="saved.html">Saved Plans</a></li>
-                    <li><a href="progress.html" class="active">Progress</a></li>
-                    <li><a href="recipes.html">Recipes</a></li>
-                </ul>
-            </div>
         </div>
     </nav>
 
@@ -472,12 +453,6 @@
         </p>
         <p style="color: var(--text-muted); font-size: 0.875rem;">© 2025 Mealora. All rights reserved.</p>
     </footer>
-
-    <script src="app.js"></script>
-    <script src="mobile-nav.js"></script>
-    <script>
-        setActivePage('progress.html');
-    </script>
 </body>
 </html>
 

@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="public, max-age=31536000, immutable">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <title>Meal Planner - Mealora</title>
-    <link rel="stylesheet" href="dist/style.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <!-- Background Orbs -->
@@ -23,9 +22,7 @@
                 <img src="logo.PNG" alt="Mealora" style="height: 45px; width: auto;">
                 <span>Mealora</span>
             </a>
-            
-            <!-- Desktop Navigation -->
-            <ul class="nav-links desktop-nav">
+            <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="planner.html" class="active">Meal Planner</a></li>
                 <li><a href="grocery.html">Grocery List</a></li>
@@ -33,30 +30,11 @@
                 <li><a href="progress.html">Progress</a></li>
                 <li><a href="recipes.html">Recipes</a></li>
             </ul>
-            
-            <!-- Mobile Menu Button -->
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-            
-            <!-- Mobile Dropdown Menu -->
-            <div class="mobile-menu" id="mobileMenu">
-                <ul class="mobile-nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="planner.html" class="active">Meal Planner</a></li>
-                    <li><a href="grocery.html">Grocery List</a></li>
-                    <li><a href="saved.html">Saved Plans</a></li>
-                    <li><a href="progress.html">Progress</a></li>
-                    <li><a href="recipes.html">Recipes</a></li>
-                </ul>
-            </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="container" title="Meal Planner - AI-Powered Vegetarian Meal Planning">
+    <div class="container">
         <div style="text-align: center; margin-bottom: 3rem;">
             <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;" class="gradient-text">
                 Meal Planner
@@ -66,16 +44,9 @@
             </p>
         </div>
 
-        <!-- Mobile Back Button (Hidden by default, shown after generation) -->
-        <div id="mobileBackBtn" style="display: none; margin-bottom: 2rem; text-align: center;">
-            <button onclick="showMobileInput()" class="btn btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 0.875rem;">
-                ← Back to Input Form
-            </button>
-        </div>
-
-        <div id="desktopLayout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
             <!-- Left Panel - Input Form -->
-            <div id="inputPanel" class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
                     <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
@@ -94,44 +65,35 @@
                 <!-- Age -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Age</label>
-                    <input type="number" id="age" placeholder="Enter your age" autocomplete="bday-year"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
-                           aria-label="Age in years">
+                    <input type="number" id="age" placeholder="Enter your age" 
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
                 <!-- Height -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Height (cm)</label>
-                    <input type="number" id="height" placeholder="e.g., 170" autocomplete="off"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
-                           aria-label="Height in centimeters">
+                    <input type="number" id="height" placeholder="e.g., 170" 
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
                 <!-- Weight -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Weight (kg)</label>
-                    <input type="number" id="weight" placeholder="e.g., 70" autocomplete="off"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
-                           aria-label="Weight in kilograms">
+                    <input type="number" id="weight" placeholder="e.g., 70" 
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
                 <!-- Gender -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.75rem;">Gender</label>
                     <div style="display: flex; gap: 0.75rem;">
-                        <button onclick="selectGender('male')" id="btn-male" class="gender-btn" 
-                                style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);"
-                                aria-label="Select male gender" role="radio" aria-checked="false">
+                        <button onclick="selectGender('male')" id="btn-male" class="gender-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
                             👨 Male
                         </button>
-                        <button onclick="selectGender('female')" id="btn-female" class="gender-btn" 
-                                style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);"
-                                aria-label="Select female gender" role="radio" aria-checked="false">
+                        <button onclick="selectGender('female')" id="btn-female" class="gender-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
                             👩 Female
                         </button>
-                        <button onclick="selectGender('other')" id="btn-other" class="gender-btn" 
-                                style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);"
-                                aria-label="Select other gender" role="radio" aria-checked="false">
+                        <button onclick="selectGender('other')" id="btn-other" class="gender-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
                             ⚧️ Other
                         </button>
                     </div>
@@ -140,17 +102,15 @@
                 <!-- Health Goal -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Goal (Optional)</label>
-                    <input type="text" id="healthGoal" placeholder="e.g., Weight Loss, Weight Gain, Fitness, Muscle Gain" autocomplete="off"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
-                           aria-label="Health goal or fitness objective">
+                    <input type="text" id="healthGoal" placeholder="e.g., Weight Loss, Weight Gain, Fitness, Muscle Gain"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
                 <!-- Health Issues -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Issues (Chronic) (Optional)</label>
-                    <input type="text" id="healthIssues" placeholder="e.g., Diabetes, High BP, PCOS, Thyroid, or type 'none'" autocomplete="off"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
-                           aria-label="Chronic health issues or medical conditions">
+                    <input type="text" id="healthIssues" placeholder="e.g., Diabetes, High BP, PCOS, Thyroid, or type 'none'"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
                 <!-- Quick Templates -->
@@ -179,9 +139,8 @@
                 <!-- Seasonal Health Issues -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Seasonal Health Issues (Temporary) (Optional)</label>
-                    <input type="text" id="seasonalHealth" placeholder="e.g., Fever, Weakness, Cold, Flu, or type 'none'" autocomplete="off"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
-                           aria-label="Seasonal health issues or temporary conditions">
+                    <input type="text" id="seasonalHealth" placeholder="e.g., Fever, Weakness, Cold, Flu, or type 'none'"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
                 <!-- Budget Range -->
@@ -206,8 +165,7 @@
                 <!-- Region -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Region/State</label>
-                    <select id="region" style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; background: white;"
-                            aria-label="Select your region or state" title="Choose your region or state">
+                    <select id="region" style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; background: white;">
                         <option value="">Select your state</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
                         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -275,7 +233,7 @@
             </div>
 
             <!-- Right Panel - Results -->
-            <div id="outputPanel" class="glass" style="padding: 2rem; border-radius: 1.5rem; min-height: 600px;">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; min-height: 600px;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
@@ -624,12 +582,6 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
         }
 
         function displayPlan(plan, bmi, bmiInfo, season) {
-            // Show output panel on mobile when results are ready
-            if (window.innerWidth < 1024) {
-                showMobileOutput();
-                document.getElementById('mobileBackBtn').style.display = 'block';
-            }
-            
             if (currentView === 'card') {
                 displayCardView(plan, bmi, bmiInfo, season);
             } else {
@@ -1072,206 +1024,6 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
         </p>
         <p style="color: var(--text-muted); font-size: 0.875rem;">© 2025 Mealora. All rights reserved.</p>
     </footer>
-
-    <script>
-        setActivePage('planner.html');
-        
-        // Responsive Navigation System
-        class ResponsiveNavigation {
-            constructor() {
-                this.mobileMenuBtn = document.getElementById('mobileMenuBtn');
-                this.mobileMenu = document.getElementById('mobileMenu');
-                this.desktopNav = document.querySelector('.desktop-nav');
-                this.isMenuOpen = false;
-                
-                this.init();
-            }
-            
-            init() {
-                // Device detection and initial setup
-                this.detectDevice();
-                this.setupEventListeners();
-                this.setupResizeListener();
-            }
-            
-            detectDevice() {
-                const userAgent = navigator.userAgent.toLowerCase();
-                const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-                const isTablet = /ipad|android(?!.*mobile)/i.test(userAgent);
-                const screenWidth = window.innerWidth;
-                
-                // Determine if we should show mobile menu
-                const shouldShowMobileMenu = isMobile || isTablet || screenWidth < 1024;
-                
-                if (shouldShowMobileMenu) {
-                    this.showMobileMenu();
-                } else {
-                    this.showDesktopMenu();
-                }
-            }
-            
-            showMobileMenu() {
-                if (this.desktopNav) this.desktopNav.style.display = 'none';
-                if (this.mobileMenuBtn) this.mobileMenuBtn.style.display = 'block';
-                if (this.mobileMenu) this.mobileMenu.style.display = 'none';
-            }
-            
-            showDesktopMenu() {
-                if (this.desktopNav) this.desktopNav.style.display = 'flex';
-                if (this.mobileMenuBtn) this.mobileMenuBtn.style.display = 'none';
-                if (this.mobileMenu) this.mobileMenu.style.display = 'none';
-                this.isMenuOpen = false;
-            }
-            
-            setupEventListeners() {
-                if (this.mobileMenuBtn) {
-                    this.mobileMenuBtn.addEventListener('click', () => this.toggleMobileMenu());
-                }
-                
-                // Close mobile menu when clicking on links
-                const mobileLinks = document.querySelectorAll('.mobile-nav-links a');
-                mobileLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        this.closeMobileMenu();
-                    });
-                });
-                
-                // Close mobile menu when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (this.isMenuOpen && 
-                        !this.mobileMenu.contains(e.target) && 
-                        !this.mobileMenuBtn.contains(e.target)) {
-                        this.closeMobileMenu();
-                    }
-                });
-            }
-            
-            setupResizeListener() {
-                let resizeTimeout;
-                window.addEventListener('resize', () => {
-                    clearTimeout(resizeTimeout);
-                    resizeTimeout = setTimeout(() => {
-                        this.detectDevice();
-                    }, 250);
-                });
-            }
-            
-            toggleMobileMenu() {
-                if (this.isMenuOpen) {
-                    this.closeMobileMenu();
-                } else {
-                    this.openMobileMenu();
-                }
-            }
-            
-            openMobileMenu() {
-                if (this.mobileMenu) {
-                    this.mobileMenu.style.display = 'block';
-                    this.mobileMenu.style.opacity = '0';
-                    this.mobileMenu.style.transform = 'translateY(-10px)';
-                    
-                    // Animate in
-                    requestAnimationFrame(() => {
-                        this.mobileMenu.style.transition = 'all 0.3s ease';
-                        this.mobileMenu.style.opacity = '1';
-                        this.mobileMenu.style.transform = 'translateY(0)';
-                    });
-                    
-                    this.isMenuOpen = true;
-                    this.mobileMenuBtn.classList.add('active');
-                }
-            }
-            
-            closeMobileMenu() {
-                if (this.mobileMenu) {
-                    this.mobileMenu.style.transition = 'all 0.3s ease';
-                    this.mobileMenu.style.opacity = '0';
-                    this.mobileMenu.style.transform = 'translateY(-10px)';
-                    
-                    setTimeout(() => {
-                        this.mobileMenu.style.display = 'none';
-                    }, 300);
-                    
-                    this.isMenuOpen = false;
-                    this.mobileMenuBtn.classList.remove('active');
-                }
-            }
-        }
-        
-        // Mobile Transition Functions
-        function showMobileInput() {
-            const inputPanel = document.getElementById('inputPanel');
-            const outputPanel = document.getElementById('outputPanel');
-            const backBtn = document.getElementById('mobileBackBtn');
-            
-            // Add transition effect
-            outputPanel.classList.add('hidden');
-            
-            setTimeout(() => {
-                inputPanel.style.display = 'block';
-                outputPanel.style.display = 'none';
-                outputPanel.classList.remove('hidden');
-                inputPanel.classList.remove('hidden');
-                
-                // Hide back button when showing input
-                if (window.innerWidth < 1024) {
-                    backBtn.style.display = 'none';
-                }
-            }, 150);
-        }
-        
-        function showMobileOutput() {
-            const inputPanel = document.getElementById('inputPanel');
-            const outputPanel = document.getElementById('outputPanel');
-            const backBtn = document.getElementById('mobileBackBtn');
-            
-            // Add transition effect
-            inputPanel.classList.add('hidden');
-            
-            setTimeout(() => {
-                inputPanel.style.display = 'none';
-                outputPanel.style.display = 'block';
-                inputPanel.classList.remove('hidden');
-                outputPanel.classList.remove('hidden');
-                
-                // Show back button when showing output
-                if (window.innerWidth < 1024) {
-                    backBtn.style.display = 'block';
-                }
-            }, 150);
-        }
-        
-        // Mobile Layout Detection
-        function checkMobileLayout() {
-            const isMobile = window.innerWidth < 1024;
-            const mobileBackBtn = document.getElementById('mobileBackBtn');
-            const desktopLayout = document.getElementById('desktopLayout');
-            const inputPanel = document.getElementById('inputPanel');
-            const outputPanel = document.getElementById('outputPanel');
-            
-            if (isMobile) {
-                desktopLayout.style.display = 'none';
-                // Show input panel directly on mobile
-                inputPanel.style.display = 'block';
-                outputPanel.style.display = 'none';
-                mobileBackBtn.style.display = 'none'; // Hide back button initially
-            } else {
-                mobileBackBtn.style.display = 'none';
-                desktopLayout.style.display = 'grid';
-            }
-        }
-        
-        // Initialize responsive navigation when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new ResponsiveNavigation();
-            checkMobileLayout();
-            
-            // Check on resize
-            window.addEventListener('resize', () => {
-                checkMobileLayout();
-            });
-        });
-    </script>
 </body>
 </html>
 
