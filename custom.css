@@ -75,9 +75,9 @@
     max-width: 1200px;
 }
 
-/* Mobile Input/Output Toggle System */
+/* Mobile Input/Output Transition System */
 @media (max-width: 1023px) {
-    #mobileToggle {
+    #mobileBackBtn {
         display: block !important;
     }
     
@@ -88,20 +88,24 @@
     #inputPanel, #outputPanel {
         width: 100%;
         margin-bottom: 1rem;
-    }
-    
-    .mobile-toggle-btn {
         transition: all 0.3s ease;
     }
     
-    .mobile-toggle-btn.active {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        color: var(--bg-primary);
+    /* Smooth transitions for mobile */
+    #inputPanel, #outputPanel {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    
+    #inputPanel.hidden, #outputPanel.hidden {
+        opacity: 0;
+        transform: translateX(-20px);
+        pointer-events: none;
     }
 }
 
 @media (min-width: 1024px) {
-    #mobileToggle {
+    #mobileBackBtn {
         display: none !important;
     }
     

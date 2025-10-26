@@ -64,16 +64,11 @@
             </p>
         </div>
 
-        <!-- Mobile Toggle Buttons (Hidden on Desktop) -->
-        <div id="mobileToggle" style="display: none; margin-bottom: 2rem; text-align: center;">
-            <div style="display: flex; gap: 0.5rem; justify-content: center; background: var(--bg-secondary); padding: 0.5rem; border-radius: 1rem; border: 1px solid var(--border-color);">
-                <button id="mobileInputBtn" onclick="showMobileInput()" class="btn btn-primary" style="flex: 1; padding: 0.75rem 1rem; font-size: 0.875rem;">
-                    📝 Input Form
-                </button>
-                <button id="mobileOutputBtn" onclick="showMobileOutput()" class="btn btn-secondary" style="flex: 1; padding: 0.75rem 1rem; font-size: 0.875rem; display: none;">
-                    📊 Results
-                </button>
-            </div>
+        <!-- Mobile Back Button (Hidden by default, shown after generation) -->
+        <div id="mobileBackBtn" style="display: none; margin-bottom: 2rem; text-align: center;">
+            <button onclick="showMobileInput()" class="btn btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 0.875rem;">
+                ← Back to Input Form
+            </button>
         </div>
 
         <div id="desktopLayout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
@@ -617,7 +612,7 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
             // Show output panel on mobile when results are ready
             if (window.innerWidth < 1024) {
                 showMobileOutput();
-                document.getElementById('mobileOutputBtn').style.display = 'block';
+                document.getElementById('mobileBackBtn').style.display = 'block';
             }
             
             if (currentView === 'card') {
@@ -1189,37 +1184,61 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
             }
         }
         
-        // Mobile Toggle Functions
+        // Mobile Transition Functions
         function showMobileInput() {
-            document.getElementById('inputPanel').style.display = 'block';
-            document.getElementById('outputPanel').style.display = 'none';
-            document.getElementById('mobileInputBtn').classList.add('btn-primary');
-            document.getElementById('mobileInputBtn').classList.remove('btn-secondary');
-            document.getElementById('mobileOutputBtn').classList.add('btn-secondary');
-            document.getElementById('mobileOutputBtn').classList.remove('btn-primary');
+            const inputPanel = document.getElementById('inputPanel');
+            const outputPanel = document.getElementById('outputPanel');
+            const backBtn = document.getElementById('mobileBackBtn');
+            
+            // Add transition effect
+            outputPanel.classList.add('hidden');
+            
+            setTimeout(() => {
+                inputPanel.style.display = 'block';
+                outputPanel.style.display = 'none';
+                outputPanel.classList.remove('hidden');
+                inputPanel.classList.remove('hidden');
+                
+                // Hide back button when showing input
+                if (window.innerWidth < 1024) {
+                    backBtn.style.display = 'none';
+                }
+            }, 150);
         }
         
         function showMobileOutput() {
-            document.getElementById('inputPanel').style.display = 'none';
-            document.getElementById('outputPanel').style.display = 'block';
-            document.getElementById('mobileInputBtn').classList.add('btn-secondary');
-            document.getElementById('mobileInputBtn').classList.remove('btn-primary');
-            document.getElementById('mobileOutputBtn').classList.add('btn-primary');
-            document.getElementById('mobileOutputBtn').classList.remove('btn-secondary');
+            const inputPanel = document.getElementById('inputPanel');
+            const outputPanel = document.getElementById('outputPanel');
+            const backBtn = document.getElementById('mobileBackBtn');
+            
+            // Add transition effect
+            inputPanel.classList.add('hidden');
+            
+            setTimeout(() => {
+                inputPanel.style.display = 'none';
+                outputPanel.style.display = 'block';
+                inputPanel.classList.remove('hidden');
+                outputPanel.classList.remove('hidden');
+                
+                // Show back button when showing output
+                if (window.innerWidth < 1024) {
+                    backBtn.style.display = 'block';
+                }
+            }, 150);
         }
         
         // Mobile Layout Detection
         function checkMobileLayout() {
             const isMobile = window.innerWidth < 1024;
-            const mobileToggle = document.getElementById('mobileToggle');
+            const mobileBackBtn = document.getElementById('mobileBackBtn');
             const desktopLayout = document.getElementById('desktopLayout');
             
             if (isMobile) {
-                mobileToggle.style.display = 'block';
+                mobileBackBtn.style.display = 'block';
                 desktopLayout.style.display = 'none';
                 showMobileInput(); // Show input by default on mobile
             } else {
-                mobileToggle.style.display = 'none';
+                mobileBackBtn.style.display = 'none';
                 desktopLayout.style.display = 'grid';
             }
         }
