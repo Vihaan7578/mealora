@@ -55,6 +55,14 @@ const seasonalFoods = {
 function validateAndSanitizeInput(text) {
     if (!text) return '';
     
+    const lowerText = text.toLowerCase().trim();
+    
+    // Allow "none" and its synonyms in optional fields
+    const noneKeywords = ['none', 'nil', 'nothing', 'na', 'n/a', 'not applicable', 'no', "don't have", "don't", 'no allergies', 'no preferences'];
+    if (noneKeywords.includes(lowerText)) {
+        return ''; // Return empty string to indicate "none"
+    }
+    
     // Layer 1: Prohibited patterns (immediate rejection)
     const prohibitedPatterns = [
         /<table[^>]*>/gi,
@@ -109,19 +117,26 @@ function validateAndSanitizeInput(text) {
         'spinach', 'palak', 'fenugreek', 'methi',
         'okra', 'bhindi', 'bitter gourd', 'karela',
         'bottle gourd', 'lauki', 'ridge gourd', 'tori', 'dudhi',
+        // Indian Dishes
+        'chole', 'bhature', 'bhatura', 'chole bhature', 'samos', 'samosa', 'pav bhaji', 'dosa', 'idli',
+        'biryani', 'pulao', 'pula', 'fried rice', 'bisi bele bath', 'khichdi', 'khichri',
+        'dal fry', 'dal tadka', 'dal makhani', 'dal fry',
+        'palak paneer', 'mutter paneer', 'paneer butter masala', 'kadhai paneer',
+        'aloo gobhi', 'aloo matar', 'bhindi masala', 'baingan bharta',
+        'rajma', 'chana masala', 'chole chana', 'matar paneer',
+        'sabzi', 'sabji', 'curry',
         // Seasonings & Spices
         'salt', 'sugar', 'jaggery', 'gur', 'honey', 'shahad',
         'oil', 'ghee', 'mustard oil', 'coconut oil',
-        'spicy', 'mild', 'less spicy', 'masala', 'spices',
+        'spicy', 'mild', 'less spicy', 'masala', 'spices', 'dhaniya', 'coriander', 'cumin', 'jeera',
         // General Terms
         'healthy', 'nutritious', 'protein', 'carbs', 'calories', 'fat',
         'weight', 'gain weight', 'lose weight', 'maintain weight',
         'prefer', 'like', 'dislike', 'love', 'hate',
-        'breakfast', 'lunch', 'dinner', 'snacks', 'meal',
-        'katori', 'bowl', 'plate', 'cup', 'rotis', 'chapatis'
+        'breakfast', 'lunch', 'dinner', 'snacks', 'meal', 'dish',
+        'katori', 'bowl', 'plate', 'cup', 'rotis', 'chapatis', 'roti', 'chapati', 'naan', 'paratha', 'poori'
     ];
     
-    const lowerText = text.toLowerCase();
     const hasFoodKeyword = foodKeywords.some(keyword => 
         lowerText.includes(keyword.toLowerCase())
     );
