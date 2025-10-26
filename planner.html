@@ -216,6 +216,9 @@
                         <button onclick="toggleView('table')" id="viewTable" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
                             📊 Table
                         </button>
+                        <button onclick="toggleView('exercises')" id="viewExercises" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
+                            💪 Exercises
+                        </button>
                         <button onclick="savePlan()" class="btn" style="padding: 0.5rem 1rem; background: var(--success); color: white;">
                             💾 Save
                         </button>
@@ -620,10 +623,30 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
                 tableHTML += `
                     <tr>
                         <td style="font-weight: 700; color: var(--primary);">${days[i]}</td>
-                        <td>Meal ${i+1}B<br/><small style="color: var(--gray-600);">~400 kcal</small></td>
-                        <td>Meal ${i+1}L<br/><small style="color: var(--gray-600);">~550 kcal</small></td>
-                        <td>Meal ${i+1}D<br/><small style="color: var(--gray-600);">~600 kcal</small></td>
-                        <td>Snacks ${i+1}<br/><small style="color: var(--gray-600);">~300 kcal</small></td>
+                        <td>
+                            <div onclick="showMealDetails('${days[i]}', 'Breakfast', ${i})" style="cursor: pointer; padding: 0.5rem; border-radius: 0.5rem; transition: all 0.2s; color: var(--primary); font-weight: 600; text-decoration: underline; text-decoration-color: transparent;" onmouseover="this.style.textDecorationColor='var(--primary)'; this.style.background='var(--gray-50)';" onmouseout="this.style.textDecorationColor='transparent'; this.style.background='transparent';">
+                                Meal ${i+1}B
+                                <small style="display: block; color: var(--gray-600); font-weight: 400; text-decoration: none; margin-top: 0.25rem;">~400 kcal</small>
+                            </div>
+                        </td>
+                        <td>
+                            <div onclick="showMealDetails('${days[i]}', 'Lunch', ${i})" style="cursor: pointer; padding: 0.5rem; border-radius: 0.5rem; transition: all 0.2s; color: var(--primary); font-weight: 600; text-decoration: underline; text-decoration-color: transparent;" onmouseover="this.style.textDecorationColor='var(--primary)'; this.style.background='var(--gray-50)';" onmouseout="this.style.textDecorationColor='transparent'; this.style.background='transparent';">
+                                Meal ${i+1}L
+                                <small style="display: block; color: var(--gray-600); font-weight: 400; text-decoration: none; margin-top: 0.25rem;">~550 kcal</small>
+                            </div>
+                        </td>
+                        <td>
+                            <div onclick="showMealDetails('${days[i]}', 'Dinner', ${i})" style="cursor: pointer; padding: 0.5rem; border-radius: 0.5rem; transition: all 0.2s; color: var(--primary); font-weight: 600; text-decoration: underline; text-decoration-color: transparent;" onmouseover="this.style.textDecorationColor='var(--primary)'; this.style.background='var(--gray-50)';" onmouseout="this.style.textDecorationColor='transparent'; this.style.background='transparent';">
+                                Meal ${i+1}D
+                                <small style="display: block; color: var(--gray-600); font-weight: 400; text-decoration: none; margin-top: 0.25rem;">~600 kcal</small>
+                            </div>
+                        </td>
+                        <td>
+                            <div onclick="showMealDetails('${days[i]}', 'Snacks', ${i})" style="cursor: pointer; padding: 0.5rem; border-radius: 0.5rem; transition: all 0.2s; color: var(--primary); font-weight: 600; text-decoration: underline; text-decoration-color: transparent;" onmouseover="this.style.textDecorationColor='var(--primary)'; this.style.background='var(--gray-50)';" onmouseout="this.style.textDecorationColor='transparent'; this.style.background='transparent';">
+                                Snacks ${i+1}
+                                <small style="display: block; color: var(--gray-600); font-weight: 400; text-decoration: none; margin-top: 0.25rem;">~300 kcal</small>
+                            </div>
+                        </td>
                     </tr>
                 `;
             }
@@ -634,7 +657,7 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
                     </div>
                     <div style="margin-top: 1.5rem; padding: 1rem; background: var(--gray-50); border-radius: 0.75rem; text-align: center;">
                         <p style="color: var(--gray-600); font-size: 0.875rem;">
-                            💡 Switch to Card View for detailed meal descriptions
+                            💡 Click on any meal to see details | Switch to Card View for full meal descriptions
                         </p>
                     </div>
                 </div>
@@ -645,18 +668,274 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
 
         function toggleView(view) {
             currentView = view;
+            
+            // Update button styles
             document.getElementById('viewCard').style.background = view === 'card' ? 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)' : 'var(--gray-100)';
             document.getElementById('viewCard').style.color = view === 'card' ? 'white' : 'var(--gray-700)';
             document.getElementById('viewTable').style.background = view === 'table' ? 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)' : 'var(--gray-100)';
             document.getElementById('viewTable').style.color = view === 'table' ? 'white' : 'var(--gray-700)';
+            document.getElementById('viewExercises').style.background = view === 'exercises' ? 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)' : 'var(--gray-100)';
+            document.getElementById('viewExercises').style.color = view === 'exercises' ? 'white' : 'var(--gray-700)';
             
-            if (currentPlan) {
+            if (view === 'exercises') {
+                displayExercises();
+            } else if (currentPlan) {
                 // Reconstruct BMI and season info from saved plan
                 const bmi = parseFloat(currentPlan.bmi);
                 const bmiInfo = getBMICategory(bmi);
                 const currentSeason = getCurrentSeason();
                 displayPlan(currentPlan.text, bmi, bmiInfo, currentSeason);
             }
+        }
+
+        function displayExercises() {
+            // Determine exercise goal based on health goal
+            const healthGoal = document.getElementById('healthGoal').value.toLowerCase();
+            let exerciseType = 'general'; // default
+            let title = '💪 Exercise Recommendations';
+            let description = 'A balanced workout plan for overall fitness';
+            
+            if (healthGoal.includes('weight loss') || healthGoal.includes('weight reduction') || healthGoal.includes('lose weight')) {
+                exerciseType = 'weight_loss';
+                title = '💪 Weight Loss Exercise Plan';
+                description = 'Fat burning and cardio-focused workouts';
+            } else if (healthGoal.includes('weight gain') || healthGoal.includes('gain weight') || healthGoal.includes('bulk')) {
+                exerciseType = 'weight_gain';
+                title = '💪 Weight Gain Exercise Plan';
+                description = 'Strength training and muscle building workouts';
+            } else if (healthGoal.includes('muscle gain') || healthGoal.includes('muscle building') || healthGoal.includes('strength')) {
+                exerciseType = 'muscle_gain';
+                title = '💪 Muscle Building Exercise Plan';
+                description = 'Progressive strength training for muscle development';
+            }
+            
+            const exercisesHTML = `
+                <div style="max-height: 70vh; overflow-y: auto;">
+                    <div style="background: linear-gradient(135deg, var(--secondary) 0%, #4F52C1 100%); color: white; padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 1.5rem;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">💪</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700;">${title}</h3>
+                        <p style="opacity: 0.9; margin-top: 0.5rem;">${description}</p>
+                    </div>
+                    ${getExerciseContent(exerciseType)}
+                </div>
+            `;
+            
+            document.getElementById('resultsContent').innerHTML = exercisesHTML;
+        }
+
+        function getExerciseContent(type) {
+            const exercisePlans = {
+                weight_loss: {
+                    daily: [
+                        { name: 'Jumping Jacks', sets: '3 sets', reps: '30 reps', duration: 'Warm-up', note: 'Start with light pace' },
+                        { name: 'High Knees', sets: '3 sets', reps: '20 reps', duration: 'Each leg', note: 'Maintain steady pace' },
+                        { name: 'Burpees', sets: '3 sets', reps: '10 reps', duration: 'Full body', note: 'Focus on form' },
+                        { name: 'Mountain Climbers', sets: '3 sets', reps: '20 reps', duration: 'Each leg', note: 'Keep core tight' },
+                        { name: 'Jump Squats', sets: '3 sets', reps: '15 reps', duration: 'Explosive', note: 'Land softly' }
+                    ],
+                    weekly: [
+                        { day: 'Monday, Wednesday, Friday', activities: 'Cardio and Strength Circuit', duration: '45-60 min' },
+                        { day: 'Tuesday, Thursday', activities: 'Yoga/Stretching + Light Walk', duration: '30-40 min' },
+                        { day: 'Saturday', activities: 'Active Recreation (Swimming/Cycling)', duration: '60 min' },
+                        { day: 'Sunday', activities: 'Rest Day', duration: 'Complete rest' }
+                    ]
+                },
+                weight_gain: {
+                    daily: [
+                        { name: 'Squats', sets: '4 sets', reps: '8-10 reps', duration: 'Heavy weights', note: 'Focus on depth' },
+                        { name: 'Deadlifts', sets: '4 sets', reps: '6-8 reps', duration: 'Heavy weights', note: 'Maintain form' },
+                        { name: 'Bench Press', sets: '4 sets', reps: '8-10 reps', duration: 'Heavy weights', note: 'Control the bar' },
+                        { name: 'Pull-ups/Chin-ups', sets: '3 sets', reps: 'To failure', duration: 'Body weight', note: 'Use assist if needed' },
+                        { name: 'Shoulder Press', sets: '3 sets', reps: '8-10 reps', duration: 'Moderate weight', note: 'Full range of motion' }
+                    ],
+                    weekly: [
+                        { day: 'Monday', activities: 'Chest & Triceps', duration: '60 min' },
+                        { day: 'Tuesday', activities: 'Back & Biceps', duration: '60 min' },
+                        { day: 'Wednesday', activities: 'Legs & Shoulders', duration: '60 min' },
+                        { day: 'Thursday', activities: 'Upper Body Compound', duration: '50 min' },
+                        { day: 'Friday', activities: 'Lower Body Compound', duration: '50 min' },
+                        { day: 'Saturday, Sunday', activities: 'Rest and Recovery', duration: 'Rest' }
+                    ]
+                },
+                muscle_gain: {
+                    daily: [
+                        { name: 'Barbell Squats', sets: '4 sets', reps: '6-8 reps', duration: 'Heavy', note: 'Progressive overload' },
+                        { name: 'Barbell Bench Press', sets: '4 sets', reps: '6-8 reps', duration: 'Heavy', note: 'Spotter recommended' },
+                        { name: 'Barbell Rows', sets: '4 sets', reps: '8-10 reps', duration: 'Heavy', note: 'Squeeze back muscles' },
+                        { name: 'Overhead Press', sets: '3 sets', reps: '6-8 reps', duration: 'Heavy', note: 'Strict form' },
+                        { name: 'Weighted Pull-ups', sets: '3 sets', reps: '6-10 reps', duration: 'Heavy', note: 'Add weight belt' }
+                    ],
+                    weekly: [
+                        { day: 'Monday', activities: 'Push Day (Chest, Shoulders, Triceps)', duration: '60-75 min' },
+                        { day: 'Tuesday', activities: 'Pull Day (Back, Biceps)', duration: '60-75 min' },
+                        { day: 'Wednesday', activities: 'Rest', duration: 'Rest' },
+                        { day: 'Thursday', activities: 'Push Day Variation', duration: '60-75 min' },
+                        { day: 'Friday', activities: 'Pull Day + Legs', duration: '60-75 min' },
+                        { day: 'Saturday', activities: 'Leg Day Focus', duration: '60-75 min' },
+                        { day: 'Sunday', activities: 'Rest and Recovery', duration: 'Rest' }
+                    ]
+                },
+                general: {
+                    daily: [
+                        { name: 'Push-ups', sets: '3 sets', reps: '15-20 reps', duration: 'Body weight', note: 'Modify as needed' },
+                        { name: 'Bodyweight Squats', sets: '3 sets', reps: '20 reps', duration: 'Body weight', note: 'Full range of motion' },
+                        { name: 'Plank', sets: '3 sets', reps: '30-60 sec', duration: 'Hold', note: 'Keep straight line' },
+                        { name: 'Lunges', sets: '3 sets', reps: '12 reps', duration: 'Each leg', note: 'Alternate legs' },
+                        { name: 'Jumping Jacks', sets: '3 sets', reps: '30 reps', duration: 'Cardio burst', note: 'Light pace' }
+                    ],
+                    weekly: [
+                        { day: 'Monday, Wednesday, Friday', activities: 'Full Body Workout', duration: '40-50 min' },
+                        { day: 'Tuesday, Thursday', activities: 'Yoga/Stretching + Light Cardio', duration: '30-40 min' },
+                        { day: 'Saturday', activities: 'Active Recovery (Walk/Sports)', duration: '45-60 min' },
+                        { day: 'Sunday', activities: 'Rest Day', duration: 'Complete rest' }
+                    ]
+                }
+            };
+            
+            const plan = exercisePlans[type] || exercisePlans.general;
+            
+            let content = `
+                <div style="display: grid; gap: 1.5rem;">
+                    <div style="background: white; border-radius: 1rem; padding: 1.5rem;">
+                        <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>🏋️</span> Daily Core Exercises
+                        </h4>
+                        <table class="meal-table" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Exercise</th>
+                                    <th>Sets</th>
+                                    <th>Reps</th>
+                                    <th>Duration</th>
+                                    <th>Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            
+            plan.daily.forEach(ex => {
+                content += `
+                    <tr>
+                        <td style="font-weight: 600; color: var(--primary);">${ex.name}</td>
+                        <td>${ex.sets}</td>
+                        <td>${ex.reps}</td>
+                        <td>${ex.duration}</td>
+                        <td style="font-size: 0.875rem; color: var(--gray-600);">${ex.note}</td>
+                    </tr>
+                `;
+            });
+            
+            content += `
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div style="background: white; border-radius: 1rem; padding: 1.5rem;">
+                        <h4 style="font-size: 1.125rem; font-weight: 700; color: var(--gray-900); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>📅</span> Weekly Schedule
+                        </h4>
+                        <div style="display: grid; gap: 1rem;">
+            `;
+            
+            plan.weekly.forEach(day => {
+                content += `
+                    <div style="padding: 1rem; background: var(--gray-50); border-radius: 0.75rem; border-left: 4px solid var(--primary);">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 700; color: var(--gray-900); margin-bottom: 0.25rem;">${day.day}</div>
+                                <div style="color: var(--gray-600); font-size: 0.875rem;">${day.activities}</div>
+                            </div>
+                            <div style="padding: 0.5rem 1rem; background: var(--primary); color: white; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem;">
+                                ${day.duration}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            content += `
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #f6f8ff 0%, #e8ecff 100%); border-radius: 1rem; padding: 1.5rem; border: 2px solid var(--primary);">
+                        <div style="display: flex; align-items: start; gap: 1rem;">
+                            <div style="font-size: 2rem;">💡</div>
+                            <div>
+                                <h4 style="font-weight: 700; color: var(--gray-900); margin-bottom: 0.5rem;">Pro Tips</h4>
+                                <ul style="color: var(--gray-700); font-size: 0.875rem; line-height: 1.8; margin: 0; padding-left: 1.25rem;">
+                                    <li>Start with lighter weights/rep counts and gradually increase</li>
+                                    <li>Always warm up for 5-10 minutes before exercising</li>
+                                    <li>Stay hydrated throughout your workout</li>
+                                    <li>Rest for 30-60 seconds between sets</li>
+                                    <li>Listen to your body and take rest days when needed</li>
+                                    <li>Pair these exercises with a balanced diet for best results</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return content;
+        }
+
+        function showMealDetails(day, mealType, dayIndex) {
+            // Create a modal to show meal details
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                padding: 2rem;
+            `;
+            
+            // Sample meal names for demo - in production, parse from actual meal plan
+            const mealExamples = {
+                'Breakfast': ['Poha with peanuts', 'Upma with vegetables', 'Idli with sambar', 'Paratha with curd', 'Dhokla', 'Avalakki', 'Sevai'],
+                'Lunch': ['Dal Tadka with Roti & Sabzi', 'Rajma Chawal', 'Chole with Bhature', 'Vegetable Biryani', 'Dal Khichdi', 'Sambar Rice', 'Khichdi'],
+                'Dinner': ['Palak Paneer & Roti', 'Vegetable Pulao', 'Aloo Gobhi & Paratha', 'Rajma Curry & Rice', 'Mushroom Curry', 'Lauki Sabzi', 'Mix Veg'],
+                'Snacks': ['Tea with Biscuits', 'Dry Fruits & Nuts', 'Fruit Salad', 'Sprouts Chat', 'Roasted Chana', 'Boiled Corn', 'Fresh Juice']
+            };
+            
+            const mealName = mealExamples[mealType][dayIndex] || `${mealType} for ${day}`;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 1.5rem; padding: 2rem; max-width: 500px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative;">
+                    <button onclick="this.parentElement.parentElement.remove()" style="position: absolute; top: 1rem; right: 1rem; background: var(--gray-200); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1.25rem; display: flex; align-items: center; justify-content: center;">✕</button>
+                    <div style="text-align: center; margin-bottom: 1.5rem;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🍽️</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900);">Meal Details</h3>
+                    </div>
+                    <div style="background: var(--gray-50); padding: 1.5rem; border-radius: 1rem; margin-bottom: 1rem;">
+                        <div style="font-weight: 600; color: var(--gray-600); margin-bottom: 0.5rem;">${day}</div>
+                        <div style="font-size: 1.125rem; font-weight: 700; color: var(--primary); margin-bottom: 0.75rem;">${mealType}</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.5rem;">${mealName}</div>
+                        <div style="color: var(--gray-600); font-size: 0.875rem;">~${mealType === 'Breakfast' ? '400' : mealType === 'Lunch' ? '550' : mealType === 'Dinner' ? '600' : '300'} kcal</div>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 1rem; border-radius: 0.75rem; border-left: 4px solid var(--primary);">
+                        <div style="font-size: 0.875rem; color: var(--gray-700); display: flex; align-items: start; gap: 0.5rem;">
+                            <span>💡</span>
+                            <div>Switch to <strong>Card View</strong> to see the complete detailed recipe and ingredients for this meal.</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Close on background click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
         }
 
         function savePlan() {
