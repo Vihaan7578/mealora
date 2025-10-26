@@ -149,6 +149,103 @@ function validateAndSanitizeInput(text) {
     return text;
 }
 
+// Health Condition Validation
+function validateHealthCondition(text, type) {
+    if (!text) return ''; // Empty is allowed
+    
+    // Layer 1: Prohibited patterns (immediate rejection)
+    const prohibitedPatterns = [
+        /<table[^>]*>/gi,
+        /<\/table>/gi,
+        /\bcreate\s+(a\s+)?table\b/gi,
+        /\bmake\s+(a\s+)?table\b/gi,
+        /\bshow\s+(a\s+)?table\b/gi,
+        /\bgenerate\s+(a\s+)?table\b/gi,
+        /\bhtml\s+table\b/gi,
+        /\byour\s+(mom|mother|dad|father|family|wife|husband)\b/gi,
+        /\bthroughout\s+the\s+years\b/gi,
+        /\bover\s+the\s+years\b/gi,
+        /\btimeline\b/gi,
+        /\bchart\b/gi,
+        /\bgraph\b/gi,
+        /\baudi\s+cars?\b/gi,
+        /\bcreate\s+html\b/gi,
+        /\bwrite\s+code\b/gi,
+        /\bgenerate\s+code\b/gi,
+        /\bscript\b/gi,
+        /<script/gi,
+        /javascript:/gi
+    ];
+    
+    // Check for prohibited patterns
+    for (let pattern of prohibitedPatterns) {
+        if (pattern.test(text)) {
+            console.warn('🚫 Prohibited pattern detected in health condition, rejecting input:', text);
+            return null;
+        }
+    }
+    
+    // Valid health condition keywords
+    const chronicHealthKeywords = [
+        'diabetes', 'diabetic', 'type 1 diabetes', 'type 2 diabetes', 'type-1', 'type-2',
+        'blood pressure', 'bp', 'high blood pressure', 'low blood pressure', 'hypertension', 'hypotension',
+        'pcos', 'polycystic ovary syndrome',
+        'thyroid', 'hypothyroidism', 'hyperthyroidism', 'hashimoto', 'graves',
+        'heart', 'cardiac', 'cardiovascular',
+        'cholesterol', 'high cholesterol', 'lipid',
+        'obesity', 'overweight',
+        'depression', 'anxiety',
+        'arthritis', 'osteoarthritis', 'rheumatoid',
+        'anemia', 'iron deficiency',
+        'ibs', 'irritable bowel syndrome',
+        'celiac', 'gluten',
+        'kidney', 'renal',
+        'liver',
+        'asthma',
+        'migraine'
+    ];
+    
+    const temporaryHealthKeywords = [
+        'fever', 'cold', 'flu', 'infection',
+        'weakness', 'fatigue', 'tiredness',
+        'headache', 'head ache',
+        'cough', 'sore throat',
+        'nausea', 'vomiting',
+        'diarrhea', 'constipation',
+        'stomach ache', 'stomachache', 'abdominal pain',
+        'dizziness',
+        'loss of appetite', 'appetite loss'
+    ];
+    
+    const validKeywords = type === 'chronic' ? chronicHealthKeywords : temporaryHealthKeywords;
+    
+    const lowerText = text.toLowerCase();
+    const hasValidKeyword = validKeywords.some(keyword => 
+        lowerText.includes(keyword.toLowerCase())
+    );
+    
+    if (!hasValidKeyword) {
+        console.warn('🚫 No valid health condition keywords found, rejecting input:', text);
+        return null;
+    }
+    
+    // Layer 2: Suspicious patterns
+    const suspiciousPatterns = [
+        /\b(create|make|generate|show|display|write)\s+.*\s+(for|about|of)\s+(your|my)\s*(mom|mother|dad|father|family)\b/gi,
+        /\byears?\s+(old|ago|back)\b/gi,
+        /\b(period|duration|span)\s+of\s+\d+\s+years\b/gi
+    ];
+    
+    for (let pattern of suspiciousPatterns) {
+        if (pattern.test(text)) {
+            console.warn('🚫 Suspicious pattern detected in health condition, rejecting input:', text);
+            return null;
+        }
+    }
+    
+    return text;
+}
+
 // Local Storage helpers
 function saveMealPlan(plan, userData) {
     const plans = JSON.parse(localStorage.getItem('mealPlans') || '[]');
