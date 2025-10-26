@@ -40,9 +40,19 @@
             <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;" class="gradient-text">
                 📈 Progress Tracker
             </h1>
-            <p style="font-size: 1.25rem; color: var(--gray-600);">
+            <p style="font-size: 1.25rem; color: var(--gray-600); margin-bottom: 2rem;">
                 Track your health journey over time
             </p>
+            
+            <!-- Demo Data Button -->
+            <div style="margin-bottom: 2rem;">
+                <button onclick="loadDemoData()" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1.125rem; margin-right: 1rem;">
+                    🎯 Load Demo Data
+                </button>
+                <button onclick="clearAllData()" class="btn" style="padding: 1rem 2rem; font-size: 1.125rem; background: var(--danger); color: white;">
+                    🗑️ Clear All Data
+                </button>
+            </div>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-bottom: 2rem;">
@@ -274,6 +284,137 @@
                     <div style="font-size: 0.875rem; opacity: 0.9;">Avg Energy</div>
                 </div>
             `;
+        }
+
+        // Demo data functions
+        function loadDemoData() {
+            const demoData = [
+                {
+                    id: Date.now() - 30 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 75.2,
+                    targetWeight: 70.0,
+                    energy: 6,
+                    notes: "Started my vegetarian meal plan journey! Feeling motivated."
+                },
+                {
+                    id: Date.now() - 28 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 74.8,
+                    targetWeight: 70.0,
+                    energy: 7,
+                    notes: "Great energy levels after following the meal plan. Dal and roti are amazing!"
+                },
+                {
+                    id: Date.now() - 25 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 74.1,
+                    targetWeight: 70.0,
+                    energy: 8,
+                    notes: "Lost 0.7kg this week! The Indian vegetarian meals are so satisfying."
+                },
+                {
+                    id: Date.now() - 22 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 22 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 73.5,
+                    targetWeight: 70.0,
+                    energy: 8,
+                    notes: "Consistent progress! Loving the variety of sabzi and dal combinations."
+                },
+                {
+                    id: Date.now() - 19 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 19 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 72.9,
+                    targetWeight: 70.0,
+                    energy: 9,
+                    notes: "Feeling more energetic than ever! The meal plan is working perfectly."
+                },
+                {
+                    id: Date.now() - 16 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 16 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 72.2,
+                    targetWeight: 70.0,
+                    energy: 9,
+                    notes: "Amazing results! Lost 3kg in 2 weeks. The vegetarian diet is incredible."
+                },
+                {
+                    id: Date.now() - 13 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 13 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 71.8,
+                    targetWeight: 70.0,
+                    energy: 8,
+                    notes: "Steady progress continues. The meal variety keeps me motivated."
+                },
+                {
+                    id: Date.now() - 10 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 71.2,
+                    targetWeight: 70.0,
+                    energy: 9,
+                    notes: "Only 1.2kg away from my goal! The Indian vegetarian meals are so nutritious."
+                },
+                {
+                    id: Date.now() - 7 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 70.8,
+                    targetWeight: 70.0,
+                    energy: 10,
+                    notes: "Almost at my target! Feeling fantastic with high energy levels."
+                },
+                {
+                    id: Date.now() - 4 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 70.3,
+                    targetWeight: 70.0,
+                    energy: 10,
+                    notes: "Just 0.3kg away from goal! The vegetarian meal plan has been life-changing."
+                },
+                {
+                    id: Date.now() - 1 * 24 * 60 * 60 * 1000,
+                    date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+                    weight: 70.1,
+                    targetWeight: 70.0,
+                    energy: 10,
+                    notes: "Almost there! The consistent meal planning has made all the difference."
+                }
+            ];
+
+            // Clear existing data and load demo data
+            localStorage.setItem('progress', JSON.stringify(demoData));
+            
+            // Update the form with current values
+            document.getElementById('weight').value = '70.1';
+            document.getElementById('targetWeight').value = '70.0';
+            document.getElementById('energy').value = '10';
+            document.getElementById('energyValue').textContent = '10';
+            document.getElementById('notes').value = 'Ready to maintain my healthy weight!';
+            
+            // Refresh all displays
+            updateChart();
+            displayHistory();
+            updateStats();
+            
+            showNotification('🎯 Demo data loaded successfully!', 'success');
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all progress data? This action cannot be undone.')) {
+                localStorage.removeItem('progress');
+                
+                // Clear form
+                document.getElementById('weight').value = '';
+                document.getElementById('targetWeight').value = '';
+                document.getElementById('energy').value = '5';
+                document.getElementById('energyValue').textContent = '5';
+                document.getElementById('notes').value = '';
+                
+                // Refresh displays
+                updateChart();
+                displayHistory();
+                updateStats();
+                
+                showNotification('🗑️ All data cleared!', 'success');
+            }
         }
 
         // Initialize
