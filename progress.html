@@ -158,8 +158,14 @@
         function updateChart() {
             const progress = getProgress();
             
+            // Ensure canvas element exists
+            let chartContainer = document.getElementById('chartContainer');
+            if (!document.getElementById('weightChart')) {
+                chartContainer.innerHTML = '<canvas id="weightChart" style="max-height: 400px;"></canvas>';
+            }
+            
             if (progress.length === 0) {
-                document.getElementById('chartContainer').innerHTML = `
+                chartContainer.innerHTML = `
                     <div style="text-align: center; padding: 4rem;">
                         <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
                         <p style="color: var(--gray-600);">Log your first entry to see the chart</p>
@@ -177,6 +183,17 @@
             const labels = progress.map(p => new Date(p.date).toLocaleDateString());
             const weights = progress.map(p => p.weight);
             const targets = progress.map(p => p.targetWeight);
+
+            // Check if Chart.js is loaded
+            if (typeof Chart === 'undefined') {
+                chartContainer.innerHTML = `
+                    <div style="text-align: center; padding: 4rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                        <p style="color: var(--gray-600);">Chart.js is loading...</p>
+                    </div>
+                `;
+                return;
+            }
 
             weightChart = new Chart(ctx, {
                 type: 'line',
@@ -389,10 +406,12 @@
             document.getElementById('energyValue').textContent = '10';
             document.getElementById('notes').value = 'Ready to maintain my healthy weight!';
             
-            // Refresh all displays
-            updateChart();
-            displayHistory();
-            updateStats();
+            // Refresh all displays with delay
+            setTimeout(() => {
+                updateChart();
+                displayHistory();
+                updateStats();
+            }, 200);
             
             showNotification('🎯 Demo data loaded successfully!', 'success');
         }
@@ -408,19 +427,23 @@
                 document.getElementById('energyValue').textContent = '5';
                 document.getElementById('notes').value = '';
                 
-                // Refresh displays
-                updateChart();
-                displayHistory();
-                updateStats();
+                // Refresh displays with delay
+                setTimeout(() => {
+                    updateChart();
+                    displayHistory();
+                    updateStats();
+                }, 200);
                 
                 showNotification('🗑️ All data cleared!', 'success');
             }
         }
 
-        // Initialize
-        updateChart();
-        displayHistory();
-        updateStats();
+        // Initialize with delay to ensure Chart.js is loaded
+        setTimeout(() => {
+            updateChart();
+            displayHistory();
+            updateStats();
+        }, 100);
     </script>
 
     <!-- Footer -->
