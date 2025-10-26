@@ -51,31 +51,101 @@ const seasonalFoods = {
     'Winter': ['Palak', 'Sarson', 'Bathua', 'Carrots', 'Beetroot', 'Peas', 'Cauliflower']
 };
 
-// Input Validation - Filter Non-Food Requests
+// STRICT Input Validation - Multi-layer Filtering
 function validateAndSanitizeInput(text) {
     if (!text) return '';
     
-    // List of valid food-related keywords
-    const foodKeywords = [
-        'allergic', 'allergy', 'intolerant', 'diabetes', 'diabetic', 'blood pressure', 'bp',
-        'pcos', 'thyroid', 'vegan', 'vegetarian', 'non-veg', 'meat', 'chicken', 'fish',
-        'nuts', 'peanuts', 'milk', 'lactose', 'gluten', 'wheat', 'rice', 'dal', 'paneer',
-        'egg', 'soy', 'shellfish', 'dairy', 'oil', 'salt', 'sugar', 'spicy', 'mild',
-        'healthy', 'weight', 'gain', 'loss', 'protein', 'carbs', 'calories', 'fat',
-        'prefer', 'dislike', 'avoid', 'cannot eat', 'do not eat', 'allergic to'
+    // Layer 1: Prohibited patterns (immediate rejection)
+    const prohibitedPatterns = [
+        /<table[^>]*>/gi,
+        /<\/table>/gi,
+        /\bcreate\s+(a\s+)?table\b/gi,
+        /\bmake\s+(a\s+)?table\b/gi,
+        /\bshow\s+(a\s+)?table\b/gi,
+        /\bgenerate\s+(a\s+)?table\b/gi,
+        /\bhtml\s+table\b/gi,
+        /\byour\s+(mom|mother|dad|father|family|wife|husband)\b/gi,
+        /\bthroughout\s+the\s+years\b/gi,
+        /\bover\s+the\s+years\b/gi,
+        /\btimeline\b/gi,
+        /\bchart\b/gi,
+        /\bgraph\b/gi,
+        /\baudi\s+cars?\b/gi,
+        /\bcreate\s+html\b/gi,
+        /\bwrite\s+code\b/gi,
+        /\bgenerate\s+code\b/gi,
+        /\bscript\b/gi,
+        /<script/gi,
+        /javascript:/gi
     ];
     
-    // Check if input contains ANY food-related keywords
+    // Check for prohibited patterns
+    for (let pattern of prohibitedPatterns) {
+        if (pattern.test(text)) {
+            console.warn('🚫 Prohibited pattern detected, rejecting input:', text);
+            return null; // Return null to indicate explicit rejection
+        }
+    }
+    
+    // Layer 2: Food-related keywords (must contain at least one)
+    const foodKeywords = [
+        // Allergies & Intolerances
+        'allergic', 'allergy', 'intolerant', 'cannot eat', 'avoid eating',
+        // Health Conditions
+        'diabetes', 'diabetic', 'blood pressure', 'bp', 'hypertension', 'low bp',
+        'pcos', 'thyroid', 'hypothyroidism', 'hyperthyroidism', 'pregnancy',
+        // Dietary Preferences
+        'vegan', 'vegetarian', 'non-veg', 'non vegetarian', 'ovo', 'lacto',
+        // Food Items
+        'meat', 'chicken', 'fish', 'seafood', 'prawn', 'crab',
+        'nuts', 'peanuts', 'almond', 'cashew', 'walnut',
+        'milk', 'lactose', 'dairy', 'cheese', 'butter', 'curd', 'dahi',
+        'gluten', 'wheat', 'maida', 'suji', 'semolina',
+        'rice', 'dal', 'pulse', 'legumes', 'chana', 'masoor', 'arhar', 'toor', 'moong', 'urad',
+        'paneer', 'tofu', 'soya', 'soy', 'soya chunks',
+        'egg', 'eggplant', 'brinjal', 'baingan',
+        'onion', 'garlic', 'tomato', 'potato', 'aloo',
+        'cauliflower', 'gobhi', 'cabbage', 'band gobhi',
+        'spinach', 'palak', 'fenugreek', 'methi',
+        'okra', 'bhindi', 'bitter gourd', 'karela',
+        'bottle gourd', 'lauki', 'ridge gourd', 'tori', 'dudhi',
+        // Seasonings & Spices
+        'salt', 'sugar', 'jaggery', 'gur', 'honey', 'shahad',
+        'oil', 'ghee', 'mustard oil', 'coconut oil',
+        'spicy', 'mild', 'less spicy', 'masala', 'spices',
+        // General Terms
+        'healthy', 'nutritious', 'protein', 'carbs', 'calories', 'fat',
+        'weight', 'gain weight', 'lose weight', 'maintain weight',
+        'prefer', 'like', 'dislike', 'love', 'hate',
+        'breakfast', 'lunch', 'dinner', 'snacks', 'meal',
+        'katori', 'bowl', 'plate', 'cup', 'rotis', 'chapatis'
+    ];
+    
+    const lowerText = text.toLowerCase();
     const hasFoodKeyword = foodKeywords.some(keyword => 
-        text.toLowerCase().includes(keyword.toLowerCase())
+        lowerText.includes(keyword.toLowerCase())
     );
     
     if (!hasFoodKeyword) {
-        // If no food keywords found, return empty string to ignore the input
-        console.warn('Invalid input detected, ignoring non-food related request:', text);
-        return '';
+        console.warn('🚫 No food-related keywords found, rejecting input:', text);
+        return null;
     }
     
+    // Layer 3: Suspicious patterns that might slip through
+    const suspiciousPatterns = [
+        /\b(create|make|generate|show|display|write)\s+.*\s+(for|about|of)\s+(your|my)\s*(mom|mother|dad|father|family)\b/gi,
+        /\byears?\s+(old|ago|back)\b/gi,
+        /\b(period|duration|span)\s+of\s+\d+\s+years\b/gi
+    ];
+    
+    for (let pattern of suspiciousPatterns) {
+        if (pattern.test(text)) {
+            console.warn('🚫 Suspicious pattern detected, rejecting input:', text);
+            return null;
+        }
+    }
+    
+    // If passed all checks, return the text
     return text;
 }
 

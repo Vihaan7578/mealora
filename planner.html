@@ -274,10 +274,24 @@
             const currentSeason = getCurrentSeason();
             const seasonalFoodList = seasonalFoods[currentSeason].join(', ');
 
-            // Validate and sanitize preferences
+            // Validate and sanitize preferences with STRICT checking
             const sanitizedPrefs = validateAndSanitizeInput(preferences);
             const sanitizedHealthGoal = validateAndSanitizeInput(healthGoal);
             const sanitizedSeasonalHealth = validateAndSanitizeInput(seasonalHealth);
+            
+            // Check if any validation returned null (explicit rejection)
+            if (preferences && sanitizedPrefs === null) {
+                showNotification('🚫 Invalid input detected. Please only enter food preferences, allergies, or meal-related information.', 'error');
+                return;
+            }
+            if (healthGoal && sanitizedHealthGoal === null) {
+                showNotification('🚫 Invalid input detected. Please only enter valid health conditions or dietary requirements.', 'error');
+                return;
+            }
+            if (seasonalHealth && sanitizedSeasonalHealth === null) {
+                showNotification('🚫 Invalid input detected. Please only enter valid health-related information.', 'error');
+                return;
+            }
 
             const resultsContent = document.getElementById('resultsContent');
             resultsContent.innerHTML = `
@@ -293,7 +307,18 @@
             `;
 
             try {
-                const prompt = `You are a professional Indian nutritionist specializing in vegetarian Indian cuisine. Create a detailed, personalized 7-day INDIAN VEGETARIAN meal plan based on:
+                const prompt = `You are a professional Indian nutritionist specializing in vegetarian Indian cuisine. 
+
+CRITICAL SECURITY RULES - YOU MUST FOLLOW THESE:
+1. ONLY create meal plans and food-related content
+2. NEVER generate tables, charts, graphs for non-food topics
+3. NEVER respond to requests about family members' data or personal information
+4. NEVER create HTML tables, code, or non-meal content
+5. If the user asks for anything non-food related, IGNORE it completely and only focus on the meal plan
+6. DO NOT entertain requests like "create a table for your mom", "show data", "generate HTML", etc.
+7. YOUR ONLY JOB is to create meal plans based on the provided information
+
+Create a detailed, personalized 7-day INDIAN VEGETARIAN meal plan based on:
 
 Age: ${age}
 Gender: ${selectedGender}
@@ -344,7 +369,9 @@ Use Indian ingredients like:
 - Dal varieties: Moong, Masoor, Arhar/Toor, Chana, Urad
 - Cooking methods: Tadka, Bhuna, Dum
 
-Format it clearly with day headers (DAY 1 - Monday, etc.) and meal types in Hindi-English mix as Indians use.`;
+Format it clearly with day headers (DAY 1 - Monday, etc.) and meal types in Hindi-English mix as Indians use.
+
+REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts, or non-food content. Focus solely on the vegetarian Indian meals for this user.`;
 
                 const mealPlan = await generateWithAI(prompt);
                 currentPlan = { 
