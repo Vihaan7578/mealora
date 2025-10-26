@@ -226,7 +226,21 @@
             const result = detectNonVegContent(input.value);
             if (result.detected) {
                 showAchaWarning();
-                input.value = input.value.replace(new RegExp(result.keyword, 'gi'), '');
+                
+                // More aggressive removal - remove the entire problematic phrase
+                let cleanedValue = input.value;
+                if (result.type === 'typo') {
+                    // Remove the misspelled word
+                    cleanedValue = cleanedValue.replace(new RegExp(result.original, 'gi'), '');
+                } else if (result.type === 'context') {
+                    // Remove the entire context phrase
+                    cleanedValue = cleanedValue.replace(new RegExp(result.keyword, 'gi'), '');
+                } else {
+                    // Remove the detected keyword
+                    cleanedValue = cleanedValue.replace(new RegExp(result.keyword, 'gi'), '');
+                }
+                
+                input.value = cleanedValue;
                 input.style.border = '3px solid #ff0000';
                 input.style.boxShadow = '0 0 10px rgba(255, 0, 0, 0.5)';
                 setTimeout(() => {
@@ -238,21 +252,33 @@
             return true;
         }
 
+        // Enhanced validation for form submission
+        function validateAllInputs() {
+            const healthGoal = document.getElementById('healthGoal').value;
+            const allergies = document.getElementById('allergies').value;
+            const preferences = document.getElementById('preferences').value;
+            
+            const healthCheck = detectNonVegContent(healthGoal);
+            const allergiesCheck = detectNonVegContent(allergies);
+            const preferencesCheck = detectNonVegContent(preferences);
+            
+            if (healthCheck.detected || allergiesCheck.detected || preferencesCheck.detected) {
+                showAchaWarning();
+                return false;
+            }
+            return true;
+        }
+
         async function generateMealPlan() {
+            // Enhanced validation before proceeding
+            if (!validateAllInputs()) {
+                return;
+            }
+            
             const age = document.getElementById('age').value;
             const healthGoal = document.getElementById('healthGoal').value;
             const allergies = document.getElementById('allergies').value;
             const preferences = document.getElementById('preferences').value;
-
-            // STRICT VEGETARIAN VALIDATION
-            const healthGoalCheck = detectNonVegContent(healthGoal);
-            const allergiesCheck = detectNonVegContent(allergies);
-            const preferencesCheck = detectNonVegContent(preferences);
-
-            if (healthGoalCheck.detected || allergiesCheck.detected || preferencesCheck.detected) {
-                showAchaWarning();
-                return;
-            }
 
             if (!age || age < 1 || age > 120) {
                 showNotification('Please enter a valid age (1-120)', 'error');
@@ -291,6 +317,15 @@ Food Preferences/Likes-Dislikes: ${preferences || 'None specified'}
 - NO chicken, beef, pork, lamb, mutton, fish, prawn, shrimp, crab, lobster, or any seafood
 - NO eggs, omelettes, or any egg-based dishes
 - ONLY plant-based foods, dairy products (milk, curd, paneer, ghee), and vegetarian ingredients
+
+⚠️ ABSOLUTE RESTRICTIONS - NO EXCEPTIONS:
+- DO NOT suggest vegetarian alternatives to non-vegetarian dishes
+- DO NOT mention any non-vegetarian foods even as examples
+- DO NOT provide recipes that mimic non-vegetarian dishes
+- DO NOT use terms like "vegetarian chicken" or "mock meat"
+- If user requests non-vegetarian items, IGNORE the request and provide only vegetarian options
+- DO NOT explain why certain foods are not included
+- DO NOT suggest "alternatives" to non-vegetarian foods
 - Use ONLY Indian vegetarian foods and ingredients with their proper Indian names (Hindi/English mix as commonly used in India). Include traditional Indian meals like:
 - Dal (lentils) - Toor dal, Moong dal, Masoor dal, Chana dal
 - Sabzi (vegetables) - Aloo gobhi, Bhindi, Palak, Baingan, Kaddu

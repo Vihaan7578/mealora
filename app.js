@@ -4,7 +4,7 @@ const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 // STRICT VEGETARIAN ENFORCEMENT SYSTEM
 const NON_VEG_KEYWORDS = [
-    // Meat
+    // Meat - exact matches
     'chicken', 'beef', 'pork', 'lamb', 'mutton', 'goat', 'turkey', 'duck', 'fish', 'salmon', 'tuna', 'prawn', 'shrimp', 'crab', 'lobster',
     'meat', 'flesh', 'animal', 'carcass', 'butcher', 'slaughter',
     
@@ -27,28 +27,110 @@ const NON_VEG_KEYWORDS = [
     'egg', 'eggs', 'omelette', 'scrambled', 'boiled', 'fried egg', 'egg curry', 'anda',
     
     // Dairy products that might be non-veg
-    'rennet', 'gelatin', 'lard', 'tallow'
+    'rennet', 'gelatin', 'lard', 'tallow',
+    
+    // Common misspellings and variations
+    'chiken', 'chken', 'chikn', 'chikken', 'chikn', 'chiken', 'chikn', 'chikn',
+    'fsh', 'fis', 'fihs', 'fihs', 'fihs', 'fihs', 'fihs', 'fihs',
+    'meat', 'meet', 'met', 'meat', 'meet', 'met', 'meat', 'meet',
+    'prawn', 'prawns', 'prawn', 'prawns', 'prawn', 'prawns', 'prawn', 'prawns',
+    'shrimp', 'shrimps', 'shrimp', 'shrimps', 'shrimp', 'shrimps', 'shrimp', 'shrimps',
+    'crab', 'crabs', 'crab', 'crabs', 'crab', 'crabs', 'crab', 'crabs',
+    'lobster', 'lobsters', 'lobster', 'lobsters', 'lobster', 'lobsters', 'lobster', 'lobsters',
+    'turkey', 'turkeys', 'turkey', 'turkeys', 'turkey', 'turkeys', 'turkey', 'turkeys',
+    'duck', 'ducks', 'duck', 'ducks', 'duck', 'ducks', 'duck', 'ducks',
+    'beef', 'beefs', 'beef', 'beefs', 'beef', 'beefs', 'beef', 'beefs',
+    'pork', 'porks', 'pork', 'porks', 'pork', 'porks', 'pork', 'porks',
+    'lamb', 'lambs', 'lamb', 'lambs', 'lamb', 'lambs', 'lamb', 'lambs',
+    'mutton', 'muttons', 'mutton', 'muttons', 'mutton', 'muttons', 'mutton', 'muttons',
+    'goat', 'goats', 'goat', 'goats', 'goat', 'goats', 'goat', 'goats',
+    'salmon', 'salmons', 'salmon', 'salmons', 'salmon', 'salmons', 'salmon', 'salmons',
+    'tuna', 'tunas', 'tuna', 'tunas', 'tuna', 'tunas', 'tuna', 'tunas'
 ];
 
-// Function to detect non-vegetarian content
+// Function to calculate Levenshtein distance for fuzzy matching
+function levenshteinDistance(str1, str2) {
+    const matrix = [];
+    for (let i = 0; i <= str2.length; i++) {
+        matrix[i] = [i];
+    }
+    for (let j = 0; j <= str1.length; j++) {
+        matrix[0][j] = j;
+    }
+    for (let i = 1; i <= str2.length; i++) {
+        for (let j = 1; j <= str1.length; j++) {
+            if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j] + 1
+                );
+            }
+        }
+    }
+    return matrix[str2.length][str1.length];
+}
+
+// Function to detect typos and misspellings
+function detectTypos(word, keywords) {
+    for (let keyword of keywords) {
+        const distance = levenshteinDistance(word, keyword);
+        const maxDistance = Math.max(1, Math.floor(keyword.length * 0.3)); // Allow 30% error
+        if (distance <= maxDistance && distance > 0) {
+            return { detected: true, keyword: keyword, original: word };
+        }
+    }
+    return { detected: false };
+}
+
+// Enhanced function to detect non-vegetarian content with typo detection
 function detectNonVegContent(text) {
     if (!text) return false;
     
     const lowerText = text.toLowerCase();
     const words = lowerText.split(/\s+/);
     
+    // Check exact matches first
     for (let word of words) {
-        // Remove punctuation for better matching
         const cleanWord = word.replace(/[^\w]/g, '');
         if (NON_VEG_KEYWORDS.includes(cleanWord)) {
-            return { detected: true, keyword: cleanWord };
+            return { detected: true, keyword: cleanWord, type: 'exact' };
         }
     }
     
-    // Check for partial matches in longer text
+    // Check for partial matches
     for (let keyword of NON_VEG_KEYWORDS) {
         if (lowerText.includes(keyword)) {
-            return { detected: true, keyword: keyword };
+            return { detected: true, keyword: keyword, type: 'partial' };
+        }
+    }
+    
+    // Check for typos and misspellings
+    for (let word of words) {
+        const cleanWord = word.replace(/[^\w]/g, '');
+        if (cleanWord.length >= 3) { // Only check words with 3+ characters
+            const typoResult = detectTypos(cleanWord, NON_VEG_KEYWORDS);
+            if (typoResult.detected) {
+                return { detected: true, keyword: typoResult.keyword, original: typoResult.original, type: 'typo' };
+            }
+        }
+    }
+    
+    // Check for context clues that suggest non-veg requests
+    const contextClues = [
+        'real chicken', 'actual chicken', 'genuine chicken', 'authentic chicken',
+        'real meat', 'actual meat', 'genuine meat', 'authentic meat',
+        'real fish', 'actual fish', 'genuine fish', 'authentic fish',
+        'only chicken', 'only meat', 'only fish', 'must have chicken',
+        'need chicken', 'want chicken', 'require chicken', 'chicken only',
+        'meat only', 'fish only', 'non veg', 'non-veg', 'nonvegetarian'
+    ];
+    
+    for (let clue of contextClues) {
+        if (lowerText.includes(clue)) {
+            return { detected: true, keyword: clue, type: 'context' };
         }
     }
     
