@@ -3,8 +3,24 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
+import { useDeviceDetection } from '@/hooks/useDeviceDetection'
+import MobileMealPlanDisplay from './MobileMealPlanDisplay'
 
-export default function MealPlanDisplay({ plan }) {
+export default function MealPlanDisplay({ plan, onSave, onGrocery, onNutrition, onExport }) {
+  const deviceInfo = useDeviceDetection()
+
+  // Use mobile layout for mobile devices
+  if (deviceInfo.isMobile) {
+    return (
+      <MobileMealPlanDisplay 
+        plan={plan}
+        onSave={onSave}
+        onGrocery={onGrocery}
+        onNutrition={onNutrition}
+        onExport={onExport}
+      />
+    )
+  }
   const [expandedDays, setExpandedDays] = useState([0])
 
   const toggleDay = (index) => {

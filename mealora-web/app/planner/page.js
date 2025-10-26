@@ -6,12 +6,14 @@ import { FiUser, FiHeart, FiSettings, FiSave, FiDownload, FiShoppingCart, FiBarC
 import { GiMeal } from 'react-icons/gi'
 import toast from 'react-hot-toast'
 import { generateMealPlan } from '@/lib/gemini'
+import { useDeviceDetection } from '@/hooks/useDeviceDetection'
 import MealPlanDisplay from '@/components/MealPlanDisplay'
 import GroceryList from '@/components/GroceryList'
 import NutritionDashboard from '@/components/NutritionDashboard'
 import LoadingAnimation from '@/components/LoadingAnimation'
 
 export default function PlannerPage() {
+  const deviceInfo = useDeviceDetection()
   const [formData, setFormData] = useState({
     age: '',
     gender: 'male',
@@ -124,7 +126,7 @@ export default function PlannerPage() {
           <p className="text-base sm:text-lg lg:text-xl text-gray-600">Create Your Personalized Meal Plan</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        <div className={`grid gap-6 sm:gap-8 ${deviceInfo.isMobile ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2'}`}>
           {/* Left Column - Input Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -282,7 +284,7 @@ export default function PlannerPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <div className="glass p-8 rounded-3xl shadow-xl min-h-[600px]">
+            <div className={`glass p-8 rounded-3xl shadow-xl min-h-[600px] ${deviceInfo.isMobile ? 'w-full max-w-full overflow-x-hidden' : ''}`}>
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl text-white">
@@ -294,8 +296,8 @@ export default function PlannerPage() {
                   </div>
                 </div>
 
-                {/* Action Buttons */}
-                {mealPlan && !isGenerating && (
+                {/* Action Buttons - Hidden on Mobile */}
+                {mealPlan && !isGenerating && !deviceInfo.isMobile && (
                   <div className="flex gap-2">
                     <motion.button
                       whileHover={{ scale: 1.1 }}
@@ -342,7 +344,14 @@ export default function PlannerPage() {
                 {isGenerating ? (
                   <LoadingAnimation key="loading" />
                 ) : mealPlan ? (
-                  <MealPlanDisplay key="plan" plan={mealPlan} />
+                  <MealPlanDisplay 
+                    key="plan" 
+                    plan={mealPlan}
+                    onSave={handleSavePlan}
+                    onGrocery={() => setShowGrocery(true)}
+                    onNutrition={() => setShowNutrition(true)}
+                    onExport={handleExportPDF}
+                  />
                 ) : (
                   <motion.div
                     key="empty"

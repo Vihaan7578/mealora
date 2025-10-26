@@ -346,3 +346,41 @@
 .info-responsive {
   @apply border-blue-500 focus:border-blue-500 focus:ring-blue-500;
 }
+
+/* Mobile-specific fixes to prevent horizontal scrolling */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+  
+  .glass {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  .meal-plan-container {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  /* Prevent horizontal scrolling on mobile */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure meal plan content doesn't cause horizontal scroll */
+  .meal-plan-content {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  
+  /* Mobile meal plan display */
+  .mobile-meal-plan {
+    width: 100%;
+    max-width: 100vw;
+    padding: 0 1rem;
+    box-sizing: border-box;
+  }
+}
