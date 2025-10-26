@@ -19,6 +19,66 @@ function setActivePage(pageName) {
     });
 }
 
+// BMI Calculation and Calorie Adjustment
+function calculateBMI(weight, height) {
+    if (!weight || !height || height === 0) return null;
+    const heightInMeters = height / 100;
+    const bmi = weight / (heightInMeters * heightInMeters);
+    return bmi;
+}
+
+function getBMICategory(bmi) {
+    if (bmi < 18.5) return { category: 'Underweight', calorieAdjustment: '+300' };
+    if (bmi < 25) return { category: 'Normal Weight', calorieAdjustment: 'Maintain' };
+    if (bmi < 30) return { category: 'Overweight', calorieAdjustment: '-300' };
+    return { category: 'Obese', calorieAdjustment: '-500' };
+}
+
+// Get Current Season
+function getCurrentSeason() {
+    const month = new Date().getMonth();
+    if (month >= 2 && month <= 4) return 'Spring';
+    if (month >= 5 && month <= 7) return 'Summer';
+    if (month >= 8 && month <= 10) return 'Monsoon';
+    return 'Winter';
+}
+
+// Seasonal Foods Database
+const seasonalFoods = {
+    'Spring': ['Tinda', 'Raw Mango', 'Cucumber', 'Radish', 'Carrots', 'Peas', 'Coriander'],
+    'Summer': ['Karela', 'Bottle Gourd', 'Tori', 'Cucumber', 'Watermelon', 'Mint', 'Coconut Water'],
+    'Monsoon': ['Bhindi', 'Brinjal', 'Karela', 'Corn', 'Lauki', 'Green Beans'],
+    'Winter': ['Palak', 'Sarson', 'Bathua', 'Carrots', 'Beetroot', 'Peas', 'Cauliflower']
+};
+
+// Input Validation - Filter Non-Food Requests
+function validateAndSanitizeInput(text) {
+    if (!text) return '';
+    
+    // List of valid food-related keywords
+    const foodKeywords = [
+        'allergic', 'allergy', 'intolerant', 'diabetes', 'diabetic', 'blood pressure', 'bp',
+        'pcos', 'thyroid', 'vegan', 'vegetarian', 'non-veg', 'meat', 'chicken', 'fish',
+        'nuts', 'peanuts', 'milk', 'lactose', 'gluten', 'wheat', 'rice', 'dal', 'paneer',
+        'egg', 'soy', 'shellfish', 'dairy', 'oil', 'salt', 'sugar', 'spicy', 'mild',
+        'healthy', 'weight', 'gain', 'loss', 'protein', 'carbs', 'calories', 'fat',
+        'prefer', 'dislike', 'avoid', 'cannot eat', 'do not eat', 'allergic to'
+    ];
+    
+    // Check if input contains ANY food-related keywords
+    const hasFoodKeyword = foodKeywords.some(keyword => 
+        text.toLowerCase().includes(keyword.toLowerCase())
+    );
+    
+    if (!hasFoodKeyword) {
+        // If no food keywords found, return empty string to ignore the input
+        console.warn('Invalid input detected, ignoring non-food related request:', text);
+        return '';
+    }
+    
+    return text;
+}
+
 // Local Storage helpers
 function saveMealPlan(plan, userData) {
     const plans = JSON.parse(localStorage.getItem('mealPlans') || '[]');

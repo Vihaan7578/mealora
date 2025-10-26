@@ -64,6 +64,20 @@
                            style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
+                <!-- Height -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Height (cm)</label>
+                    <input type="number" id="height" placeholder="e.g., 170" 
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
+                <!-- Weight -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Weight (kg)</label>
+                    <input type="number" id="weight" placeholder="e.g., 70" 
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
                 <!-- Gender -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.75rem;">Gender</label>
@@ -82,8 +96,29 @@
 
                 <!-- Health Issues -->
                 <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Issues</label>
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Issues (Chronic)</label>
                     <input type="text" id="healthGoal" placeholder="e.g., Diabetes, High BP, PCOS, Thyroid"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
+                <!-- Seasonal Health Issues -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Seasonal Health Issues (Temporary)</label>
+                    <input type="text" id="seasonalHealth" placeholder="e.g., Fever, Weakness, Cold, Flu"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
+                <!-- Budget -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Weekly Budget (₹)</label>
+                    <input type="number" id="budget" placeholder="e.g., 500, 1000, 1500"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                </div>
+
+                <!-- Region -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Region/State</label>
+                    <input type="text" id="region" placeholder="e.g., North India, Maharashtra, Tamil Nadu"
                            style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
@@ -203,11 +238,28 @@
 
         async function generateMealPlan() {
             const age = document.getElementById('age').value;
+            const height = document.getElementById('height').value;
+            const weight = document.getElementById('weight').value;
             const healthGoal = document.getElementById('healthGoal').value;
+            const seasonalHealth = document.getElementById('seasonalHealth').value;
+            const budget = document.getElementById('budget').value;
+            const region = document.getElementById('region').value;
             const preferences = document.getElementById('preferences').value;
 
+            // Validate age
             if (!age || age < 1 || age > 120) {
                 showNotification('Please enter a valid age (1-120)', 'error');
+                return;
+            }
+
+            // Validate height and weight
+            if (!height || height < 100 || height > 250) {
+                showNotification('Please enter a valid height in cm (100-250)', 'error');
+                return;
+            }
+
+            if (!weight || weight < 20 || weight > 300) {
+                showNotification('Please enter a valid weight in kg (20-300)', 'error');
                 return;
             }
 
@@ -215,6 +267,17 @@
                 showNotification('Please enter your health goal', 'error');
                 return;
             }
+
+            // Calculate BMI
+            const bmi = calculateBMI(parseFloat(weight), parseFloat(height));
+            const bmiInfo = getBMICategory(bmi);
+            const currentSeason = getCurrentSeason();
+            const seasonalFoodList = seasonalFoods[currentSeason].join(', ');
+
+            // Validate and sanitize preferences
+            const sanitizedPrefs = validateAndSanitizeInput(preferences);
+            const sanitizedHealthGoal = validateAndSanitizeInput(healthGoal);
+            const sanitizedSeasonalHealth = validateAndSanitizeInput(seasonalHealth);
 
             const resultsContent = document.getElementById('resultsContent');
             resultsContent.innerHTML = `
@@ -234,8 +297,25 @@
 
 Age: ${age}
 Gender: ${selectedGender}
-Health Issues: ${healthGoal}
-Food Preferences/Allergies: ${preferences || 'None specified'}
+Height: ${height} cm
+Weight: ${weight} kg
+BMI: ${bmi.toFixed(1)} (${bmiInfo.category})
+Calorie Adjustment: ${bmiInfo.calorieAdjustment}
+Health Issues (Chronic): ${sanitizedHealthGoal}
+Seasonal Health Issues: ${sanitizedSeasonalHealth || 'None'}
+Budget: ₹${budget || 'Flexible'} per week
+Region: ${region || 'General Indian'}
+Current Season: ${currentSeason}
+Seasonal Foods Available: ${seasonalFoodList}
+Food Preferences/Allergies: ${sanitizedPrefs || 'None specified'}
+
+IMPORTANT INSTRUCTIONS:
+1. Calculate daily calorie target based on BMI category: ${bmiInfo.calorieAdjustment}
+2. Use ONLY seasonal foods available in ${currentSeason}: ${seasonalFoodList}
+3. Consider regional preferences for ${region || 'Indian'} cuisine
+4. Plan meals within budget of ₹${budget || 'Flexible'} per week
+5. Address seasonal health issues: ${sanitizedSeasonalHealth || 'None'} with appropriate foods (e.g., warm soups for cold, light meals for fever, protein-rich for weakness)
+6. For chronic health issues: ${sanitizedHealthGoal}
 - Use ONLY Indian vegetarian foods and ingredients with their proper Indian names (Hindi/English mix as commonly used in India). Include traditional Indian meals like:
 - Dal (lentils) - Toor dal, Moong dal, Masoor dal, Chana dal
 - Sabzi (vegetables) - Aloo gobhi, Bhindi, Palak, Baingan, Kaddu
@@ -267,11 +347,25 @@ Use Indian ingredients like:
 Format it clearly with day headers (DAY 1 - Monday, etc.) and meal types in Hindi-English mix as Indians use.`;
 
                 const mealPlan = await generateWithAI(prompt);
-                currentPlan = { text: mealPlan, age, gender: selectedGender, healthGoal, preferences };
+                currentPlan = { 
+                    text: mealPlan, 
+                    age, 
+                    height, 
+                    weight, 
+                    bmi: bmi.toFixed(1),
+                    bmiCategory: bmiInfo.category,
+                    gender: selectedGender, 
+                    healthGoal: sanitizedHealthGoal, 
+                    seasonalHealth: sanitizedSeasonalHealth,
+                    budget,
+                    region,
+                    season: currentSeason,
+                    preferences: sanitizedPrefs 
+                };
                 
                 document.getElementById('actionButtons').style.display = 'flex';
-                displayPlan(mealPlan);
-                showNotification('🎉 Your meal plan is ready!', 'success');
+                displayPlan(mealPlan, bmi, bmiInfo, currentSeason);
+                showNotification('🎉 Your personalized meal plan is ready!', 'success');
             } catch (error) {
                 resultsContent.innerHTML = `
                     <div style="text-align: center; padding: 4rem 2rem;">
@@ -284,22 +378,48 @@ Format it clearly with day headers (DAY 1 - Monday, etc.) and meal types in Hind
             }
         }
 
-        function displayPlan(plan) {
+        function displayPlan(plan, bmi, bmiInfo, season) {
             if (currentView === 'card') {
-                displayCardView(plan);
+                displayCardView(plan, bmi, bmiInfo, season);
             } else {
                 displayTableView(plan);
             }
         }
 
-        function displayCardView(plan) {
+        function displayCardView(plan, bmi, bmiInfo, season) {
             const resultsContent = document.getElementById('resultsContent');
+            
+            // Determine BMI color
+            let bmiColor = '#10B981'; // Normal - Green
+            if (bmi < 18.5) bmiColor = '#3B82F6'; // Underweight - Blue
+            else if (bmi < 25) bmiColor = '#10B981'; // Normal - Green
+            else if (bmi < 30) bmiColor = '#F59E0B'; // Overweight - Orange
+            else bmiColor = '#EF4444'; // Obese - Red
+
+            // Season emoji
+            const seasonEmojis = { 'Spring': '🌸', 'Summer': '☀️', 'Monsoon': '🌧️', 'Winter': '❄️' };
+            
             resultsContent.innerHTML = `
                 <div style="max-height: 70vh; overflow-y: auto; padding-right: 1rem;">
                     <div style="background: linear-gradient(135deg, var(--success) 0%, #059669 100%); color: white; padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 1.5rem;">
                         <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✅</div>
                         <h3 style="font-size: 1.5rem; font-weight: 700;">Your Meal Plan is Ready!</h3>
                         <p style="opacity: 0.9; margin-top: 0.5rem;">Scroll to see your 7-day plan</p>
+                    </div>
+                    
+                    <!-- BMI and Season Info -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 1rem; text-align: center;">
+                            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">📊 BMI Status</div>
+                            <div style="font-size: 2rem; font-weight: 900; color: ${bmiColor};">${bmi.toFixed(1)}</div>
+                            <div style="color: var(--gray-600); font-size: 0.875rem; margin-top: 0.25rem;">${bmiInfo.category}</div>
+                            <div style="color: var(--gray-600); font-size: 0.75rem; margin-top: 0.5rem;">${bmiInfo.calorieAdjustment} calories</div>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 1rem; text-align: center;">
+                            <div style="font-size: 1.25rem; margin-bottom: 0.5rem;">${seasonEmojis[season]} Season</div>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem;">${season}</div>
+                            <div style="color: var(--gray-600); font-size: 0.75rem;">Using seasonal foods</div>
+                        </div>
                     </div>
                     <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 2rem;">
                         <pre style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--gray-800); line-height: 1.6;">${plan}</pre>
@@ -384,7 +504,11 @@ Format it clearly with day headers (DAY 1 - Monday, etc.) and meal types in Hind
             document.getElementById('viewTable').style.color = view === 'table' ? 'white' : 'var(--gray-700)';
             
             if (currentPlan) {
-                displayPlan(currentPlan.text);
+                // Reconstruct BMI and season info from saved plan
+                const bmi = parseFloat(currentPlan.bmi);
+                const bmiInfo = getBMICategory(bmi);
+                const currentSeason = getCurrentSeason();
+                displayPlan(currentPlan.text, bmi, bmiInfo, currentSeason);
             }
         }
 
