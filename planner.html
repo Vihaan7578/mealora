@@ -596,6 +596,12 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
         }
 
         function displayPlan(plan, bmi, bmiInfo, season) {
+            // Validate inputs
+            if (!plan) {
+                console.error('No plan provided to displayPlan');
+                return;
+            }
+            
             // Check if device is mobile
             const isMobile = window.innerWidth <= 768 || (window.deviceDetector && window.deviceDetector.deviceInfo.isMobile);
             
@@ -605,17 +611,38 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
                 actionButtons.style.display = isMobile ? 'none' : 'flex';
             }
             
-            if (isMobile) {
-                displayMobileView(plan, bmi, bmiInfo, season);
-            } else if (currentView === 'card') {
-                displayCardView(plan, bmi, bmiInfo, season);
-            } else {
-                displayTableView(plan);
+            try {
+                if (isMobile) {
+                    displayMobileView(plan, bmi || 22, bmiInfo || { category: 'Normal', calorieAdjustment: 'Custom' }, season || 'Spring');
+                } else if (currentView === 'card') {
+                    displayCardView(plan, bmi, bmiInfo, season);
+                } else {
+                    displayTableView(plan);
+                }
+            } catch (error) {
+                console.error('Error in displayPlan:', error);
+                // Show a fallback error message
+                const resultsContent = document.getElementById('resultsContent');
+                if (resultsContent) {
+                    resultsContent.innerHTML = `
+                        <div style="text-align: center; padding: 2rem 1rem;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+                            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--danger); margin-bottom: 1rem;">Display Error</h3>
+                            <p style="color: var(--gray-600); font-size: 0.875rem;">There was an error displaying the meal plan. Please try generating it again.</p>
+                        </div>
+                    `;
+                }
             }
         }
 
         function displayMobileView(plan, bmi, bmiInfo, season) {
             const resultsContent = document.getElementById('resultsContent');
+            
+            // Validate inputs
+            if (!plan || !resultsContent) {
+                console.error('Invalid inputs to displayMobileView:', { plan: !!plan, resultsContent: !!resultsContent });
+                return;
+            }
             
             try {
                 // Determine BMI color
@@ -1171,24 +1198,7 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
             showNotification(`✅ Saved "${planName}"!`, 'success');
         }
 
-        // Handle window resize for mobile detection
-        window.addEventListener('resize', function() {
-            // Re-display meal plan if it exists and we're switching between mobile/desktop
-            if (currentPlan && currentPlan.text) {
-                const isMobile = window.innerWidth <= 768 || (window.deviceDetector && window.deviceDetector.deviceInfo.isMobile);
-                const actionButtons = document.getElementById('actionButtons');
-                if (actionButtons) {
-                    actionButtons.style.display = isMobile ? 'none' : 'flex';
-                }
-                
-                // Re-display with appropriate layout
-                if (isMobile) {
-                    displayMobileView(currentPlan.text, currentPlan.bmi, { category: currentPlan.bmiCategory, calorieAdjustment: 'Custom' }, 'Spring');
-                } else {
-                    displayPlan(currentPlan.text, currentPlan.bmi, { category: currentPlan.bmiCategory, calorieAdjustment: 'Custom' }, 'Spring');
-                }
-            }
-        });
+        // Mobile detection will be handled by the displayPlan function when meal plan is generated
     </script>
 
     <!-- Footer -->
