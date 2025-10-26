@@ -524,34 +524,110 @@ function validateHealthCondition(text, type) {
     
     // Valid health condition keywords
     const chronicHealthKeywords = [
-        'diabetes', 'diabetic', 'type 1 diabetes', 'type 2 diabetes', 'type-1', 'type-2',
-        'blood pressure', 'bp', 'high blood pressure', 'low blood pressure', 'hypertension', 'hypotension',
-        'pcos', 'polycystic ovary syndrome',
-        'thyroid', 'hypothyroidism', 'hyperthyroidism', 'hashimoto', 'graves',
-        'heart', 'cardiac', 'cardiovascular',
-        'cholesterol', 'high cholesterol', 'lipid',
-        'obesity', 'overweight',
-        'depression', 'anxiety',
-        'arthritis', 'osteoarthritis', 'rheumatoid',
-        'anemia', 'iron deficiency',
-        'ibs', 'irritable bowel syndrome',
-        'celiac', 'gluten',
-        'kidney', 'renal',
-        'liver',
-        'asthma',
-        'migraine'
+        // Diabetes & Metabolic
+        'diabetes', 'diabetic', 'type 1 diabetes', 'type 2 diabetes', 'type-1', 'type-2', 'prediabetes', 'insulin resistance', 'gestational diabetes',
+        'metabolic syndrome', 'metabolic disorder',
+        // Blood Pressure & Cardiovascular
+        'blood pressure', 'bp', 'high blood pressure', 'low blood pressure', 'hypertension', 'hypotension', 'hbp', 'elevated bp',
+        'heart', 'cardiac', 'cardiovascular', 'heart disease', 'coronary', 'atherosclerosis', 'stroke', 'heart attack',
+        // Hormonal & Endocrine
+        'pcos', 'polycystic ovary syndrome', 'polycystic ovarian syndrome',
+        'thyroid', 'hypothyroidism', 'hyperthyroidism', 'hashimoto', 'graves', 'goiter', 'thyroid disorder',
+        'adrenal', 'cushing', 'addison', 'pituitary', 'growth hormone',
+        // Cholesterol & Lipids
+        'cholesterol', 'high cholesterol', 'lipid', 'hdl', 'ldl', 'triglycerides', 'hyperlipidemia',
+        // Weight & Metabolic
+        'obesity', 'overweight', 'underweight', 'bmi', 'metabolic',
+        // Mental Health
+        'depression', 'anxiety', 'panic disorder', 'ocd', 'ptsd', 'bipolar', 'adhd', 'autism', 'schizophrenia',
+        'stress', 'mental health', 'mood disorder', 'eating disorder', 'anorexia', 'bulimia',
+        // Joints & Musculoskeletal
+        'arthritis', 'osteoarthritis', 'rheumatoid', 'rheumatoid arthritis', 'gout', 'fibromyalgia',
+        'osteoporosis', 'bone disease', 'joint pain', 'back pain', 'chronic pain', 'rheumatism',
+        // Digestive & Gastrointestinal
+        'ibs', 'irritable bowel syndrome', 'crohn', 'ulcerative colitis', 'celiac', 'gluten', 'gluten intolerance',
+        'gerd', 'acid reflux', 'gastritis', 'ulcer', 'peptic ulcer', 'constipation', 'chronic constipation',
+        'lactose intolerance', 'food intolerance', 'diverticulitis', 'hemorrhoids',
+        // Kidney & Urinary
+        'kidney', 'renal', 'kidney disease', 'ckd', 'chronic kidney disease', 'kidney stones', 'uti', 'urinary tract infection',
+        'bladder', 'urinary incontinence', 'prostate',
+        // Liver & Digestive
+        'liver', 'hepatitis', 'cirrhosis', 'liver disease', 'fatty liver', 'nafld', 'alcoholic liver disease',
+        'gallbladder', 'gallstones', 'pancreas', 'pancreatitis',
+        // Respiratory
+        'asthma', 'copd', 'chronic bronchitis', 'emphysema', 'allergies', 'seasonal allergies', 'sinusitis',
+        'sleep apnea', 'respiratory disorder',
+        // Neurological
+        'migraine', 'epilepsy', 'seizure', 'parkinson', 'alzheimer', 'dementia', 'ms', 'multiple sclerosis',
+        'neuropathy', 'peripheral neuropathy', 'essential tremor', 'tourette', 'bell palsy',
+        // Blood & Hematologic
+        'anemia', 'iron deficiency', 'hemoglobin', 'thalassemia', 'sickle cell', 'blood disorder', 'leukemia',
+        'lymphoma', 'clotting disorder', 'hemophilia',
+        // Skin & Dermatological
+        'eczema', 'psoriasis', 'dermatitis', 'rosacea', 'vitiligo', 'alopecia', 'acne', 'chronic acne',
+        'urticaria', 'hives',
+        // Immune & Autoimmune
+        'lupus', 'rheumatoid arthritis', 'hashimoto', 'celiac disease', 'sjogren', 'multiple sclerosis',
+        'immune disorder', 'autoimmune', 'hiv', 'aids',
+        // Eye & Vision
+        'glaucoma', 'cataract', 'macular degeneration', 'diabetic retinopathy', 'dry eyes', 'chronic eye condition',
+        // Ear & Hearing
+        'hearing loss', 'tinnitus', 'vertigo', 'meniere', 'chronic ear infection',
+        // Reproductive
+        'endometriosis', 'pcos', 'menopause', 'osteoporosis', 'infertility', 'erectile dysfunction',
+        // Chronic Fatigue & Pain
+        'fibromyalgia', 'chronic fatigue syndrome', 'cfs', 'me', 'myalgic encephalomyelitis',
+        // Sleep Disorders
+        'insomnia', 'sleep disorder', 'restless leg', 'narcolepsy', 'sleep apnea',
+        // Eating & Digestive
+        'food allergy', 'nut allergy', 'shellfish allergy', 'lactose intolerance', 'fructose intolerance',
+        // Bone & Connective Tissue
+        'osteoporosis', 'osteopenia', 'rickets', 'scoliosis', 'kyphosis',
+        // Vascular
+        'varicose veins', 'deep vein thrombosis', 'dvt', 'peripheral artery disease', 'pad',
+        // Hormonal Imbalances
+        'hormonal imbalance', 'testosterone', 'estrogen', 'cortisol', 'adrenal fatigue',
+        // Metabolic Disorders
+        'pku', 'phenylketonuria', 'gout', 'metabolic acidosis', 'alkalosis'
     ];
     
     const temporaryHealthKeywords = [
-        'fever', 'cold', 'flu', 'infection',
-        'weakness', 'fatigue', 'tiredness',
-        'headache', 'head ache',
-        'cough', 'sore throat',
-        'nausea', 'vomiting',
-        'diarrhea', 'constipation',
-        'stomach ache', 'stomachache', 'abdominal pain',
-        'dizziness',
-        'loss of appetite', 'appetite loss'
+        // Respiratory Symptoms
+        'fever', 'cold', 'flu', 'common cold', 'covid', 'covid-19', 'infection', 'viral', 'bacterial',
+        'cough', 'dry cough', 'sneezing', 'runny nose', 'nasal congestion', 'sinus', 'sinusitis',
+        'sore throat', 'throat pain', 'hoarseness', 'laryngitis',
+        'shortness of breath', 'difficulty breathing', 'wheezing', 'chest congestion',
+        // Gastrointestinal Symptoms
+        'nausea', 'vomiting', 'diarrhea', 'loose motions', 'constipation', 'stomach cramps',
+        'stomach ache', 'stomachache', 'abdominal pain', 'belly ache', 'stomach upset',
+        'indigestion', 'heartburn', 'bloating', 'gas', 'flatulence', 'stomach flu', 'gastroenteritis',
+        // Fatigue & Weakness
+        'weakness', 'fatigue', 'tiredness', 'exhaustion', 'feeling weak', 'general weakness',
+        'muscle weakness', 'body ache', 'body pain', 'aches and pains',
+        // Head & Neurological
+        'headache', 'head ache', 'migraine', 'head pain', 'pressure in head',
+        'dizziness', 'lightheadedness', 'vertigo', 'feeling faint',
+        // Fever & Temperature
+        'high fever', 'low fever', 'chills', 'sweating', 'night sweats', 'hot flashes',
+        // Loss of Appetite & Digestive
+        'loss of appetite', 'appetite loss', 'not feeling hungry', 'reduced appetite', 'no appetite',
+        'thirst', 'dehydration', 'dry mouth', 'dehydrated',
+        // Skin & Visible Symptoms
+        'rash', 'skin irritation', 'hives', 'itchy skin', 'redness', 'swelling',
+        // Joint & Muscle Pain
+        'joint pain', 'muscle pain', 'muscle ache', 'back pain', 'neck pain',
+        'tenderness', 'stiffness', 'swollen joints',
+        // Sleep & Energy
+        'insomnia', 'trouble sleeping', 'sleeping issues', 'restless sleep',
+        'sleepiness', 'drowsiness', 'excessive sleep',
+        // Eye & Ear Issues
+        'eye irritation', 'watery eyes', 'red eyes', 'itchy eyes', 'eye pain',
+        'ear pain', 'earache', 'ear discomfort', 'hearing loss', 'ringing in ears',
+        // Urinary Symptoms
+        'frequent urination', 'burning sensation', 'urinary discomfort',
+        // General Symptoms
+        'malaise', 'feeling unwell', 'general discomfort', 'not feeling well',
+        'stress', 'anxiety', 'nervousness', 'restlessness'
     ];
     
     const validKeywords = type === 'chronic' ? chronicHealthKeywords : temporaryHealthKeywords;
