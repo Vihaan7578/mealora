@@ -47,14 +47,19 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
             <!-- Left Panel - Input Form -->
             <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
-                        👤
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                            👤
+                        </div>
+                        <div>
+                            <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900);">Your Profile</h2>
+                            <p style="color: var(--gray-600);">Tell us about yourself</p>
+                        </div>
                     </div>
-                    <div>
-                        <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900);">Your Profile</h2>
-                        <p style="color: var(--gray-600);">Tell us about yourself</p>
-                    </div>
+                    <button onclick="loadDemoData()" style="padding: 0.5rem 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; font-size: 0.875rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        ⚡ Quick Demo
+                    </button>
                 </div>
 
                 <!-- Age -->
@@ -267,6 +272,42 @@
         function applyTemplate(goal) {
             document.getElementById('healthGoal').value = goal;
             showNotification('✅ Template applied! Customize before generating.', 'success');
+        }
+
+        function loadDemoData() {
+            // Load sample data for quick demo/presentation
+            document.getElementById('age').value = '28';
+            document.getElementById('height').value = '170';
+            document.getElementById('weight').value = '75';
+            
+            // Select female
+            selectGender('female');
+            
+            // Set health condition
+            document.getElementById('healthGoal').value = 'weight loss and improved fitness';
+            
+            // Set seasonal health
+            document.getElementById('seasonalHealth').value = '';
+            
+            // Select moderate budget range
+            selectBudgetRange('moderate');
+            
+            // Set region
+            document.getElementById('region').value = 'North India';
+            
+            // Set preferences
+            document.getElementById('preferences').value = 'Prefer Indian vegetarian foods, like paneer and vegetables';
+            
+            // Set allergies
+            document.getElementById('allergies').value = 'none';
+            
+            // Show success notification
+            showNotification('✨ Demo data loaded! Ready for presentation.', 'success');
+            
+            // Optional: Auto-scroll to results section
+            setTimeout(() => {
+                document.getElementById('resultsContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 500);
         }
 
         async function generateMealPlan() {
