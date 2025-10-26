@@ -4,6 +4,8 @@ module.exports = {
     "./*.html",
     "./mealora-web-simple/*.html",
     "./templates/*.html",
+    "./mealora-web/app/**/*.{js,ts,jsx,tsx}",
+    "./mealora-web/components/**/*.{js,ts,jsx,tsx}",
     "./style.css"
   ],
   theme: {
