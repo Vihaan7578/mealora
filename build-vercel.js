@@ -20,6 +20,14 @@ try {
     cwd: process.cwd()
   });
   
+  // Append custom CSS and form styles to the built file
+  console.log('\n🎨 Adding custom CSS and form styles...');
+  const customCSS = fs.readFileSync('custom.css', 'utf8');
+  const formCSS = fs.readFileSync('form-styles.css', 'utf8');
+  const builtCSS = fs.readFileSync('dist/style.css', 'utf8');
+  const combinedCSS = builtCSS + '\n\n' + customCSS + '\n\n' + formCSS;
+  fs.writeFileSync('dist/style.css', combinedCSS);
+  
   console.log('\n✅ Vercel build completed successfully!');
   console.log('📦 Output: dist/style.css');
   

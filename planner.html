@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000, immutable">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <title>Meal Planner - Mealora</title>
     <link rel="stylesheet" href="dist/style.css">
 </head>
@@ -138,15 +140,17 @@
                 <!-- Health Goal -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Goal (Optional)</label>
-                    <input type="text" id="healthGoal" placeholder="e.g., Weight Loss, Weight Gain, Fitness, Muscle Gain"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                    <input type="text" id="healthGoal" placeholder="e.g., Weight Loss, Weight Gain, Fitness, Muscle Gain" autocomplete="off"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
+                           aria-label="Health goal or fitness objective">
                 </div>
 
                 <!-- Health Issues -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Issues (Chronic) (Optional)</label>
-                    <input type="text" id="healthIssues" placeholder="e.g., Diabetes, High BP, PCOS, Thyroid, or type 'none'"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                    <input type="text" id="healthIssues" placeholder="e.g., Diabetes, High BP, PCOS, Thyroid, or type 'none'" autocomplete="off"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
+                           aria-label="Chronic health issues or medical conditions">
                 </div>
 
                 <!-- Quick Templates -->
@@ -175,8 +179,9 @@
                 <!-- Seasonal Health Issues -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Seasonal Health Issues (Temporary) (Optional)</label>
-                    <input type="text" id="seasonalHealth" placeholder="e.g., Fever, Weakness, Cold, Flu, or type 'none'"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                    <input type="text" id="seasonalHealth" placeholder="e.g., Fever, Weakness, Cold, Flu, or type 'none'" autocomplete="off"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
+                           aria-label="Seasonal health issues or temporary conditions">
                 </div>
 
                 <!-- Budget Range -->
