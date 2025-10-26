@@ -65,4 +65,24 @@ module.exports = {
     },
   },
   plugins: [],
+  safelist: [
+    'section',
+    'container',
+    'card-grid',
+    'card',
+    'card-2-col',
+    'card-3-col',
+    'card-4-col',
+    'container-horizontal',
+    'container-space-between',
+    'container-align-start',
+    'content-full',
+    'content-constrained',
+    'content-wide',
+    'mobile-menu-btn',
+    'hamburger-line',
+    'mobile-menu',
+    'mobile-nav-links',
+    'desktop-nav'
+  ]
 }

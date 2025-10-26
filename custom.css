@@ -1,0 +1,76 @@
+/* Custom CSS - Mobile-First Responsive Foundation */
+.section {
+    padding: var(--section-padding);
+    width: 100%;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--container-gap);
+}
+
+/* Card Grid System */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--card-gap);
+    width: 100%;
+}
+
+.card {
+    grid-column: span 12;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Responsive Card Layouts */
+@media (min-width: 768px) {
+    .card-2-col {
+        grid-column: span 6;
+    }
+    
+    .card-3-col {
+        grid-column: span 4;
+    }
+    
+    .card-4-col {
+        grid-column: span 3;
+    }
+}
+
+/* Container Responsive Layouts */
+@media (min-width: 768px) {
+    .container-horizontal {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+    
+    .container-space-between {
+        justify-content: space-between;
+    }
+    
+    .container-align-start {
+        align-items: flex-start;
+    }
+}
+
+/* Content Width Constraints */
+.content-full {
+    width: 100%;
+    max-width: 100%;
+}
+
+.content-constrained {
+    width: 100%;
+    max-width: 800px;
+}
+
+.content-wide {
+    width: 100%;
+    max-width: 1200px;
+}
