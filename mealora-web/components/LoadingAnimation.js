@@ -4,9 +4,9 @@ import { motion } from 'framer-motion'
 
 export default function LoadingAnimation() {
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-col items-center justify-center h-full px-4">
       {/* Animated Food Icons */}
-      <div className="relative w-32 h-32 mb-8">
+      <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 mb-6 sm:mb-8">
         <motion.div
           animate={{
             rotate: 360,
@@ -18,10 +18,10 @@ export default function LoadingAnimation() {
           }}
           className="absolute inset-0"
         >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 text-4xl">🥗</div>
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 text-4xl">🍎</div>
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-4xl">🥑</div>
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 text-4xl">🥕</div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 text-2xl sm:text-3xl md:text-4xl">🥗</div>
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 text-2xl sm:text-3xl md:text-4xl">🍎</div>
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-2xl sm:text-3xl md:text-4xl">🥑</div>
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 text-2xl sm:text-3xl md:text-4xl">🥕</div>
         </motion.div>
         
         <motion.div
@@ -36,7 +36,7 @@ export default function LoadingAnimation() {
           }}
           className="absolute inset-0 flex items-center justify-center"
         >
-          <div className="text-6xl">🌿</div>
+          <div className="text-3xl sm:text-4xl md:text-6xl">🌿</div>
         </motion.div>
       </div>
 
@@ -46,18 +46,18 @@ export default function LoadingAnimation() {
         animate={{ opacity: 1 }}
         className="text-center"
       >
-        <h3 className="text-2xl font-bold gradient-text mb-3">
+        <h3 className="text-lg sm:text-xl md:text-2xl font-bold gradient-text mb-2 sm:mb-3">
           AI Nutritionist at Work
         </h3>
         
-        <div className="space-y-2 mb-6">
+        <div className="space-y-1 sm:space-y-2 mb-4 sm:mb-6">
           {['Analyzing your profile...', 'Creating personalized plan...', 'Optimizing for your goals...'].map((text, index) => (
             <motion.p
               key={index}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.3 }}
-              className="text-gray-600"
+              className="text-gray-600 text-sm sm:text-base"
             >
               {text}
             </motion.p>
@@ -65,7 +65,7 @@ export default function LoadingAnimation() {
         </div>
 
         {/* Progress Bar */}
-        <div className="w-64 h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div className="w-48 sm:w-56 md:w-64 h-1.5 sm:h-2 bg-gray-200 rounded-full overflow-hidden">
           <motion.div
             initial={{ width: '0%' }}
             animate={{ width: '100%' }}

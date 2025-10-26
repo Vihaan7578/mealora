@@ -23,24 +23,24 @@ export default function MealPlanDisplay({ plan }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-6 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar"
+      className="space-y-4 sm:space-y-6 max-h-[400px] sm:max-h-[500px] md:max-h-[600px] overflow-y-auto pr-2 custom-scrollbar"
     >
       {/* Success Header */}
       <motion.div
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
-        className="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-6 rounded-2xl text-center"
+        className="bg-gradient-to-r from-green-500 to-emerald-500 text-white p-4 sm:p-6 rounded-2xl text-center"
       >
-        <div className="text-4xl mb-2">✅</div>
-        <h3 className="text-2xl font-bold">Your Meal Plan is Ready!</h3>
-        <p className="text-green-100 mt-1">Scroll down to see your 7-day plan</p>
+        <div className="text-2xl sm:text-3xl md:text-4xl mb-1 sm:mb-2">✅</div>
+        <h3 className="text-lg sm:text-xl md:text-2xl font-bold">Your Meal Plan is Ready!</h3>
+        <p className="text-green-100 mt-1 text-sm sm:text-base">Scroll down to see your 7-day plan</p>
       </motion.div>
 
       {/* Meal Plan Content */}
-      <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6">
+      <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-4 sm:p-6">
         <div className="prose max-w-none">
           {/* Display raw plan with better formatting */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {sections.length > 1 ? (
               // If we successfully parsed days
               sections.slice(1).map((section, index) => (
@@ -53,20 +53,20 @@ export default function MealPlanDisplay({ plan }) {
                 >
                   <button
                     onClick={() => toggleDay(index)}
-                    className="w-full px-6 py-4 bg-gradient-to-r from-primary-50 to-secondary-50 hover:from-primary-100 hover:to-secondary-100 transition-all flex items-center justify-between"
+                    className="w-full px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-primary-50 to-secondary-50 hover:from-primary-100 hover:to-secondary-100 transition-all flex items-center justify-between min-h-[44px]"
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl font-bold text-primary-600">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <span className="text-lg sm:text-xl md:text-2xl font-bold text-primary-600">
                         Day {index + 1}
                       </span>
-                      <span className="text-lg font-semibold text-gray-700">
+                      <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-700">
                         {days[index]}
                       </span>
                     </div>
                     {expandedDays.includes(index) ? (
-                      <FiChevronUp className="w-6 h-6 text-gray-600" />
+                      <FiChevronUp className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
                     ) : (
-                      <FiChevronDown className="w-6 h-6 text-gray-600" />
+                      <FiChevronDown className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600" />
                     )}
                   </button>
                   
@@ -79,8 +79,8 @@ export default function MealPlanDisplay({ plan }) {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="p-6 bg-white">
-                      <pre className="whitespace-pre-wrap font-sans text-sm text-gray-800 leading-relaxed">
+                    <div className="p-4 sm:p-6 bg-white">
+                      <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm text-gray-800 leading-relaxed">
                         {section.trim()}
                       </pre>
                     </div>
@@ -89,7 +89,7 @@ export default function MealPlanDisplay({ plan }) {
               ))
             ) : (
               // Fallback: display full plan
-              <pre className="whitespace-pre-wrap font-sans text-sm text-gray-800 leading-relaxed">
+              <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm text-gray-800 leading-relaxed">
                 {plan}
               </pre>
             )}
@@ -98,7 +98,7 @@ export default function MealPlanDisplay({ plan }) {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {[
           { label: '7 Days', icon: '📅', color: 'from-blue-500 to-blue-600' },
           { label: '21 Meals', icon: '🍽️', color: 'from-green-500 to-green-600' },
@@ -109,10 +109,10 @@ export default function MealPlanDisplay({ plan }) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5 + index * 0.1 }}
-            className={`bg-gradient-to-r ${stat.color} text-white p-4 rounded-xl text-center`}
+            className={`bg-gradient-to-r ${stat.color} text-white p-3 sm:p-4 rounded-xl text-center`}
           >
-            <div className="text-3xl mb-1">{stat.icon}</div>
-            <div className="font-bold">{stat.label}</div>
+            <div className="text-2xl sm:text-3xl mb-1">{stat.icon}</div>
+            <div className="font-bold text-sm sm:text-base">{stat.label}</div>
           </motion.div>
         ))}
       </div>

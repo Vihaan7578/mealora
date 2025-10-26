@@ -40,71 +40,71 @@ export default function GroceryList({ mealPlan, onClose }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4"
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
-        className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden"
+        className="bg-white rounded-3xl shadow-2xl max-w-xs sm:max-w-sm md:max-w-2xl w-full max-h-[85vh] sm:max-h-[80vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white p-6">
+        <div className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white p-4 sm:p-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="text-4xl">🛒</div>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="text-2xl sm:text-3xl md:text-4xl">🛒</div>
               <div>
-                <h2 className="text-2xl font-bold">Grocery Shopping List</h2>
-                <p className="text-white/90 text-sm">Everything you need for the week</p>
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">Grocery Shopping List</h2>
+                <p className="text-white/90 text-xs sm:text-sm">Everything you need for the week</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+              className="p-2 hover:bg-white/20 rounded-lg transition-colors min-h-[44px] min-w-[44px]"
             >
-              <FiX className="w-6 h-6" />
+              <FiX className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-12">
+            <div className="flex flex-col items-center justify-center py-8 sm:py-12">
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                className="text-6xl mb-4"
+                className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4"
               >
                 🛒
               </motion.div>
-              <p className="text-gray-600">Generating your shopping list...</p>
+              <p className="text-gray-600 text-sm sm:text-base">Generating your shopping list...</p>
             </div>
           ) : (
             <>
-              <div className="bg-gray-50 rounded-2xl p-6 max-h-[400px] overflow-y-auto mb-4">
-                <pre className="whitespace-pre-wrap font-sans text-sm text-gray-800 leading-relaxed">
+              <div className="bg-gray-50 rounded-2xl p-4 sm:p-6 max-h-[300px] sm:max-h-[400px] overflow-y-auto mb-3 sm:mb-4">
+                <pre className="whitespace-pre-wrap font-sans text-xs sm:text-sm text-gray-800 leading-relaxed">
                   {groceryList}
                 </pre>
               </div>
 
               {/* Actions */}
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleCopyAll}
-                  className="flex-1 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-semibold rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                  className="flex-1 py-3 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-semibold rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base min-h-[44px]"
                 >
-                  <FiCopy className="w-5 h-5" />
+                  <FiCopy className="w-4 h-4 sm:w-5 sm:h-5" />
                   Copy to Clipboard
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={onClose}
-                  className="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-300 transition-colors"
+                  className="px-4 sm:px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-300 transition-colors text-sm sm:text-base min-h-[44px]"
                 >
                   Close
                 </motion.button>

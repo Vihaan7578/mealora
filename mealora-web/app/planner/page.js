@@ -124,27 +124,27 @@ export default function PlannerPage() {
           <p className="text-xl text-gray-600">Create Your Personalized Meal Plan</p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Left Column - Input Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <div className="glass p-8 rounded-3xl shadow-xl">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl text-white">
-                  <FiUser className="w-6 h-6" />
+            <div className="glass p-4 sm:p-6 md:p-8 rounded-3xl shadow-xl">
+              <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                <div className="p-2 sm:p-3 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl text-white">
+                  <FiUser className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900">Your Profile</h2>
-                  <p className="text-gray-600">Tell us about yourself</p>
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">Your Profile</h2>
+                  <p className="text-sm sm:text-base text-gray-600">Tell us about yourself</p>
                 </div>
               </div>
 
               {/* Age Input */}
-              <div className="mb-6">
-                <label className="block text-sm font-bold text-gray-700 mb-2">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-sm sm:text-base font-bold text-gray-700 mb-2">
                   Age
                 </label>
                 <motion.input
@@ -154,23 +154,23 @@ export default function PlannerPage() {
                   value={formData.age}
                   onChange={handleInputChange}
                   placeholder="Enter your age"
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 rounded-xl border-2 border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all text-sm sm:text-base min-h-[44px]"
                 />
               </div>
 
               {/* Gender Selection */}
-              <div className="mb-6">
-                <label className="block text-sm font-bold text-gray-700 mb-3">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-sm sm:text-base font-bold text-gray-700 mb-2 sm:mb-3">
                   Gender
                 </label>
-                <div className="flex gap-4">
+                <div className="flex gap-2 sm:gap-4">
                   {['male', 'female', 'other'].map((gender) => (
                     <motion.button
                       key={gender}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setFormData(prev => ({ ...prev, gender }))}
-                      className={`flex-1 py-3 rounded-xl font-semibold capitalize transition-all ${
+                      className={`flex-1 py-3 rounded-xl font-semibold capitalize transition-all text-sm sm:text-base min-h-[44px] ${
                         formData.gender === gender
                           ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white shadow-glow'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -183,8 +183,8 @@ export default function PlannerPage() {
               </div>
 
               {/* Health Goal */}
-              <div className="mb-6">
-                <label className="block text-sm font-bold text-gray-700 mb-2">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-sm sm:text-base font-bold text-gray-700 mb-2">
                   Health Goal or Condition
                 </label>
                 <motion.input
@@ -194,34 +194,34 @@ export default function PlannerPage() {
                   value={formData.healthGoal}
                   onChange={handleInputChange}
                   placeholder="e.g., Weight loss, Build muscle"
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 rounded-xl border-2 border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all text-sm sm:text-base min-h-[44px]"
                 />
               </div>
 
               {/* Quick Templates */}
-              <div className="mb-6">
-                <label className="block text-sm font-bold text-gray-700 mb-3">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-sm sm:text-base font-bold text-gray-700 mb-2 sm:mb-3">
                   ⚡ Quick Start Templates
                 </label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                   {quickTemplates.map((template, index) => (
                     <motion.button
                       key={index}
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleTemplateClick(template.goal)}
-                      className="p-4 bg-gradient-to-br from-white to-gray-50 rounded-xl border-2 border-gray-200 hover:border-primary-500 hover:shadow-lg transition-all text-left"
+                      className="p-3 sm:p-4 bg-gradient-to-br from-white to-gray-50 rounded-xl border-2 border-gray-200 hover:border-primary-500 hover:shadow-lg transition-all text-left min-h-[44px]"
                     >
-                      <div className="text-2xl mb-1">{template.icon}</div>
-                      <div className="text-sm font-semibold text-gray-900">{template.title}</div>
+                      <div className="text-xl sm:text-2xl mb-1">{template.icon}</div>
+                      <div className="text-xs sm:text-sm font-semibold text-gray-900">{template.title}</div>
                     </motion.button>
                   ))}
                 </div>
               </div>
 
               {/* Preferences */}
-              <div className="mb-8">
-                <label className="block text-sm font-bold text-gray-700 mb-2">
+              <div className="mb-6 sm:mb-8">
+                <label className="block text-sm sm:text-base font-bold text-gray-700 mb-2">
                   Food Preferences & Allergies (Optional)
                 </label>
                 <motion.textarea
@@ -231,7 +231,7 @@ export default function PlannerPage() {
                   onChange={handleInputChange}
                   placeholder="List any foods you love, dislike, or are allergic to..."
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all resize-none"
+                  className="w-full px-3 py-3 sm:px-4 sm:py-3 rounded-xl border-2 border-gray-200 focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none transition-all resize-none text-sm sm:text-base min-h-[44px]"
                 />
               </div>
 
@@ -241,16 +241,16 @@ export default function PlannerPage() {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleGeneratePlan}
                 disabled={isGenerating}
-                className="w-full py-4 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-bold rounded-xl shadow-glow hover:shadow-glow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-lg"
+                className="w-full py-3 sm:py-4 bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-bold rounded-xl shadow-glow hover:shadow-glow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base md:text-lg min-h-[44px]"
               >
                 {isGenerating ? (
                   <>
-                    <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin" />
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 border-3 border-white border-t-transparent rounded-full animate-spin" />
                     Generating...
                   </>
                 ) : (
                   <>
-                    <GiMeal className="w-6 h-6" />
+                    <GiMeal className="w-5 h-5 sm:w-6 sm:h-6" />
                     Generate My Meal Plan
                   </>
                 )}
@@ -262,13 +262,13 @@ export default function PlannerPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="mt-6 p-6 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl text-white"
+              className="mt-4 sm:mt-6 p-4 sm:p-6 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-2xl text-white"
             >
-              <div className="flex items-start gap-3">
-                <div className="text-2xl">💡</div>
+              <div className="flex items-start gap-2 sm:gap-3">
+                <div className="text-xl sm:text-2xl">💡</div>
                 <div>
-                  <h3 className="font-bold mb-1">Pro Tip</h3>
-                  <p className="text-sm opacity-90">
+                  <h3 className="font-bold mb-1 text-sm sm:text-base">Pro Tip</h3>
+                  <p className="text-xs sm:text-sm opacity-90">
                     The more specific you are about your goals and preferences, the better your personalized plan will be!
                   </p>
                 </div>
@@ -282,56 +282,56 @@ export default function PlannerPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <div className="glass p-8 rounded-3xl shadow-xl min-h-[600px]">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl text-white">
-                    <GiMeal className="w-6 h-6" />
+            <div className="glass p-4 sm:p-6 md:p-8 rounded-3xl shadow-xl min-h-[400px] sm:min-h-[500px] md:min-h-[600px]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 sm:mb-6 gap-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-2 sm:p-3 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl text-white">
+                    <GiMeal className="w-5 h-5 sm:w-6 sm:h-6" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900">Your Meal Plan</h2>
-                    <p className="text-gray-600">AI-Generated Results</p>
+                    <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">Your Meal Plan</h2>
+                    <p className="text-sm sm:text-base text-gray-600">AI-Generated Results</p>
                   </div>
                 </div>
 
                 {/* Action Buttons */}
                 {mealPlan && !isGenerating && (
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 flex-wrap">
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={handleSavePlan}
-                      className="p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors"
+                      className="p-2 sm:p-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors min-h-[44px] min-w-[44px]"
                       title="Save Plan"
                     >
-                      <FiSave className="w-5 h-5" />
+                      <FiSave className="w-4 h-4 sm:w-5 sm:h-5" />
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setShowGrocery(true)}
-                      className="p-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors"
+                      className="p-2 sm:p-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors min-h-[44px] min-w-[44px]"
                       title="Grocery List"
                     >
-                      <FiShoppingCart className="w-5 h-5" />
+                      <FiShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setShowNutrition(true)}
-                      className="p-3 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-colors"
+                      className="p-2 sm:p-3 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-colors min-h-[44px] min-w-[44px]"
                       title="Nutrition Stats"
                     >
-                      <FiBarChart2 className="w-5 h-5" />
+                      <FiBarChart2 className="w-4 h-4 sm:w-5 sm:h-5" />
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={handleExportPDF}
-                      className="p-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors"
+                      className="p-2 sm:p-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-colors min-h-[44px] min-w-[44px]"
                       title="Export PDF"
                     >
-                      <FiDownload className="w-5 h-5" />
+                      <FiDownload className="w-4 h-4 sm:w-5 sm:h-5" />
                     </motion.button>
                   </div>
                 )}
@@ -349,13 +349,13 @@ export default function PlannerPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="flex flex-col items-center justify-center h-full text-center"
+                    className="flex flex-col items-center justify-center h-full text-center px-4"
                   >
-                    <div className="text-8xl mb-6">🍽️</div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                    <div className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl mb-4 sm:mb-6">🍽️</div>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 sm:mb-3">
                       Ready to Get Started?
                     </h3>
-                    <p className="text-gray-600 max-w-md">
+                    <p className="text-sm sm:text-base text-gray-600 max-w-md">
                       Fill out the form and click "Generate My Meal Plan" to receive your personalized 7-day vegetarian meal plan!
                     </p>
                   </motion.div>
