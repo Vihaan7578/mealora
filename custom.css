@@ -1,4 +1,9 @@
 /* Custom CSS - Mobile-First Responsive Foundation */
+* {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 .section {
     padding: var(--section-padding);
     width: 100%;

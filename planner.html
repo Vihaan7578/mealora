@@ -54,7 +54,7 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container">
+    <div class="container" title="Meal Planner - AI-Powered Vegetarian Meal Planning">
         <div style="text-align: center; margin-bottom: 3rem;">
             <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;" class="gradient-text">
                 Meal Planner
@@ -92,35 +92,44 @@
                 <!-- Age -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Age</label>
-                    <input type="number" id="age" placeholder="Enter your age" 
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                    <input type="number" id="age" placeholder="Enter your age" autocomplete="bday-year"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
+                           aria-label="Age in years">
                 </div>
 
                 <!-- Height -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Height (cm)</label>
-                    <input type="number" id="height" placeholder="e.g., 170" 
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                    <input type="number" id="height" placeholder="e.g., 170" autocomplete="off"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
+                           aria-label="Height in centimeters">
                 </div>
 
                 <!-- Weight -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Weight (kg)</label>
-                    <input type="number" id="weight" placeholder="e.g., 70" 
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                    <input type="number" id="weight" placeholder="e.g., 70" autocomplete="off"
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
+                           aria-label="Weight in kilograms">
                 </div>
 
                 <!-- Gender -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.75rem;">Gender</label>
                     <div style="display: flex; gap: 0.75rem;">
-                        <button onclick="selectGender('male')" id="btn-male" class="gender-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
+                        <button onclick="selectGender('male')" id="btn-male" class="gender-btn" 
+                                style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);"
+                                aria-label="Select male gender" role="radio" aria-checked="false">
                             👨 Male
                         </button>
-                        <button onclick="selectGender('female')" id="btn-female" class="gender-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
+                        <button onclick="selectGender('female')" id="btn-female" class="gender-btn" 
+                                style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);"
+                                aria-label="Select female gender" role="radio" aria-checked="false">
                             👩 Female
                         </button>
-                        <button onclick="selectGender('other')" id="btn-other" class="gender-btn" style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);">
+                        <button onclick="selectGender('other')" id="btn-other" class="gender-btn" 
+                                style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--gray-100); color: var(--gray-700);"
+                                aria-label="Select other gender" role="radio" aria-checked="false">
                             ⚧️ Other
                         </button>
                     </div>
@@ -1058,7 +1067,6 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
         <p style="color: var(--text-muted); font-size: 0.875rem;">© 2025 Mealora. All rights reserved.</p>
     </footer>
 
-    <script src="app.js"></script>
     <script>
         setActivePage('planner.html');
         
@@ -1232,11 +1240,15 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
             const isMobile = window.innerWidth < 1024;
             const mobileBackBtn = document.getElementById('mobileBackBtn');
             const desktopLayout = document.getElementById('desktopLayout');
+            const inputPanel = document.getElementById('inputPanel');
+            const outputPanel = document.getElementById('outputPanel');
             
             if (isMobile) {
-                mobileBackBtn.style.display = 'block';
                 desktopLayout.style.display = 'none';
-                showMobileInput(); // Show input by default on mobile
+                // Show input panel directly on mobile
+                inputPanel.style.display = 'block';
+                outputPanel.style.display = 'none';
+                mobileBackBtn.style.display = 'none'; // Hide back button initially
             } else {
                 mobileBackBtn.style.display = 'none';
                 desktopLayout.style.display = 'grid';

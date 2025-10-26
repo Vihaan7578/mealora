@@ -112,8 +112,8 @@ body {
 /* Navigation */
 .navbar {
     background: rgba(30, 35, 55, 0.8);
-    backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
@@ -173,8 +173,8 @@ body {
 /* Glass Effect */
 .glass {
     background: var(--glass-bg);
-    backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
     border: 1px solid var(--border-color);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 1px rgba(0, 255, 163, 0.1);
 }
@@ -337,8 +337,8 @@ body {
     left: 0;
     right: 0;
     background: var(--bg-secondary);
-    backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
     border: 1px solid var(--border-color);
     border-top: none;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
