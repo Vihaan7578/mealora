@@ -125,7 +125,16 @@ function detectNonVegContent(text) {
         'real fish', 'actual fish', 'genuine fish', 'authentic fish',
         'only chicken', 'only meat', 'only fish', 'must have chicken',
         'need chicken', 'want chicken', 'require chicken', 'chicken only',
-        'meat only', 'fish only', 'non veg', 'non-veg', 'nonvegetarian'
+        'meat only', 'fish only', 'non veg', 'non-veg', 'nonvegetarian',
+        'no alternative', 'no veg food', 'only non veg', 'only non-veg',
+        'no vegetarian', 'no veg', 'non vegetarian', 'non-vegetarian',
+        'real non veg', 'actual non veg', 'genuine non veg', 'authentic non veg',
+        'must be non veg', 'should be non veg', 'need non veg', 'want non veg',
+        'require non veg', 'non veg only', 'non-veg only', 'nonvegetarian only',
+        'no veg alternative', 'no vegetarian alternative', 'no veg substitute',
+        'no vegetarian substitute', 'no veg replacement', 'no vegetarian replacement',
+        'exclude veg', 'exclude vegetarian', 'avoid veg', 'avoid vegetarian',
+        'not veg', 'not vegetarian', 'anti veg', 'anti vegetarian'
     ];
     
     for (let clue of contextClues) {
