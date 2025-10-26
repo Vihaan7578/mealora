@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Recommendations - Mealora</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dynamic-responsive.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="device-detection.js"></script>
+    <style>
+        .exercise-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .exercise-type {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        .exercise-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .exercise-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .exercise-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .detail-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        
+        .detail-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 0.25rem;
+        }
+        
+        .intensity-high { background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); }
+        .intensity-medium { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); }
+        .intensity-low { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
+    </style>
+</head>
+<body>
+    <!-- Background Orbs -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <img src="logo.PNG" alt="Mealora" class="img-responsive" style="height: 45px; width: auto;">
+                <span>Mealora</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="grocery.html">Grocery List</a></li>
+                <li><a href="saved.html">Saved Plans</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                ☰
+            </button>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="grocery.html">Grocery List</a></li>
+                <li><a href="saved.html">Saved Plans</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dynamic-container">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;" class="gradient-text">
+                💪 Exercise Recommendations
+            </h1>
+            <p style="font-size: 1.25rem; color: var(--gray-600);">
+                Personalized workout routines to complement your meal plan
+            </p>
+        </div>
+
+        <div id="exerciseContent" class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+            <div style="text-align: center; padding: 4rem 2rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">⏳</div>
+                <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900); margin-bottom: 1rem;">
+                    Loading Exercise Recommendations...
+                </h3>
+                <p style="color: var(--gray-600);">
+                    Please wait while we prepare your personalized workout routine.
+                </p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <button onclick="window.close()" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.125rem;">
+                ← Back to Planner
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle function
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('active');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!mobileNav.contains(event.target) && !mobileToggle.contains(event.target)) {
+                mobileNav.classList.remove('active');
+            }
+        });
+        
+        // Close mobile menu when window is resized to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('mobileNav').classList.remove('active');
+            }
+        });
+
+        // Load and display exercise recommendations
+        function loadExerciseRecommendations() {
+            const currentPlan = JSON.parse(sessionStorage.getItem('currentMealPlan') || '{}');
+            
+            if (!currentPlan.text) {
+                document.getElementById('exerciseContent').innerHTML = `
+                    <div style="text-align: center; padding: 4rem 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">❌</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--danger); margin-bottom: 1rem;">
+                            No Meal Plan Found
+                        </h3>
+                        <p style="color: var(--gray-600); margin-bottom: 1rem;">
+                            Please generate a meal plan first.
+                        </p>
+                        <button onclick="window.close()" class="btn btn-primary">
+                            Go to Planner
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Generate exercise recommendations based on the meal plan
+            const exercises = generateExerciseRecommendations(currentPlan);
+            
+            let exerciseHTML = `
+                <div style="margin-bottom: 2rem;">
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem;">
+                        🎯 Your Personalized Exercise Plan
+                    </h2>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        These exercises are designed to complement your meal plan and help you achieve your health goals. 
+                        Always consult with a healthcare provider before starting any new exercise routine.
+                    </p>
+                </div>
+            `;
+
+            // Add each exercise category
+            exercises.forEach((exercise, index) => {
+                exerciseHTML += `
+                    <div class="exercise-card">
+                        <div class="exercise-type ${exercise.intensity}">${exercise.type}</div>
+                        <div class="exercise-title">${exercise.title}</div>
+                        <div class="exercise-description">${exercise.description}</div>
+                        <div class="exercise-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Duration</div>
+                                <div class="detail-value">${exercise.duration}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Frequency</div>
+                                <div class="detail-value">${exercise.frequency}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Intensity</div>
+                                <div class="detail-value">${exercise.intensityLevel}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Equipment</div>
+                                <div class="detail-value">${exercise.equipment}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Add general tips
+            exerciseHTML += `
+                <div class="exercise-card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%); border: 1px solid rgba(99, 102, 241, 0.2);">
+                    <div class="exercise-type" style="background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);">💡 Tips</div>
+                    <div class="exercise-title">General Exercise Guidelines</div>
+                    <div class="exercise-description">
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 0.5rem;">• Start slowly and gradually increase intensity</li>
+                            <li style="margin-bottom: 0.5rem;">• Listen to your body and rest when needed</li>
+                            <li style="margin-bottom: 0.5rem;">• Stay hydrated throughout your workout</li>
+                            <li style="margin-bottom: 0.5rem;">• Warm up before and cool down after exercise</li>
+                            <li style="margin-bottom: 0.5rem;">• Combine cardio, strength, and flexibility training</li>
+                            <li>• Track your progress and celebrate small wins</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('exerciseContent').innerHTML = exerciseHTML;
+        }
+
+        // Generate exercise recommendations based on meal plan
+        function generateExerciseRecommendations(plan) {
+            const exercises = [
+                {
+                    type: 'Cardio',
+                    title: 'Morning Cardio Routine',
+                    description: 'Start your day with light cardio to boost metabolism and energy levels. Perfect for burning calories and improving cardiovascular health.',
+                    duration: '20-30 minutes',
+                    frequency: '5-6 days/week',
+                    intensityLevel: 'Moderate',
+                    equipment: 'None required',
+                    intensity: 'intensity-medium'
+                },
+                {
+                    type: 'Strength',
+                    title: 'Bodyweight Strength Training',
+                    description: 'Build lean muscle mass with bodyweight exercises. Focus on compound movements that work multiple muscle groups.',
+                    duration: '30-45 minutes',
+                    frequency: '3-4 days/week',
+                    intensityLevel: 'Moderate to High',
+                    equipment: 'None required',
+                    intensity: 'intensity-high'
+                },
+                {
+                    type: 'Flexibility',
+                    title: 'Yoga & Stretching',
+                    description: 'Improve flexibility, reduce stress, and enhance recovery with gentle yoga poses and stretching routines.',
+                    duration: '15-20 minutes',
+                    frequency: 'Daily',
+                    intensityLevel: 'Low',
+                    equipment: 'Yoga mat (optional)',
+                    intensity: 'intensity-low'
+                },
+                {
+                    type: 'HIIT',
+                    title: 'High-Intensity Interval Training',
+                    description: 'Burn maximum calories in minimum time with short bursts of intense exercise followed by rest periods.',
+                    duration: '15-25 minutes',
+                    frequency: '2-3 days/week',
+                    intensityLevel: 'High',
+                    equipment: 'None required',
+                    intensity: 'intensity-high'
+                },
+                {
+                    type: 'Walking',
+                    title: 'Daily Walking Routine',
+                    description: 'Simple yet effective way to stay active throughout the day. Great for beginners and can be done anywhere.',
+                    duration: '30-60 minutes',
+                    frequency: 'Daily',
+                    intensityLevel: 'Low to Moderate',
+                    equipment: 'Comfortable shoes',
+                    intensity: 'intensity-low'
+                }
+            ];
+
+            return exercises;
+        }
+
+        // Load the exercises when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(loadExerciseRecommendations, 500);
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 3rem 2rem; background: rgba(30, 35, 55, 0.5); border-top: 1px solid var(--border-color); margin-top: 4rem;">
+        <p style="font-size: 1.25rem; margin-bottom: 0.5rem; font-weight: 700; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+            Made for Hackathon by Team BBPS Brij Vihar 🏆
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.875rem;">© 2025 Mealora. All rights reserved.</p>
+    </footer>
+</body>
+</html>

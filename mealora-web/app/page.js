@@ -229,7 +229,7 @@ export default function Home() {
               ))}
             </ResponsiveGrid>
           </motion.div>
-        </div>
+        </ResponsiveContainer>
       </section>
 
       {/* Features Section */}

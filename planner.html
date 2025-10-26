@@ -746,14 +746,14 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
                                 <button onclick="saveMealPlan()" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #10B981; color: white; border: none; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer;">
                                     💾 Save Plan
                                 </button>
-                                <button onclick="generateGroceryList()" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #3B82F6; color: white; border: none; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer;">
-                                    🛒 Grocery List
-                                </button>
-                                <button onclick="showNutritionStats()" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #8B5CF6; color: white; border: none; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer;">
-                                    📊 Nutrition Stats
-                                </button>
                                 <button onclick="exportToPDF()" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #F59E0B; color: white; border: none; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer;">
                                     📄 Export PDF
+                                </button>
+                                <button onclick="openTableView()" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #3B82F6; color: white; border: none; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer;">
+                                    📊 Table View
+                                </button>
+                                <button onclick="openExerciseView()" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem; background: #8B5CF6; color: white; border: none; border-radius: 0.5rem; font-weight: 600; font-size: 0.875rem; cursor: pointer;">
+                                    💪 Exercises
                                 </button>
                             </div>
                         </div>
@@ -1194,8 +1194,63 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
             const planName = prompt('Enter a name for this meal plan:');
             if (!planName) return;
             
-            saveMealPlan(currentPlan.text, { ...currentPlan, planName });
+            // Save to localStorage
+            const savedPlans = JSON.parse(localStorage.getItem('savedMealPlans') || '[]');
+            savedPlans.push({
+                id: Date.now(),
+                name: planName,
+                plan: currentPlan.text,
+                date: new Date().toISOString(),
+                bmi: currentPlan.bmi,
+                bmiCategory: currentPlan.bmiCategory
+            });
+            localStorage.setItem('savedMealPlans', JSON.stringify(savedPlans));
+            
             showNotification(`✅ Saved "${planName}"!`, 'success');
+        }
+
+        function saveMealPlan() {
+            savePlan(); // Call the existing savePlan function
+        }
+
+        function exportToPDF() {
+            if (!currentPlan) {
+                showNotification('No meal plan to export!', 'error');
+                return;
+            }
+            
+            // Create a new window with the meal plan content
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Meal Plan - Mealora</title>');
+            printWindow.document.write('<style>body{font-family:Arial,sans-serif;padding:20px;line-height:1.6;}pre{white-space:pre-wrap;}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h1>🍽️ Mealora - Your Meal Plan</h1>');
+            printWindow.document.write('<pre>' + currentPlan.text + '</pre>');
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function openTableView() {
+            if (!currentPlan) {
+                showNotification('No meal plan to display!', 'error');
+                return;
+            }
+            
+            // Store the current plan for the table view page
+            sessionStorage.setItem('currentMealPlan', JSON.stringify(currentPlan));
+            window.open('table-view.html', '_blank');
+        }
+
+        function openExerciseView() {
+            if (!currentPlan) {
+                showNotification('No meal plan to display!', 'error');
+                return;
+            }
+            
+            // Store the current plan for the exercise view page
+            sessionStorage.setItem('currentMealPlan', JSON.stringify(currentPlan));
+            window.open('exercise-view.html', '_blank');
         }
 
         // Mobile detection will be handled by the displayPlan function when meal plan is generated

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { FiChevronDown, FiChevronUp, FiSave, FiShoppingCart, FiBarChart2, FiDownload } from 'react-icons/fi'
+import { FiChevronDown, FiChevronUp, FiSave, FiBarChart2, FiDownload, FiTrendingUp } from 'react-icons/fi'
 import { useDeviceDetection } from '@/hooks/useDeviceDetection'
 
 export default function MobileMealPlanDisplay({ plan, onSave, onGrocery, onNutrition, onExport }) {
@@ -185,31 +185,31 @@ export default function MobileMealPlanDisplay({ plan, onSave, onGrocery, onNutri
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            onClick={onGrocery}
-            className="flex items-center justify-center gap-2 p-4 bg-blue-500 text-white rounded-xl font-semibold"
-          >
-            <FiShoppingCart className="w-5 h-5" />
-            Grocery List
-          </motion.button>
-          
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={onNutrition}
-            className="flex items-center justify-center gap-2 p-4 bg-purple-500 text-white rounded-xl font-semibold"
-          >
-            <FiBarChart2 className="w-5 h-5" />
-            Nutrition Stats
-          </motion.button>
-          
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
             onClick={onExport}
             className="flex items-center justify-center gap-2 p-4 bg-orange-500 text-white rounded-xl font-semibold"
           >
             <FiDownload className="w-5 h-5" />
             Export PDF
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => window.open('/table-view', '_blank')}
+            className="flex items-center justify-center gap-2 p-4 bg-blue-500 text-white rounded-xl font-semibold"
+          >
+            <FiBarChart2 className="w-5 h-5" />
+            Table View
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => window.open('/exercise-view', '_blank')}
+            className="flex items-center justify-center gap-2 p-4 bg-purple-500 text-white rounded-xl font-semibold"
+          >
+            <FiTrendingUp className="w-5 h-5" />
+            Exercises
           </motion.button>
         </div>
       </motion.div>
