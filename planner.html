@@ -49,13 +49,13 @@
             <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
                     <div style="display: flex; align-items: center; gap: 1rem;">
-                        <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
-                            👤
-                        </div>
-                        <div>
-                            <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900);">Your Profile</h2>
-                            <p style="color: var(--gray-600);">Tell us about yourself</p>
-                        </div>
+                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                        👤
+                    </div>
+                    <div>
+                        <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900);">Your Profile</h2>
+                        <p style="color: var(--gray-600);">Tell us about yourself</p>
+                    </div>
                     </div>
                     <button onclick="loadDemoData()" style="padding: 0.5rem 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; font-size: 0.875rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                         ⚡ Quick Demo
@@ -165,8 +165,8 @@
                 <!-- Region -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Region/State</label>
-                    <select id="region" style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; background: white; color: #000000;">
-                        <option value="" style="color: #666666;">Select your state</option>
+                    <select id="region" style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; background: white;">
+                        <option value="">Select your state</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
                         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                         <option value="Assam">Assam</option>
@@ -276,28 +276,6 @@
         </div>
     </div>
 
-    <style>
-        /* Fix dropdown and select elements for better contrast */
-        select, option {
-            color: #000000 !important;
-            background-color: #ffffff !important;
-        }
-        
-        select option {
-            color: #000000 !important;
-            background-color: #ffffff !important;
-        }
-        
-        /* Fix any other elements with poor contrast */
-        input::placeholder, textarea::placeholder {
-            color: #666666 !important;
-        }
-        
-        /* Ensure labels are visible */
-        label {
-            color: var(--gray-700) !important;
-        }
-    </style>
     <script src="app.js"></script>
     <script>
         setActivePage('planner.html');
@@ -628,13 +606,13 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
                 // Escape the plan text to prevent HTML injection
                 const escapedPlan = plan.replace(/`/g, '\\`').replace(/\${/g, '\\${');
                 
-                resultsContent.innerHTML = `
-                    <div style="max-height: 70vh; overflow-y: auto; padding-right: 1rem;">
-                        <div style="background: linear-gradient(135deg, var(--success) 0%, #059669 100%); color: white; padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 1.5rem;">
-                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✅</div>
-                            <h3 style="font-size: 1.5rem; font-weight: 700;">Your Meal Plan is Ready!</h3>
-                            <p style="opacity: 0.9; margin-top: 0.5rem;">Scroll to see your 7-day plan</p>
-                        </div>
+            resultsContent.innerHTML = `
+                <div style="max-height: 70vh; overflow-y: auto; padding-right: 1rem;">
+                    <div style="background: linear-gradient(135deg, var(--success) 0%, #059669 100%); color: white; padding: 2rem; border-radius: 1rem; text-align: center; margin-bottom: 1.5rem;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✅</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 700;">Your Meal Plan is Ready!</h3>
+                        <p style="opacity: 0.9; margin-top: 0.5rem;">Scroll to see your 7-day plan</p>
+                    </div>
                         
                         <!-- BMI and Season Info -->
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
@@ -650,25 +628,25 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
                                 <div style="color: var(--gray-600); font-size: 0.75rem;">Using seasonal foods</div>
                             </div>
                         </div>
-                        <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 2rem;">
+                    <div style="background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(10px); border-radius: 1rem; padding: 2rem;">
                             <pre style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--gray-800); line-height: 1.6;">${escapedPlan}</pre>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.25rem;">📅</div>
+                            <div style="font-weight: 700;">7 Days</div>
                         </div>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem;">
-                            <div style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
-                                <div style="font-size: 2rem; margin-bottom: 0.25rem;">📅</div>
-                                <div style="font-weight: 700;">7 Days</div>
-                            </div>
-                            <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
-                                <div style="font-size: 2rem; margin-bottom: 0.25rem;">🍽️</div>
-                                <div style="font-weight: 700;">28 Meals</div>
-                            </div>
-                            <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
-                                <div style="font-size: 2rem; margin-bottom: 0.25rem;">🌱</div>
-                                <div style="font-weight: 700;">100% Veggie</div>
-                            </div>
+                        <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.25rem;">🍽️</div>
+                            <div style="font-weight: 700;">28 Meals</div>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 1rem; border-radius: 0.75rem; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 0.25rem;">🌱</div>
+                            <div style="font-weight: 700;">100% Veggie</div>
                         </div>
                     </div>
-                `;
+                </div>
+            `;
             } catch (error) {
                 console.error('Error displaying meal plan:', error);
                 resultsContent.innerHTML = `
