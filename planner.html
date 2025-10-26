@@ -516,7 +516,7 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
                     healthGoal: healthGoal,
                     healthIssues: sanitizedHealthIssues,
                     seasonalHealth: sanitizedSeasonalHealth,
-                    budget,
+                    budgetRange: selectedBudgetRange,
                     region,
                     season: currentSeason,
                     preferences: sanitizedPrefs,
@@ -524,17 +524,19 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
                 };
                 
                 document.getElementById('actionButtons').style.display = 'flex';
-                displayPlan(mealPlan, bmi, bmiInfo, currentSeason);
+                displayPlan(mealPlan, parseFloat(bmi), bmiInfo, currentSeason);
                 showNotification('🎉 Your personalized meal plan is ready!', 'success');
             } catch (error) {
+                console.error('Error generating meal plan:', error);
                 resultsContent.innerHTML = `
                     <div style="text-align: center; padding: 4rem 2rem;">
                         <div style="font-size: 4rem; margin-bottom: 1rem;">❌</div>
                         <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--danger); margin-bottom: 1rem;">Oops! Something went wrong</h3>
-                        <p style="color: var(--gray-600);">Failed to generate meal plan. Please try again.</p>
+                        <p style="color: var(--gray-600); margin-bottom: 1rem;">Failed to generate meal plan. Please try again.</p>
+                        <p style="color: var(--gray-500); font-size: 0.875rem;">${error.message || 'Unknown error occurred'}</p>
                     </div>
                 `;
-                showNotification('Failed to generate meal plan', 'error');
+                showNotification(`Failed to generate meal plan: ${error.message}`, 'error');
             }
         }
 
