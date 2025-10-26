@@ -8,6 +8,24 @@
     text-size-adjust: 100%;
 }
 
+/* Fix backdrop-filter vendor prefix order */
+.glass, .navbar, .mobile-menu {
+    -webkit-backdrop-filter: blur(20px) !important;
+    backdrop-filter: blur(20px) !important;
+}
+
+/* Override any incorrect vendor prefix order */
+*[style*="backdrop-filter"] {
+    -webkit-backdrop-filter: blur(20px) !important;
+    backdrop-filter: blur(20px) !important;
+}
+
+/* Ensure proper vendor prefix order for all backdrop-filter usage */
+[class*="backdrop-blur"] {
+    -webkit-backdrop-filter: blur(20px) !important;
+    backdrop-filter: blur(20px) !important;
+}
+
 .section {
     padding: var(--section-padding);
     width: 100%;
