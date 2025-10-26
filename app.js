@@ -2,6 +2,129 @@
 const API_KEY = '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';
 const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
+// STRICT VEGETARIAN ENFORCEMENT SYSTEM
+const NON_VEG_KEYWORDS = [
+    // Meat
+    'chicken', 'beef', 'pork', 'lamb', 'mutton', 'goat', 'turkey', 'duck', 'fish', 'salmon', 'tuna', 'prawn', 'shrimp', 'crab', 'lobster',
+    'meat', 'flesh', 'animal', 'carcass', 'butcher', 'slaughter',
+    
+    // Indian non-veg terms
+    'murgi', 'gosht', 'machli', 'jhinga', 'kekda', 'bakra', 'bakra', 'murga', 'andha', 'mutton', 'chicken', 'fish', 'prawn', 'shrimp',
+    'kabab', 'biryani', 'tikka', 'curry', 'masala', 'gravy', 'soup', 'broth', 'stock',
+    
+    // Common non-veg dishes
+    'biryani', 'kabab', 'tikka', 'butter chicken', 'chicken curry', 'fish curry', 'prawn curry', 'mutton curry',
+    'chicken tikka', 'fish tikka', 'prawn tikka', 'lamb curry', 'goat curry', 'beef curry',
+    
+    // Seafood
+    'seafood', 'marine', 'aquatic', 'shellfish', 'mollusk', 'crustacean',
+    
+    // Processed non-veg
+    'sausage', 'bacon', 'ham', 'pepperoni', 'salami', 'hot dog', 'burger', 'pizza', 'sandwich',
+    'nuggets', 'patties', 'cutlets', 'kebabs', 'tandoori', 'grilled', 'fried',
+    
+    // Eggs (if considering as non-veg)
+    'egg', 'eggs', 'omelette', 'scrambled', 'boiled', 'fried egg', 'egg curry', 'anda',
+    
+    // Dairy products that might be non-veg
+    'rennet', 'gelatin', 'lard', 'tallow'
+];
+
+// Function to detect non-vegetarian content
+function detectNonVegContent(text) {
+    if (!text) return false;
+    
+    const lowerText = text.toLowerCase();
+    const words = lowerText.split(/\s+/);
+    
+    for (let word of words) {
+        // Remove punctuation for better matching
+        const cleanWord = word.replace(/[^\w]/g, '');
+        if (NON_VEG_KEYWORDS.includes(cleanWord)) {
+            return { detected: true, keyword: cleanWord };
+        }
+    }
+    
+    // Check for partial matches in longer text
+    for (let keyword of NON_VEG_KEYWORDS) {
+        if (lowerText.includes(keyword)) {
+            return { detected: true, keyword: keyword };
+        }
+    }
+    
+    return { detected: false };
+}
+
+// Function to show ACHA warning
+function showAchaWarning() {
+    // Remove any existing warning
+    const existingWarning = document.getElementById('acha-warning');
+    if (existingWarning) {
+        existingWarning.remove();
+    }
+    
+    // Create warning overlay
+    const warning = document.createElement('div');
+    warning.id = 'acha-warning';
+    warning.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            font-family: 'Arial', sans-serif;
+        ">
+            <div style="
+                font-size: 8rem;
+                font-weight: 900;
+                color: #ff0000;
+                text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #ff0000;
+                animation: achaPulse 0.5s ease-in-out;
+                text-align: center;
+                line-height: 1;
+            ">
+                ACHA?<br>
+                <div style="font-size: 2rem; margin-top: 1rem; color: #ff6666;">
+                    STRICTLY VEGETARIAN ONLY! 🚫
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes achaPulse {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes achaFade {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.8); }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    document.body.appendChild(warning);
+    
+    // Fade away after 3 seconds
+    setTimeout(() => {
+        warning.style.animation = 'achaFade 1s ease-out';
+        setTimeout(() => {
+            if (warning.parentNode) {
+                warning.remove();
+            }
+        }, 1000);
+    }, 3000);
+}
+
 // Groq models - blazing fast!
 const AI_MODELS = [
     'llama-3.3-70b-versatile',

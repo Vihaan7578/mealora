@@ -84,7 +84,11 @@
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Health Issues</label>
                     <input type="text" id="healthGoal" placeholder="e.g., Diabetes, High BP, PCOS, Thyroid"
-                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
+                           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;"
+                           oninput="validateVegetarianInput(this)">
+                    <p style="font-size: 0.75rem; color: var(--gray-600); margin-top: 0.25rem;">
+                        🌱 <strong>VEGETARIAN HEALTH PLANS ONLY!</strong>
+                    </p>
                 </div>
 
                 <!-- Quick Templates -->
@@ -116,9 +120,10 @@
                         🚨 Food Allergies & Intolerances (Important)
                     </label>
                     <textarea id="allergies" placeholder="List any food allergies, intolerances, or foods you must avoid (e.g., nuts, dairy, gluten, soy)..." rows="3"
-                              style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--danger); font-size: 1rem; resize: none; background: rgba(239, 68, 68, 0.05);"></textarea>
+                              style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--danger); font-size: 1rem; resize: none; background: rgba(239, 68, 68, 0.05);"
+                              oninput="validateVegetarianInput(this)"></textarea>
                     <p style="font-size: 0.75rem; color: var(--gray-600); margin-top: 0.25rem;">
-                        ⚠️ This information is critical for your safety. Please be specific.
+                        ⚠️ This information is critical for your safety. Please be specific. <strong>VEGETARIAN ONLY!</strong>
                     </p>
                 </div>
 
@@ -128,9 +133,10 @@
                         🍽️ Food Preferences & Likes/Dislikes (Optional)
                     </label>
                     <textarea id="preferences" placeholder="List foods you love, dislike, or have preferences for (e.g., spicy food, mild flavors, specific vegetables, cooking methods)..." rows="3"
-                              style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; resize: none;"></textarea>
+                              style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; resize: none;"
+                              oninput="validateVegetarianInput(this)"></textarea>
                     <p style="font-size: 0.75rem; color: var(--gray-600); margin-top: 0.25rem;">
-                        💡 This helps us customize your meal plan to your taste preferences.
+                        💡 This helps us customize your meal plan to your taste preferences. <strong>VEGETARIAN ONLY!</strong>
                     </p>
                 </div>
 
@@ -218,11 +224,38 @@
             showNotification('✅ Template applied! Customize before generating.', 'success');
         }
 
+        // Function to validate vegetarian input
+        function validateVegetarianInput(input) {
+            const result = detectNonVegContent(input.value);
+            if (result.detected) {
+                showAchaWarning();
+                input.value = input.value.replace(new RegExp(result.keyword, 'gi'), '');
+                input.style.border = '3px solid #ff0000';
+                input.style.boxShadow = '0 0 10px rgba(255, 0, 0, 0.5)';
+                setTimeout(() => {
+                    input.style.border = '';
+                    input.style.boxShadow = '';
+                }, 3000);
+                return false;
+            }
+            return true;
+        }
+
         async function generateMealPlan() {
             const age = document.getElementById('age').value;
             const healthGoal = document.getElementById('healthGoal').value;
             const allergies = document.getElementById('allergies').value;
             const preferences = document.getElementById('preferences').value;
+
+            // STRICT VEGETARIAN VALIDATION
+            const healthGoalCheck = detectNonVegContent(healthGoal);
+            const allergiesCheck = detectNonVegContent(allergies);
+            const preferencesCheck = detectNonVegContent(preferences);
+
+            if (healthGoalCheck.detected || allergiesCheck.detected || preferencesCheck.detected) {
+                showAchaWarning();
+                return;
+            }
 
             if (!age || age < 1 || age > 120) {
                 showNotification('Please enter a valid age (1-120)', 'error');
@@ -248,7 +281,7 @@
             `;
 
             try {
-                const prompt = `You are a professional Indian nutritionist specializing in vegetarian Indian cuisine. Create a detailed, personalized 7-day INDIAN VEGETARIAN meal plan based on:
+                const prompt = `You are a professional Indian nutritionist specializing in STRICTLY VEGETARIAN Indian cuisine. Create a detailed, personalized 7-day INDIAN VEGETARIAN meal plan based on:
 
 Age: ${age}
 Gender: ${selectedGender}
@@ -256,7 +289,12 @@ Health Issues: ${healthGoal}
 Food Allergies/Intolerances: ${allergies || 'None specified'}
 Food Preferences/Likes-Dislikes: ${preferences || 'None specified'}
 
-IMPORTANT: Use ONLY Indian vegetarian foods and ingredients with their proper Indian names (Hindi/English mix as commonly used in India). Include traditional Indian meals like:
+🚫 CRITICAL REQUIREMENTS - STRICTLY VEGETARIAN ONLY:
+- ABSOLUTELY NO meat, fish, poultry, seafood, eggs, or any animal products
+- NO chicken, beef, pork, lamb, mutton, fish, prawn, shrimp, crab, lobster, or any seafood
+- NO eggs, omelettes, or any egg-based dishes
+- ONLY plant-based foods, dairy products (milk, curd, paneer, ghee), and vegetarian ingredients
+- Use ONLY Indian vegetarian foods and ingredients with their proper Indian names (Hindi/English mix as commonly used in India). Include traditional Indian meals like:
 - Dal (lentils) - Toor dal, Moong dal, Masoor dal, Chana dal
 - Sabzi (vegetables) - Aloo gobhi, Bhindi, Palak, Baingan, Kaddu
 - Roti/Chapati/Paratha/Phulka
