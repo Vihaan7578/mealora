@@ -64,9 +64,21 @@
             </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+        <!-- Mobile Toggle Buttons (Hidden on Desktop) -->
+        <div id="mobileToggle" style="display: none; margin-bottom: 2rem; text-align: center;">
+            <div style="display: flex; gap: 0.5rem; justify-content: center; background: var(--bg-secondary); padding: 0.5rem; border-radius: 1rem; border: 1px solid var(--border-color);">
+                <button id="mobileInputBtn" onclick="showMobileInput()" class="btn btn-primary" style="flex: 1; padding: 0.75rem 1rem; font-size: 0.875rem;">
+                    📝 Input Form
+                </button>
+                <button id="mobileOutputBtn" onclick="showMobileOutput()" class="btn btn-secondary" style="flex: 1; padding: 0.75rem 1rem; font-size: 0.875rem; display: none;">
+                    📊 Results
+                </button>
+            </div>
+        </div>
+
+        <div id="desktopLayout" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
             <!-- Left Panel - Input Form -->
-            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+            <div id="inputPanel" class="glass" style="padding: 2rem; border-radius: 1.5rem;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
                     <div style="display: flex; align-items: center; gap: 1rem;">
                     <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
@@ -253,7 +265,7 @@
             </div>
 
             <!-- Right Panel - Results -->
-            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; min-height: 600px;">
+            <div id="outputPanel" class="glass" style="padding: 2rem; border-radius: 1.5rem; min-height: 600px;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
@@ -602,6 +614,12 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
         }
 
         function displayPlan(plan, bmi, bmiInfo, season) {
+            // Show output panel on mobile when results are ready
+            if (window.innerWidth < 1024) {
+                showMobileOutput();
+                document.getElementById('mobileOutputBtn').style.display = 'block';
+            }
+            
             if (currentView === 'card') {
                 displayCardView(plan, bmi, bmiInfo, season);
             } else {
@@ -1171,9 +1189,50 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
             }
         }
         
+        // Mobile Toggle Functions
+        function showMobileInput() {
+            document.getElementById('inputPanel').style.display = 'block';
+            document.getElementById('outputPanel').style.display = 'none';
+            document.getElementById('mobileInputBtn').classList.add('btn-primary');
+            document.getElementById('mobileInputBtn').classList.remove('btn-secondary');
+            document.getElementById('mobileOutputBtn').classList.add('btn-secondary');
+            document.getElementById('mobileOutputBtn').classList.remove('btn-primary');
+        }
+        
+        function showMobileOutput() {
+            document.getElementById('inputPanel').style.display = 'none';
+            document.getElementById('outputPanel').style.display = 'block';
+            document.getElementById('mobileInputBtn').classList.add('btn-secondary');
+            document.getElementById('mobileInputBtn').classList.remove('btn-primary');
+            document.getElementById('mobileOutputBtn').classList.add('btn-primary');
+            document.getElementById('mobileOutputBtn').classList.remove('btn-secondary');
+        }
+        
+        // Mobile Layout Detection
+        function checkMobileLayout() {
+            const isMobile = window.innerWidth < 1024;
+            const mobileToggle = document.getElementById('mobileToggle');
+            const desktopLayout = document.getElementById('desktopLayout');
+            
+            if (isMobile) {
+                mobileToggle.style.display = 'block';
+                desktopLayout.style.display = 'none';
+                showMobileInput(); // Show input by default on mobile
+            } else {
+                mobileToggle.style.display = 'none';
+                desktopLayout.style.display = 'grid';
+            }
+        }
+        
         // Initialize responsive navigation when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
             new ResponsiveNavigation();
+            checkMobileLayout();
+            
+            // Check on resize
+            window.addEventListener('resize', () => {
+                checkMobileLayout();
+            });
         });
     </script>
 </body>
