@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saved Plans - Mealora</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dynamic-responsive.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
@@ -19,10 +20,23 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
-                <img src="logo.PNG" alt="Mealora" style="height: 45px; width: auto;">
+                <img src="logo.PNG" alt="Mealora" class="img-responsive" style="height: 45px; width: auto;">
                 <span>Mealora</span>
             </a>
             <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="planner.html">Meal Planner</a></li>
+                <li><a href="grocery.html">Grocery List</a></li>
+                <li><a href="saved.html" class="active">Saved Plans</a></li>
+                <li><a href="progress.html">Progress</a></li>
+                <li><a href="recipes.html">Recipes</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                ☰
+            </button>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="planner.html">Meal Planner</a></li>
                 <li><a href="grocery.html">Grocery List</a></li>
@@ -272,6 +286,32 @@
 
         // Initialize
         loadSavedPlans();
+    </script>
+
+    <script src="device-detection.js"></script>
+    <script>
+        // Mobile menu toggle function
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            mobileNav.classList.toggle('active');
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!mobileNav.contains(event.target) && !mobileToggle.contains(event.target)) {
+                mobileNav.classList.remove('active');
+            }
+        });
+        
+        // Close mobile menu when window is resized to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('mobileNav').classList.remove('active');
+            }
+        });
     </script>
 
     <!-- Footer -->
