@@ -110,11 +110,28 @@
                     </div>
                 </div>
 
-                <!-- Preferences -->
+                <!-- Food Allergies -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">
+                        🚨 Food Allergies & Intolerances (Important)
+                    </label>
+                    <textarea id="allergies" placeholder="List any food allergies, intolerances, or foods you must avoid (e.g., nuts, dairy, gluten, soy)..." rows="3"
+                              style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--danger); font-size: 1rem; resize: none; background: rgba(239, 68, 68, 0.05);"></textarea>
+                    <p style="font-size: 0.75rem; color: var(--gray-600); margin-top: 0.25rem;">
+                        ⚠️ This information is critical for your safety. Please be specific.
+                    </p>
+                </div>
+
+                <!-- Food Preferences -->
                 <div style="margin-bottom: 2rem;">
-                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Food Preferences & Allergies (Optional)</label>
-                    <textarea id="preferences" placeholder="List any foods you love, dislike, or are allergic to..." rows="4"
+                    <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">
+                        🍽️ Food Preferences & Likes/Dislikes (Optional)
+                    </label>
+                    <textarea id="preferences" placeholder="List foods you love, dislike, or have preferences for (e.g., spicy food, mild flavors, specific vegetables, cooking methods)..." rows="3"
                               style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; resize: none;"></textarea>
+                    <p style="font-size: 0.75rem; color: var(--gray-600); margin-top: 0.25rem;">
+                        💡 This helps us customize your meal plan to your taste preferences.
+                    </p>
                 </div>
 
                 <!-- Generate Button -->
@@ -204,6 +221,7 @@
         async function generateMealPlan() {
             const age = document.getElementById('age').value;
             const healthGoal = document.getElementById('healthGoal').value;
+            const allergies = document.getElementById('allergies').value;
             const preferences = document.getElementById('preferences').value;
 
             if (!age || age < 1 || age > 120) {
@@ -235,7 +253,8 @@
 Age: ${age}
 Gender: ${selectedGender}
 Health Issues: ${healthGoal}
-Food Preferences/Allergies: ${preferences || 'None specified'}
+Food Allergies/Intolerances: ${allergies || 'None specified'}
+Food Preferences/Likes-Dislikes: ${preferences || 'None specified'}
 
 IMPORTANT: Use ONLY Indian vegetarian foods and ingredients with their proper Indian names (Hindi/English mix as commonly used in India). Include traditional Indian meals like:
 - Dal (lentils) - Toor dal, Moong dal, Masoor dal, Chana dal
@@ -268,7 +287,7 @@ Use Indian ingredients like:
 Format it clearly with day headers (DAY 1 - Monday, etc.) and meal types in Hindi-English mix as Indians use.`;
 
                 const mealPlan = await generateWithAI(prompt);
-                currentPlan = { text: mealPlan, age, gender: selectedGender, healthGoal, preferences };
+                currentPlan = { text: mealPlan, age, gender: selectedGender, healthGoal, allergies, preferences };
                 
                 document.getElementById('actionButtons').style.display = 'flex';
                 displayPlan(mealPlan);

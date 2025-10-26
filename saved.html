@@ -39,9 +39,31 @@
             <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;" class="gradient-text">
                 💾 Saved Meal Plans
             </h1>
-            <p style="font-size: 1.25rem; color: var(--gray-600);">
+            <p style="font-size: 1.25rem; color: var(--gray-600); margin-bottom: 2rem;">
                 Access and manage your saved meal plans
             </p>
+            
+            <!-- Bulk Actions -->
+            <div id="bulkActions" style="display: none; margin-bottom: 2rem;">
+                <div class="glass" style="padding: 1.5rem; border-radius: 1rem; display: inline-flex; align-items: center; gap: 1rem;">
+                    <span style="color: var(--gray-700); font-weight: 600;">
+                        <span id="selectedCount">0</span> plan(s) selected
+                    </span>
+                    <button onclick="deleteSelectedPlans()" class="btn" style="background: var(--danger); color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: 600;">
+                        🗑️ Delete Selected
+                    </button>
+                    <button onclick="clearSelection()" class="btn" style="background: var(--gray-500); color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: 600;">
+                        ✖️ Clear Selection
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Toggle Selection Mode -->
+            <div style="margin-bottom: 2rem;">
+                <button onclick="toggleSelectionMode()" id="selectionToggle" class="btn btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 0.5rem; border: none; cursor: pointer; font-weight: 600;">
+                    ☑️ Select Multiple Plans
+                </button>
+            </div>
         </div>
 
         <div id="savedPlansGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem;">
@@ -95,12 +117,18 @@
             }
             
             container.innerHTML = plans.map(plan => `
-                <div class="glass" style="padding: 2rem; border-radius: 1.5rem; transition: all 0.3s; cursor: pointer;"
+                <div class="glass plan-card" style="padding: 2rem; border-radius: 1.5rem; transition: all 0.3s; cursor: pointer; position: relative;"
                      onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.1)';"
-                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='';">
+                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='';"
+                     data-plan-id="${plan.id}">
+                    
+                    <!-- Selection Checkbox (hidden by default) -->
+                    <div class="selection-checkbox" style="position: absolute; top: 1rem; left: 1rem; display: none;">
+                        <input type="checkbox" id="plan-${plan.id}" onchange="updateSelection()" style="width: 20px; height: 20px; cursor: pointer;">
+                    </div>
                     
                     <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
-                        <div>
+                        <div style="margin-left: 2rem;">
                             <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900); margin-bottom: 0.5rem;">
                                 📋 ${plan.name}
                             </h3>
@@ -108,11 +136,15 @@
                                 Created: ${new Date(plan.date).toLocaleString()}
                             </p>
                         </div>
-                        <button onclick="event.stopPropagation(); deletePlanById(${plan.id})" 
-                                style="width: 32px; height: 32px; border-radius: 50%; background: var(--danger); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;"
-                                title="Delete Plan">
-                            🗑️
-                        </button>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <button onclick="event.stopPropagation(); deletePlanById(${plan.id})" 
+                                    style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); transition: all 0.3s ease;"
+                                    onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 16px rgba(239, 68, 68, 0.4)'"
+                                    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(239, 68, 68, 0.3)'"
+                                    title="Delete Plan">
+                                🗑️
+                            </button>
+                        </div>
                     </div>
                     
                     <div style="background: white; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem;">
@@ -177,6 +209,58 @@
             
             navigator.clipboard.writeText(plan.mealPlan);
             showNotification('📋 Plan copied to clipboard!', 'success');
+        }
+
+        // Bulk selection functionality
+        let selectionMode = false;
+
+        function toggleSelectionMode() {
+            selectionMode = !selectionMode;
+            const checkboxes = document.querySelectorAll('.selection-checkbox');
+            const bulkActions = document.getElementById('bulkActions');
+            const toggle = document.getElementById('selectionToggle');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.style.display = selectionMode ? 'block' : 'none';
+            });
+            
+            bulkActions.style.display = selectionMode ? 'block' : 'none';
+            toggle.textContent = selectionMode ? '❌ Exit Selection' : '☑️ Select Multiple Plans';
+            
+            if (!selectionMode) {
+                clearSelection();
+            }
+        }
+
+        function updateSelection() {
+            const checkboxes = document.querySelectorAll('.selection-checkbox input[type="checkbox"]');
+            const selectedCount = document.getElementById('selectedCount');
+            const selected = Array.from(checkboxes).filter(cb => cb.checked);
+            
+            selectedCount.textContent = selected.length;
+        }
+
+        function clearSelection() {
+            const checkboxes = document.querySelectorAll('.selection-checkbox input[type="checkbox"]');
+            checkboxes.forEach(cb => cb.checked = false);
+            updateSelection();
+        }
+
+        function deleteSelectedPlans() {
+            const checkboxes = document.querySelectorAll('.selection-checkbox input[type="checkbox"]:checked');
+            const selectedIds = Array.from(checkboxes).map(cb => parseInt(cb.id.replace('plan-', '')));
+            
+            if (selectedIds.length === 0) {
+                showNotification('⚠️ No plans selected', 'error');
+                return;
+            }
+            
+            if (confirm(`Are you sure you want to delete ${selectedIds.length} plan(s)? This action cannot be undone.`)) {
+                selectedIds.forEach(id => deletePlan(id));
+                loadSavedPlans();
+                showNotification(`🗑️ ${selectedIds.length} plan(s) deleted`, 'success');
+                toggleSelectionMode(); // Exit selection mode
+            }
         }
 
         // Close modal when clicking outside
