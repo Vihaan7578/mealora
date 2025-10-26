@@ -165,8 +165,8 @@
                 <!-- Region -->
                 <div style="margin-bottom: 1.5rem;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Region/State</label>
-                    <select id="region" style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; background: white;">
-                        <option value="">Select your state</option>
+                    <select id="region" style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; background: white; color: #000000;">
+                        <option value="" style="color: #666666;">Select your state</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
                         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                         <option value="Assam">Assam</option>
@@ -276,6 +276,28 @@
         </div>
     </div>
 
+    <style>
+        /* Fix dropdown and select elements for better contrast */
+        select, option {
+            color: #000000 !important;
+            background-color: #ffffff !important;
+        }
+        
+        select option {
+            color: #000000 !important;
+            background-color: #ffffff !important;
+        }
+        
+        /* Fix any other elements with poor contrast */
+        input::placeholder, textarea::placeholder {
+            color: #666666 !important;
+        }
+        
+        /* Ensure labels are visible */
+        label {
+            color: var(--gray-700) !important;
+        }
+    </style>
     <script src="app.js"></script>
     <script>
         setActivePage('planner.html');
