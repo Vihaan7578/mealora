@@ -597,6 +597,10 @@ function validateHealthCondition(text, type) {
         'cough', 'dry cough', 'sneezing', 'runny nose', 'nasal congestion', 'sinus', 'sinusitis',
         'sore throat', 'throat pain', 'hoarseness', 'laryngitis',
         'shortness of breath', 'difficulty breathing', 'wheezing', 'chest congestion',
+        // Infectious Diseases
+        'dengue', 'malaria', 'typhoid', 'chickenpox', 'measles', 'mumps', 'rubella',
+        'jaundice', 'hepatitis', 'tuberculosis', 'tb', 'viral fever', 'bacterial fever',
+        'urinary tract infection', 'uti', 'throat infection', 'ear infection',
         // Gastrointestinal Symptoms
         'nausea', 'vomiting', 'diarrhea', 'loose motions', 'constipation', 'stomach cramps',
         'stomach ache', 'stomachache', 'abdominal pain', 'belly ache', 'stomach upset',

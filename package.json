@@ -1,0 +1,17 @@
+{
+  "name": "mealora",
+  "version": "1.0.0",
+  "description": "AI-Powered Meal Planning Web App",
+  "scripts": {
+    "build:css": "tailwindcss -i ./style.css -o ./dist/style.css --watch",
+    "build:css:prod": "tailwindcss -i ./style.css -o ./dist/style.css --minify",
+    "dev": "npm run build:css",
+    "build": "node build.js",
+    "build:simple": "npm run build:css:prod"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  }
+}
