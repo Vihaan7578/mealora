@@ -354,9 +354,17 @@ Allergies: ${sanitizedAllergies || 'None specified'}
 
 IMPORTANT INSTRUCTIONS:
 1. Calculate daily calorie target based on BMI category: ${bmiInfo.calorieAdjustment}
-2. Use ONLY seasonal foods available in ${currentSeason}: ${seasonalFoodList}
-3. Consider regional preferences for ${region || 'Indian'} cuisine
-4. Plan meals within budget of ₹${budget || 'Flexible'} per week
+2. Season Guidance: ${currentSeason} seasonal foods are: ${seasonalFoodList}
+   - PREFER seasonal foods as they are cheaper and fresher
+   - BUT you can use other affordable ingredients if they fit the budget better
+   - Focus on budget-friendly combinations
+3. Budget Planning (₹${budget || 'Flexible'} per week):
+   - ${budget ? 'Plan for approximately ₹' + Math.round(budget/7) + ' per day' : 'No strict budget limit'}
+   - Use cost-effective staples: Rice, Atta (wheat), Dal (lentils), basic vegetables
+   - Include affordable proteins: Dal, Paneer, Sprouts, Curd
+   - Balance nutrition while respecting budget constraints
+   - Note: Actual prices vary by region; estimate based on common market rates
+4. Consider regional preferences for ${region || 'Indian'} cuisine
 5. Address seasonal health issues: ${sanitizedSeasonalHealth || 'None'} with appropriate foods (e.g., warm soups for cold, light meals for fever, protein-rich for weakness)
 6. For chronic health issues: ${sanitizedHealthGoal}
 - Use ONLY Indian vegetarian foods and ingredients with their proper Indian names (Hindi/English mix as commonly used in India). Include traditional Indian meals like:
