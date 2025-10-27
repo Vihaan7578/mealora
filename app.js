@@ -2,11 +2,11 @@
 const API_KEY = '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';
 const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
-// Groq models - blazing fast!
+// Groq models - blazing fast! (Updated to current supported models)
 const AI_MODELS = [
     'llama-3.3-70b-versatile',
     'llama-3.1-70b-versatile',
-    'mixtral-8x7b-32768'
+    'llama-3.1-8b-instant'
 ];
 
 // Utility functions
@@ -733,10 +733,22 @@ async function generateWithAI(prompt, retryCount = 0, modelIndex = 0) {
             const errorData = await response.json().catch(() => ({}));
             console.error('API Error:', errorData);
             
+            // Handle specific error cases
+            if (response.status === 429) {
+                // Rate limit - wait longer before retry
+                if (retryCount < 2) {
+                    await new Promise(resolve => setTimeout(resolve, 5000 * (retryCount + 1)));
+                    return await generateWithAI(prompt, retryCount + 1, modelIndex);
+                }
+            }
+            
+            // Try next model if available
             if (modelIndex < AI_MODELS.length - 1) {
+                console.log(`Switching to model: ${AI_MODELS[modelIndex + 1]}`);
                 return await generateWithAI(prompt, 0, modelIndex + 1);
             }
-            throw new Error(errorData.error?.message || 'Failed to generate');
+            
+            throw new Error(errorData.error?.message || `API Error: ${response.status} ${response.statusText}`);
         }
         
         const data = await response.json();
@@ -744,10 +756,13 @@ async function generateWithAI(prompt, retryCount = 0, modelIndex = 0) {
         
     } catch (error) {
         console.error('Error:', error);
-        if (retryCount < 1) {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Only retry on network errors, not API errors
+        if (retryCount < 1 && error.name === 'TypeError') {
+            await new Promise(resolve => setTimeout(resolve, 2000));
             return await generateWithAI(prompt, retryCount + 1, modelIndex);
         }
+        
         throw error;
     }
 }
