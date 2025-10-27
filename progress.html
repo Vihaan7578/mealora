@@ -49,46 +49,53 @@
     </nav>
 
     <!-- Main Content -->
-    <div class="container">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 0.5rem;" class="gradient-text">
+    <div class="responsive-container">
+        <div class="text-center spacing-responsive">
+            <h1 class="text-responsive-2xl font-weight: 900; margin-bottom: 0.5rem; gradient-text">
                 📈 Progress Tracker
             </h1>
-            <p style="font-size: 1.25rem; color: var(--gray-600); margin-bottom: 2rem;">
+            <p class="text-responsive-lg color: var(--gray-600);">
                 Track your health journey over time
             </p>
-            
-            <!-- Demo Data Button -->
-            <div style="margin-bottom: 2rem;">
-                <button onclick="loadDemoData()" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1.125rem; margin-right: 1rem;">
-                    🎯 Load Demo Data
-                </button>
-                <button onclick="clearAllData()" class="btn" style="padding: 1rem 2rem; font-size: 1.125rem; background: var(--danger); color: white;">
-                    🗑️ Clear All Data
-                </button>
-            </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-bottom: 2rem;">
-            <!-- Left Panel - Log Progress -->
-            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--gray-900);">
-                    Log Your Progress
-                </h2>
+        <!-- Input Form Section -->
+        <div class="glass spacing-responsive" style="padding: 2rem; border-radius: 1.5rem; margin-bottom: 2rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                        📊
+                    </div>
+                    <div>
+                        <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900);">Log Your Progress</h2>
+                        <p style="color: var(--gray-600);">Track your health metrics</p>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button onclick="loadDemoData()" style="padding: 0.5rem 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; font-size: 0.875rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        🎯 Demo Data
+                    </button>
+                    <button onclick="clearAllData()" style="padding: 0.5rem 1rem; background: var(--danger); color: white; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; font-size: 0.875rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        🗑️ Clear
+                    </button>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
                 
-                <div style="margin-bottom: 1.5rem;">
+                <div>
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Current Weight (kg)</label>
                     <input type="number" id="weight" placeholder="e.g., 70" step="0.1"
                            style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
-                <div style="margin-bottom: 1.5rem;">
+                <div>
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Target Weight (kg)</label>
                     <input type="number" id="targetWeight" placeholder="e.g., 65" step="0.1"
                            style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem;">
                 </div>
 
-                <div style="margin-bottom: 1.5rem;">
+                <div>
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Energy Level (1-10)</label>
                     <input type="range" id="energy" min="1" max="10" value="5"
                            oninput="document.getElementById('energyValue').textContent = this.value"
@@ -98,39 +105,44 @@
                     </div>
                 </div>
 
-                <div style="margin-bottom: 2rem;">
+                <div style="grid-column: 1 / -1;">
                     <label style="display: block; font-weight: 700; color: var(--gray-700); margin-bottom: 0.5rem;">Notes (Optional)</label>
                     <textarea id="notes" placeholder="How are you feeling today?" rows="3"
                               style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; border: 2px solid var(--gray-200); font-size: 1rem; resize: none;"></textarea>
                 </div>
-
-                <button onclick="logProgress()" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem;">
-                    💾 Save Progress
-                </button>
             </div>
 
-            <!-- Right Panel - Charts -->
-            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
-                <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--gray-900);">
-                    Your Journey
-                </h2>
-                
-                <div id="chartContainer" style="margin-bottom: 2rem;">
-                    <canvas id="weightChart" style="max-height: 400px;"></canvas>
-                </div>
-
-                <div id="statsGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-                    <!-- Stats will be populated here -->
-                </div>
-            </div>
+            <button onclick="logProgress()" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem; font-size: 1.125rem; font-weight: 700;">
+                📝 Log Progress
+            </button>
         </div>
 
-        <!-- Progress History -->
-        <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
-            <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--gray-900);">
-                Recent Entries
-            </h2>
-            <div id="progressHistory"></div>
+        <!-- Output Section - Charts and Data -->
+        <div class="glass spacing-responsive" style="padding: 2rem; border-radius: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                    📈
+                </div>
+                <div>
+                    <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900);">Your Journey</h2>
+                    <p style="color: var(--gray-600);">Track your progress over time</p>
+                </div>
+            </div>
+                
+            <div id="chartContainer" style="margin-bottom: 2rem;">
+                <canvas id="weightChart" style="max-height: 400px;"></canvas>
+            </div>
+
+            <div id="statsGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <!-- Stats will be populated here -->
+            </div>
+
+            <div>
+                <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; color: var(--gray-900);">
+                    Recent Entries
+                </h3>
+                <div id="progressHistory"></div>
+            </div>
         </div>
     </div>
 
