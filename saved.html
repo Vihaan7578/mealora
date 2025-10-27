@@ -293,7 +293,17 @@
         // Mobile menu toggle function
         function toggleMobileMenu() {
             const mobileNav = document.getElementById('mobileNav');
-            mobileNav.classList.toggle('active');
+            if (!mobileNav) {
+                console.error('Mobile nav element not found');
+                return;
+            }
+            
+            const isActive = mobileNav.classList.contains('active');
+            if (isActive) {
+                mobileNav.classList.remove('active');
+            } else {
+                mobileNav.classList.add('active');
+            }
         }
         
         // Close mobile menu when clicking outside
@@ -309,7 +319,26 @@
         // Close mobile menu when window is resized to desktop
         window.addEventListener('resize', function() {
             if (window.innerWidth > 768) {
-                document.getElementById('mobileNav').classList.remove('active');
+                const mobileNav = document.getElementById('mobileNav');
+                if (mobileNav) {
+                    mobileNav.classList.remove('active');
+                }
+            }
+        });
+        
+        // Add touch event support for mobile devices
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            if (mobileToggle) {
+                mobileToggle.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    toggleMobileMenu();
+                });
+                
+                mobileToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMobileMenu();
+                });
             }
         });
     </script>

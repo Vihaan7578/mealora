@@ -1188,8 +1188,62 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
             });
         }
 
+        function toggleMobileMenu() {
+            const mobileNav = document.getElementById('mobileNav');
+            if (!mobileNav) {
+                console.error('Mobile nav element not found');
+                return;
+            }
+            
+            const isActive = mobileNav.classList.contains('active');
+            if (isActive) {
+                mobileNav.classList.remove('active');
+            } else {
+                mobileNav.classList.add('active');
+            }
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (!mobileNav.contains(event.target) && !mobileToggle.contains(event.target)) {
+                mobileNav.classList.remove('active');
+            }
+        });
+        
+        // Close mobile menu on window resize (for desktop)
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const mobileNav = document.getElementById('mobileNav');
+                if (mobileNav) {
+                    mobileNav.classList.remove('active');
+                }
+            }
+        });
+        
+        // Add touch event support for mobile devices
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileToggle = document.querySelector('.mobile-menu-toggle');
+            if (mobileToggle) {
+                mobileToggle.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    toggleMobileMenu();
+                });
+                
+                mobileToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMobileMenu();
+                });
+            }
+        });
+
         function savePlan() {
-            if (!currentPlan) return;
+            if (!currentPlan) {
+                showNotification('No meal plan to save! Please generate a meal plan first.', 'error');
+                return;
+            }
             
             const planName = prompt('Enter a name for this meal plan:');
             if (!planName) return;
@@ -1210,6 +1264,10 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
         }
 
         function saveMealPlan() {
+            if (!currentPlan) {
+                showNotification('No meal plan to save! Please generate a meal plan first.', 'error');
+                return;
+            }
             savePlan(); // Call the existing savePlan function
         }
 
