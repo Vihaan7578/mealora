@@ -164,17 +164,17 @@
                     <div style="background: white; border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 1.5rem;">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                             <div>
-                                <div style="font-size: 0.75rem; color: var(--gray-600); font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Age</div>
-                                <div style="font-weight: 700; color: var(--gray-900);">${plan.userData.age} years</div>
+                                <div style="font-size: 0.75rem; color: var(--gray-600); font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">BMI</div>
+                                <div style="font-weight: 700; color: var(--gray-900);">${plan.bmi || 'N/A'}</div>
                             </div>
                             <div>
-                                <div style="font-size: 0.75rem; color: var(--gray-600); font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Gender</div>
-                                <div style="font-weight: 700; color: var(--gray-900); text-transform: capitalize;">${plan.userData.gender}</div>
+                                <div style="font-size: 0.75rem; color: var(--gray-600); font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Category</div>
+                                <div style="font-weight: 700; color: var(--gray-900); text-transform: capitalize;">${plan.bmiCategory || 'N/A'}</div>
                             </div>
                         </div>
                         <div style="margin-top: 1rem;">
-                            <div style="font-size: 0.75rem; color: var(--gray-600); font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Health Goal</div>
-                            <div style="font-weight: 600; color: var(--gray-700);">${plan.userData.healthGoal}</div>
+                            <div style="font-size: 0.75rem; color: var(--gray-600); font-weight: 600; text-transform: uppercase; margin-bottom: 0.25rem;">Plan Details</div>
+                            <div style="font-weight: 600; color: var(--gray-700);">${plan.plan ? plan.plan.substring(0, 100) + '...' : 'No details available'}</div>
                         </div>
                     </div>
                     
@@ -198,7 +198,7 @@
             
             document.getElementById('modalTitle').textContent = plan.name;
             document.getElementById('modalContent').innerHTML = `
-                <pre style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--gray-800); line-height: 1.6;">${plan.mealPlan}</pre>
+                <pre style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--gray-800); line-height: 1.6;">${plan.plan}</pre>
             `;
             document.getElementById('planModal').style.display = 'block';
         }
@@ -221,7 +221,7 @@
             
             if (!plan) return;
             
-            navigator.clipboard.writeText(plan.mealPlan);
+            navigator.clipboard.writeText(plan.plan);
             showNotification('📋 Plan copied to clipboard!', 'success');
         }
 

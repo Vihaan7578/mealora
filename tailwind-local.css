@@ -1,5 +1,5 @@
 /* Tailwind CSS - Local Version */
-@import url('https://cdn.tailwindcss.com/3.4.0/tailwind.min.css');
+/* Removed CDN import to prevent 404 errors */
 
 /* Custom overrides for production */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
