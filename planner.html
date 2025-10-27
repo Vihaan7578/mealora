@@ -1241,34 +1241,57 @@ REMINDER: You are creating a MEAL PLAN ONLY. Do not generate any tables, charts,
 
         function savePlan() {
             if (!currentPlan) {
-                showNotification('No meal plan to save! Please generate a meal plan first.', 'error');
+                alert('No meal plan to save! Please generate a meal plan first.');
                 return;
             }
             
             const planName = prompt('Enter a name for this meal plan:');
-            if (!planName) return;
+            if (!planName || planName.trim() === '') {
+                alert('Please enter a valid plan name.');
+                return;
+            }
             
-            // Save to localStorage
-            const savedPlans = JSON.parse(localStorage.getItem('savedMealPlans') || '[]');
-            savedPlans.push({
-                id: Date.now(),
-                name: planName,
-                plan: currentPlan.text,
-                date: new Date().toISOString(),
-                bmi: currentPlan.bmi,
-                bmiCategory: currentPlan.bmiCategory
-            });
-            localStorage.setItem('savedMealPlans', JSON.stringify(savedPlans));
-            
-            showNotification(`✅ Saved "${planName}"!`, 'success');
+            try {
+                // Save to localStorage
+                const savedPlans = JSON.parse(localStorage.getItem('mealPlans') || '[]');
+                savedPlans.push({
+                    id: Date.now(),
+                    name: planName.trim(),
+                    plan: currentPlan.text,
+                    date: new Date().toISOString(),
+                    bmi: currentPlan.bmi,
+                    bmiCategory: currentPlan.bmiCategory
+                });
+                localStorage.setItem('mealPlans', JSON.stringify(savedPlans));
+                
+                // Show success message
+                if (typeof showNotification === 'function') {
+                    showNotification(`✅ Saved "${planName}"!`, 'success');
+                } else {
+                    alert(`✅ Plan "${planName}" saved successfully!`);
+                }
+                
+                console.log('Plan saved successfully:', { name: planName, id: savedPlans[savedPlans.length - 1].id });
+            } catch (error) {
+                console.error('Error saving plan:', error);
+                alert('Error saving plan. Please try again.');
+            }
         }
 
         function saveMealPlan() {
             if (!currentPlan) {
-                showNotification('No meal plan to save! Please generate a meal plan first.', 'error');
+                alert('No meal plan to save! Please generate a meal plan first.');
                 return;
             }
             savePlan(); // Call the existing savePlan function
+        }
+        
+        // Debug function to check saved plans
+        function debugSavedPlans() {
+            const plans = JSON.parse(localStorage.getItem('mealPlans') || '[]');
+            console.log('Current saved plans:', plans);
+            console.log('Number of saved plans:', plans.length);
+            return plans;
         }
 
         function exportToPDF() {
