@@ -105,6 +105,83 @@ export default function TableView() {
     URL.revokeObjectURL(url)
   }
 
+  const showMealDetails = (day, mealType, content) => {
+    // Create modal
+    const modal = document.createElement('div')
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    `
+
+    modal.innerHTML = `
+      <div style="
+        background: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #374151; margin: 0;">
+            ${day} - ${mealType}
+          </h3>
+          <button onclick="this.closest('.modal').remove()" style="
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0.5rem;
+          ">×</button>
+        </div>
+        <div style="
+          background: #f9fafb;
+          padding: 1.5rem;
+          border-radius: 0.5rem;
+          border-left: 4px solid #10b981;
+          white-space: pre-wrap;
+          line-height: 1.6;
+          color: #374151;
+          font-size: 1rem;
+        ">${content}</div>
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button onclick="this.closest('.modal').remove()" style="
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+          ">Close</button>
+        </div>
+      </div>
+    `
+
+    modal.className = 'modal'
+    document.body.appendChild(modal)
+
+    // Close on outside click
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.remove()
+      }
+    })
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 flex items-center justify-center">
@@ -182,27 +259,17 @@ export default function TableView() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 shadow-lg"
+          className="p-4"
         >
           <div id="tableContent" className="overflow-x-auto">
-            <table className="w-full border-collapse">
+            <table className="w-full border-collapse font-sans">
               <thead>
-                <tr>
-                  <th className="w-1/6 px-4 py-3 text-left font-semibold text-white bg-gradient-to-r from-primary-500 to-secondary-500">
-                    Day
-                  </th>
-                  <th className="w-5/24 px-4 py-3 text-left font-semibold text-white bg-gradient-to-r from-primary-500 to-secondary-500">
-                    Breakfast
-                  </th>
-                  <th className="w-5/24 px-4 py-3 text-left font-semibold text-white bg-gradient-to-r from-primary-500 to-secondary-500">
-                    Lunch
-                  </th>
-                  <th className="w-5/24 px-4 py-3 text-left font-semibold text-white bg-gradient-to-r from-primary-500 to-secondary-500">
-                    Dinner
-                  </th>
-                  <th className="w-5/24 px-4 py-3 text-left font-semibold text-white bg-gradient-to-r from-primary-500 to-secondary-500">
-                    Snacks
-                  </th>
+                <tr className="bg-gradient-to-r from-primary-500 to-secondary-500 text-white">
+                  <th className="px-4 py-4 text-left font-semibold text-lg">Day</th>
+                  <th className="px-4 py-4 text-center font-semibold text-lg">Meal 1B</th>
+                  <th className="px-4 py-4 text-center font-semibold text-lg">Meal 2L</th>
+                  <th className="px-4 py-4 text-center font-semibold text-lg">Meal 3D</th>
+                  <th className="px-4 py-4 text-center font-semibold text-lg">Meal 4S</th>
                 </tr>
               </thead>
               <tbody>
@@ -216,22 +283,34 @@ export default function TableView() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="border-b border-gray-200 hover:bg-gray-50"
+                      className="border-b border-gray-200"
                     >
-                      <td className="px-4 py-4 font-bold text-white bg-gradient-to-r from-green-500 to-emerald-500">
+                      <td className="px-4 py-4 font-bold text-white text-lg bg-gradient-to-r from-green-500 to-emerald-500">
                         {day}
                       </td>
-                      <td className="px-4 py-4 text-gray-700">
-                        {meals.breakfast || 'Not specified'}
+                      <td 
+                        className="px-4 py-4 text-center cursor-pointer bg-gray-50 hover:bg-gray-200 transition-all"
+                        onClick={() => showMealDetails(day, 'Breakfast', meals.breakfast || 'Not specified')}
+                      >
+                        <div className="font-semibold text-gray-700">Click to view</div>
                       </td>
-                      <td className="px-4 py-4 text-gray-700">
-                        {meals.lunch || 'Not specified'}
+                      <td 
+                        className="px-4 py-4 text-center cursor-pointer bg-gray-50 hover:bg-gray-200 transition-all"
+                        onClick={() => showMealDetails(day, 'Lunch', meals.lunch || 'Not specified')}
+                      >
+                        <div className="font-semibold text-gray-700">Click to view</div>
                       </td>
-                      <td className="px-4 py-4 text-gray-700">
-                        {meals.dinner || 'Not specified'}
+                      <td 
+                        className="px-4 py-4 text-center cursor-pointer bg-gray-50 hover:bg-gray-200 transition-all"
+                        onClick={() => showMealDetails(day, 'Dinner', meals.dinner || 'Not specified')}
+                      >
+                        <div className="font-semibold text-gray-700">Click to view</div>
                       </td>
-                      <td className="px-4 py-4 text-gray-700">
-                        {meals.snacks || 'Not specified'}
+                      <td 
+                        className="px-4 py-4 text-center cursor-pointer bg-gray-50 hover:bg-gray-200 transition-all"
+                        onClick={() => showMealDetails(day, 'Snacks', meals.snacks || 'Not specified')}
+                      >
+                        <div className="font-semibold text-gray-700">Click to view</div>
                       </td>
                     </motion.tr>
                   )

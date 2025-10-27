@@ -103,7 +103,7 @@
             </p>
         </div>
 
-        <div id="tableContent" class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+        <div id="tableContent" style="padding: 1rem;">
             <div style="text-align: center; padding: 4rem 2rem;">
                 <div style="font-size: 4rem; margin-bottom: 1rem;">⏳</div>
                 <h3 style="font-size: 1.5rem; font-weight: 700; color: var(--gray-900); margin-bottom: 1rem;">
@@ -168,30 +168,27 @@
                 return;
             }
 
-            // Parse the meal plan into table format
+            // Parse the meal plan into the new format
             const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-            const mealTypes = ['Breakfast', 'Lunch', 'Dinner', 'Snacks'];
+            const planText = currentPlan.text;
+            const daySections = planText.split(/DAY \d+/i).filter(Boolean);
             
-            // Create table HTML
+            // Create the new table HTML
             let tableHTML = `
-                <div style="overflow-x: auto;">
-                    <table class="meal-table">
+                <div style="overflow-x: auto; width: 100%;">
+                    <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif;">
                         <thead>
-                            <tr>
-                                <th style="width: 15%;">Day</th>
-                                <th style="width: 21.25%;">Breakfast</th>
-                                <th style="width: 21.25%;">Lunch</th>
-                                <th style="width: 21.25%;">Dinner</th>
-                                <th style="width: 21.25%;">Snacks</th>
+                            <tr style="background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%); color: white;">
+                                <th style="padding: 1rem; text-align: left; font-weight: 600; font-size: 1.1rem;">Day</th>
+                                <th style="padding: 1rem; text-align: center; font-weight: 600; font-size: 1.1rem;">Meal 1B</th>
+                                <th style="padding: 1rem; text-align: center; font-weight: 600; font-size: 1.1rem;">Meal 2L</th>
+                                <th style="padding: 1rem; text-align: center; font-weight: 600; font-size: 1.1rem;">Meal 3D</th>
+                                <th style="padding: 1rem; text-align: center; font-weight: 600; font-size: 1.1rem;">Meal 4S</th>
                             </tr>
                         </thead>
                         <tbody>
             `;
 
-            // Parse the meal plan text to extract daily meals
-            const planText = currentPlan.text;
-            const daySections = planText.split(/DAY \d+/i).filter(Boolean);
-            
             // Create rows for each day
             for (let i = 0; i < 7; i++) {
                 const dayName = days[i];
@@ -201,12 +198,50 @@
                 const meals = parseMealsFromDay(dayContent);
                 
                 tableHTML += `
-                    <tr>
-                        <td class="day-header">${dayName}</td>
-                        <td class="meal-content">${meals.breakfast || 'Not specified'}</td>
-                        <td class="meal-content">${meals.lunch || 'Not specified'}</td>
-                        <td class="meal-content">${meals.dinner || 'Not specified'}</td>
-                        <td class="meal-content">${meals.snacks || 'Not specified'}</td>
+                    <tr style="border-bottom: 1px solid #e5e7eb;">
+                        <td style="padding: 1rem; font-weight: 700; background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; font-size: 1.1rem;">
+                            ${dayName}
+                        </td>
+                        <td style="padding: 1rem; text-align: center; cursor: pointer; background: #f9fafb; transition: all 0.3s;" 
+                            onclick="showMealDetails('${dayName}', 'Breakfast', '${escapeHtml(meals.breakfast || 'Not specified')}')"
+                            onmouseover="this.style.background='#e5e7eb'"
+                            onmouseout="this.style.background='#f9fafb'"
+                            role="button"
+                            tabindex="0"
+                            aria-label="View ${dayName} breakfast details"
+                            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMealDetails('${dayName}', 'Breakfast', '${escapeHtml(meals.breakfast || 'Not specified')}');}">
+                            <div style="font-weight: 600; color: #374151; font-size: 1rem;">Click to view</div>
+                        </td>
+                        <td style="padding: 1rem; text-align: center; cursor: pointer; background: #f9fafb; transition: all 0.3s;" 
+                            onclick="showMealDetails('${dayName}', 'Lunch', '${escapeHtml(meals.lunch || 'Not specified')}')"
+                            onmouseover="this.style.background='#e5e7eb'"
+                            onmouseout="this.style.background='#f9fafb'"
+                            role="button"
+                            tabindex="0"
+                            aria-label="View ${dayName} lunch details"
+                            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMealDetails('${dayName}', 'Lunch', '${escapeHtml(meals.lunch || 'Not specified')}');}">
+                            <div style="font-weight: 600; color: #374151; font-size: 1rem;">Click to view</div>
+                        </td>
+                        <td style="padding: 1rem; text-align: center; cursor: pointer; background: #f9fafb; transition: all 0.3s;" 
+                            onclick="showMealDetails('${dayName}', 'Dinner', '${escapeHtml(meals.dinner || 'Not specified')}')"
+                            onmouseover="this.style.background='#e5e7eb'"
+                            onmouseout="this.style.background='#f9fafb'"
+                            role="button"
+                            tabindex="0"
+                            aria-label="View ${dayName} dinner details"
+                            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMealDetails('${dayName}', 'Dinner', '${escapeHtml(meals.dinner || 'Not specified')}');}">
+                            <div style="font-weight: 600; color: #374151; font-size: 1rem;">Click to view</div>
+                        </td>
+                        <td style="padding: 1rem; text-align: center; cursor: pointer; background: #f9fafb; transition: all 0.3s;" 
+                            onclick="showMealDetails('${dayName}', 'Snacks', '${escapeHtml(meals.snacks || 'Not specified')}')"
+                            onmouseover="this.style.background='#e5e7eb'"
+                            onmouseout="this.style.background='#f9fafb'"
+                            role="button"
+                            tabindex="0"
+                            aria-label="View ${dayName} snacks details"
+                            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMealDetails('${dayName}', 'Snacks', '${escapeHtml(meals.snacks || 'Not specified')}');}">
+                            <div style="font-weight: 600; color: #374151; font-size: 1rem;">Click to view</div>
+                        </td>
                     </tr>
                 `;
             }
@@ -272,6 +307,148 @@
             }
 
             return meals;
+        }
+
+        // Helper function to escape HTML safely
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Helper function to safely parse meal content
+        function safeParseMeal(mealContent) {
+            if (!mealContent || mealContent === 'Not specified') {
+                return 'No meal details available';
+            }
+            
+            // Clean and truncate very long content
+            const cleaned = mealContent.trim();
+            if (cleaned.length > 1000) {
+                return cleaned.substring(0, 1000) + '...';
+            }
+            return cleaned;
+        }
+
+        // Global modal management
+        let currentModal = null;
+
+        // Show meal details in a modal
+        function showMealDetails(day, mealType, content) {
+            // Close existing modal if any
+            if (currentModal) {
+                currentModal.remove();
+            }
+
+            // Safely parse content
+            const safeContent = safeParseMeal(content);
+            const escapedContent = escapeHtml(safeContent);
+
+            // Create modal
+            const modal = document.createElement('div');
+            modal.setAttribute('role', 'dialog');
+            modal.setAttribute('aria-labelledby', 'modal-title');
+            modal.setAttribute('aria-modal', 'true');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                backdrop-filter: blur(5px);
+            `;
+
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    border-radius: 1rem;
+                    padding: 2rem;
+                    max-width: 500px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+                ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3 id="modal-title" style="font-size: 1.5rem; font-weight: 700; color: #374151; margin: 0;">
+                            ${escapeHtml(day)} - ${escapeHtml(mealType)}
+                        </h3>
+                        <button id="close-modal" style="
+                            background: none;
+                            border: none;
+                            font-size: 1.5rem;
+                            cursor: pointer;
+                            color: #6b7280;
+                            padding: 0.5rem;
+                            border-radius: 0.25rem;
+                        " aria-label="Close modal">×</button>
+                    </div>
+                    <div style="
+                        background: #f9fafb;
+                        padding: 1.5rem;
+                        border-radius: 0.5rem;
+                        border-left: 4px solid #10b981;
+                        white-space: pre-wrap;
+                        line-height: 1.6;
+                        color: #374151;
+                        font-size: 1rem;
+                        max-height: 400px;
+                        overflow-y: auto;
+                    ">${escapedContent}</div>
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button id="close-modal-btn" style="
+                            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                            color: white;
+                            border: none;
+                            padding: 0.75rem 1.5rem;
+                            border-radius: 0.5rem;
+                            font-weight: 600;
+                            cursor: pointer;
+                            font-size: 1rem;
+                        ">Close</button>
+                    </div>
+                </div>
+            `;
+
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+            currentModal = modal;
+
+            // Focus management
+            const closeBtn = modal.querySelector('#close-modal');
+            const closeBtn2 = modal.querySelector('#close-modal-btn');
+            closeBtn.focus();
+
+            // Close handlers
+            const closeModal = () => {
+                modal.remove();
+                currentModal = null;
+            };
+
+            closeBtn.addEventListener('click', closeModal);
+            closeBtn2.addEventListener('click', closeModal);
+
+            // Close on outside click
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // Close on Escape key
+            const handleEscape = (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                    document.removeEventListener('keydown', handleEscape);
+                }
+            };
+            document.addEventListener('keydown', handleEscape);
         }
 
         // Load the table when page loads
