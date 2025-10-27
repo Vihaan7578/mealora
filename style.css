@@ -589,6 +589,18 @@ body {
     .mobile-nav {
         z-index: 1001;
     }
+    
+    /* Mobile chart sizing - make graphs bigger on mobile */
+    #weightChart {
+        max-height: 600px !important;
+        height: 500px !important;
+        min-height: 400px !important;
+    }
+    
+    #chartContainer {
+        margin: 0 -1rem 2rem -1rem;
+        padding: 0 1rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -602,6 +614,18 @@ body {
     
     .nav-logo img {
         height: 30px !important;
+    }
+    
+    /* Extra large chart for very small screens */
+    #weightChart {
+        max-height: 700px !important;
+        height: 600px !important;
+        min-height: 500px !important;
+    }
+    
+    #chartContainer {
+        margin: 0 -0.5rem 2rem -0.5rem;
+        padding: 0 0.5rem;
     }
 }
 
