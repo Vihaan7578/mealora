@@ -7,13 +7,13 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 0 0% 7%;        /* Charcoal Black #121212 */
+    --foreground: 0 0% 94%;       /* Ghost White #F0F0F0 */
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 7%;        /* Charcoal Black #121212 */
+    --foreground: 0 0% 94%;       /* Ghost White #F0F0F0 */
   }
 }
 
@@ -23,17 +23,17 @@
   }
   
   .glass {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(46, 46, 46, 0.7);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(240, 240, 240, 0.1);
   }
   
   .glass-dark {
-    background: rgba(0, 0, 0, 0.2);
+    background: rgba(18, 18, 18, 0.8);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(240, 240, 240, 0.1);
   }
   
   .gradient-text {
@@ -42,7 +42,7 @@
 }
 
 body {
-  @apply bg-gradient-to-br from-slate-50 via-emerald-50 to-blue-50 min-h-screen;
+  @apply bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen;
   background-attachment: fixed;
 }
 
@@ -56,15 +56,15 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #2E2E2E;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00E6A0 0%, #6366F1 100%);
+  background: linear-gradient(180deg, #00FFB2 0%, #4FD1C5 100%);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #00B37D 0%, #4F52C1 100%);
+  background: linear-gradient(180deg, #00CC8F 0%, #3BB5A9 100%);
 }
 

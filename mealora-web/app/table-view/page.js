@@ -86,8 +86,8 @@ export default function TableView() {
             body { font-family: Arial, sans-serif; padding: 20px; }
             table { width: 100%; border-collapse: collapse; }
             th, td { padding: 12px; text-align: left; border: 1px solid #ddd; }
-            th { background-color: #6366F1; color: white; }
-            .day-header { background-color: #10B981; color: white; font-weight: bold; }
+            th { background-color: #00FFB2; color: white; }
+            .day-header { background-color: #4FD1C5; color: white; font-weight: bold; }
           </style>
         </head>
         <body>
@@ -134,7 +134,7 @@ export default function TableView() {
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       ">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-          <h3 style="font-size: 1.5rem; font-weight: 700; color: #374151; margin: 0;">
+          <h3 style="font-size: 1.5rem; font-weight: 700; color: #F0F0F0; margin: 0;">
             ${day} - ${mealType}
           </h3>
           <button onclick="this.closest('.modal').remove()" style="
@@ -142,23 +142,23 @@ export default function TableView() {
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
-            color: #6b7280;
+            color: #C0C0C0;
             padding: 0.5rem;
           ">×</button>
         </div>
         <div style="
-          background: #f9fafb;
+          background: #2E2E2E;
           padding: 1.5rem;
           border-radius: 0.5rem;
-          border-left: 4px solid #10b981;
+          border-left: 4px solid #00FFB2;
           white-space: pre-wrap;
           line-height: 1.6;
-          color: #374151;
+          color: #F0F0F0;
           font-size: 1rem;
         ">${content}</div>
         <div style="text-align: center; margin-top: 1.5rem;">
           <button onclick="this.closest('.modal').remove()" style="
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #00FFB2 0%, #4FD1C5 100%);
             color: white;
             border: none;
             padding: 0.75rem 1.5rem;

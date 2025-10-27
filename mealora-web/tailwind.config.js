@@ -17,36 +17,46 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          50: '#E6FFF9',
-          100: '#B3FFE8',
-          200: '#80FFD7',
-          300: '#4DFFC6',
-          400: '#1AFFB5',
-          500: '#00E6A0',
-          600: '#00B37D',
-          700: '#00805A',
-          800: '#004D37',
-          900: '#001A14',
+          50: 'rgba(0, 255, 178, 0.1)',
+          100: 'rgba(0, 255, 178, 0.2)',
+          200: 'rgba(0, 255, 178, 0.3)',
+          300: 'rgba(0, 255, 178, 0.4)',
+          400: 'rgba(0, 255, 178, 0.5)',
+          500: '#00FFB2',        /* Neon Green */
+          600: '#00CC8F',        /* Darker neon green */
+          700: '#00A675',        /* Even darker */
+          800: '#00805A',        /* Dark */
+          900: '#005A3F',        /* Darkest */
         },
         secondary: {
-          50: '#F0F1FE',
-          100: '#E0E2FD',
-          200: '#C1C5FB',
-          300: '#A2A8F9',
-          400: '#838BF7',
-          500: '#6366F1',
-          600: '#4F52C1',
-          700: '#3B3D91',
-          800: '#272961',
-          900: '#131430',
+          50: 'rgba(79, 209, 197, 0.1)',
+          100: 'rgba(79, 209, 197, 0.2)',
+          200: 'rgba(79, 209, 197, 0.3)',
+          300: 'rgba(79, 209, 197, 0.4)',
+          400: 'rgba(79, 209, 197, 0.5)',
+          500: '#4FD1C5',        /* Aqua Blue */
+          600: '#3BB5A9',        /* Darker aqua blue */
+          700: '#2A998F',        /* Even darker */
+          800: '#1F7D75',        /* Dark */
+          900: '#14615B',        /* Darkest */
+        },
+        background: {
+          primary: '#121212',    /* Charcoal Black */
+          secondary: '#2E2E2E',  /* Slate Gray */
+          tertiary: '#1A1A1A',   /* Darker charcoal */
+        },
+        text: {
+          primary: '#F0F0F0',    /* Ghost White */
+          secondary: '#C0C0C0',  /* Light gray */
+          muted: '#888888',      /* Medium gray */
         },
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'gradient-mesh': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        'gradient-primary': 'linear-gradient(135deg, #00E6A0 0%, #6366F1 100%)',
-        'gradient-sunset': 'linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)',
+        'gradient-primary': 'linear-gradient(135deg, #00FFB2 0%, #4FD1C5 100%)',
+        'gradient-sunset': 'linear-gradient(135deg, #FFD93D 0%, #FF6B6B 100%)',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
@@ -69,9 +79,9 @@ module.exports = {
         },
       },
       boxShadow: {
-        'glow': '0 0 20px rgba(99, 102, 241, 0.5)',
-        'glow-lg': '0 0 40px rgba(99, 102, 241, 0.6)',
-        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        'glow': '0 0 20px rgba(0, 255, 178, 0.5)',
+        'glow-lg': '0 0 40px rgba(0, 255, 178, 0.6)',
+        'glass': '0 8px 32px 0 rgba(46, 46, 46, 0.7)',
       },
       backdropBlur: {
         xs: '2px',

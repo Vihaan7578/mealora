@@ -22,40 +22,40 @@ body {
 }
 
 :root {
-    /* Dark Mode Colors */
-    --bg-primary: #0A0E27;
-    --bg-secondary: #151932;
-    --bg-tertiary: #1E2337;
+    /* New Dark Theme Color Palette */
+    --bg-primary: #121212;        /* Charcoal Black */
+    --bg-secondary: #2E2E2E;      /* Slate Gray */
+    --bg-tertiary: #1A1A1A;       /* Darker charcoal */
     
-    --primary: #00FFA3;
-    --primary-dark: #00CC82;
-    --secondary: #7C3AED;
-    --secondary-dark: #6D28D9;
-    --accent: #F59E0B;
+    --primary: #00FFB2;           /* Neon Green */
+    --primary-dark: #00CC8F;      /* Darker neon green */
+    --secondary: #4FD1C5;         /* Aqua Blue */
+    --secondary-dark: #3BB5A9;    /* Darker aqua blue */
+    --accent: #00FFB2;            /* Neon Green accent */
     
-    --success: #10B981;
-    --danger: #EF4444;
-    --warning: #F59E0B;
-    --info: #3B82F6;
+    --success: #00FFB2;           /* Neon Green for success */
+    --danger: #FF6B6B;            /* Red for errors */
+    --warning: #FFD93D;           /* Yellow for warnings */
+    --info: #4FD1C5;              /* Aqua Blue for info */
     
-    --text-primary: #F9FAFB;
-    --text-secondary: #D1D5DB;
-    --text-muted: #9CA3AF;
+    --text-primary: #F0F0F0;      /* Ghost White */
+    --text-secondary: #C0C0C0;    /* Light gray */
+    --text-muted: #888888;        /* Medium gray */
     
-    --gray-50: #1E2337;
-    --gray-100: #2D3348;
-    --gray-200: #3D4357;
-    --gray-300: #4D5367;
-    --gray-600: #9CA3AF;
-    --gray-700: #D1D5DB;
+    --gray-50: #2E2E2E;           /* Slate Gray */
+    --gray-100: #3A3A3A;          /* Lighter slate */
+    --gray-200: #4A4A4A;          /* Medium gray */
+    --gray-300: #5A5A5A;          /* Lighter gray */
+    --gray-600: #888888;          /* Text muted */
+    --gray-700: #C0C0C0;          /* Text secondary */
     --gray-900: #F9FAFB;
     
-    --border-color: rgba(255, 255, 255, 0.1);
-    --glass-bg: rgba(30, 35, 55, 0.7);
+    --border-color: rgba(240, 240, 240, 0.1);
+    --glass-bg: rgba(46, 46, 46, 0.7);
 }
 
 body {
-    background: linear-gradient(135deg, #0A0E27 0%, #151932 50%, #1A1F3A 100%);
+    background: linear-gradient(135deg, #121212 0%, #2E2E2E 50%, #1A1A1A 100%);
     min-height: 100vh;
     background-attachment: fixed;
     color: var(--text-primary);
@@ -178,7 +178,7 @@ body {
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--border-color);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 1px rgba(0, 255, 163, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 1px rgba(0, 255, 178, 0.1);
 }
 
 /* Gradient Text */
@@ -847,7 +847,7 @@ p {
 
 /* Enhance glow effects */
 .glass:hover {
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 255, 163, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 2px rgba(0, 255, 178, 0.2);
 }
 
 /* Stats and feature cards */
